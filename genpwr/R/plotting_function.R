@@ -2,11 +2,39 @@
 #Plotting functions to summarize
 #########################################################################################################
 
+
+
 #########################################################################################################
 #Plots for Sample Size
 #########################################################################################################
 
-
+#' Function to Plot Sample Size Results
+#'
+#' Plot the sample size results by MAF, OR, Alpha or Power
+#'
+#' @import ggplot2
+#' 
+#' @param data The data frame result from \code{\link{ss.calc}} 
+#' @param x The desired variable on the y axis: "MAF", "OR", "Alpha", or "Power" 
+#' @param panel.by A grouping variable to panel the graphs by: "True.Model", "MAF", "OR", "Alpha", or "Power"
+#' @param select.Alpha Only produce graphs for the specified Alpha level(s). 
+#' @param select.OR Only produce graphs for the specified odds ratio(s). 
+#' @param select.Power Only produce graphs for the specified power(s). 
+#' @param select.MAF Only produce graphs for the specified minor allele frequency(ies). 
+#' @param select.Case.Rate Only produce graphs for the specified case rate(s). 
+#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive". 
+#' @param select.Test.Model Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df". 
+#' 
+#' @return A series of plots with sample size on the Y axis. 
+#'
+#' @examples 
+#' ss<-ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL, 
+#'     MAF=seq(0.01, 0.05, 0.01), OR=c(3,4),Alpha=c(0.05), 
+#'     True.Model='All', Test.Model='All')
+#' ss.plot(data=ss, x='MAF',panel.by='OR')
+#' 
+#' @export
+#'
 ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model',
                   select.Alpha = NULL, 
                   select.OR = NULL,
@@ -60,7 +88,33 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model',
 #########################################################################################################
 #Plots for Power
 #########################################################################################################
-
+#' Function to Plot Power Results
+#'
+#' Plot the power results by MAF, OR, Alpha or N
+#'
+#' @import ggplot2
+#' 
+#' @param data The data frame result from \code{\link{power.calc}} 
+#' @param x The desired variable on the y axis: "MAF", "OR", "Alpha", or "N_total" 
+#' @param panel.by A grouping variable to panel the graphs by: "True.Model", "MAF", "OR", "Alpha", or "N_total"
+#' @param select.Alpha Only produce graphs for the specified Alpha level(s). 
+#' @param select.OR Only produce graphs for the specified odds ratio(s). 
+#' @param select.N Only produce graphs for the specified sample size(s). 
+#' @param select.MAF Only produce graphs for the specified minor allele frequency(ies). 
+#' @param select.Case.Rate Only produce graphs for the specified case rate(s). 
+#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive". 
+#' @param select.Test.Model Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df". 
+#' 
+#' @return A series of plots with sample size on the Y axis. 
+#'
+#' @examples 
+#' pw<-power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL, 
+#'     MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), 
+#'     True.Model='All', Test.Model='All')
+#' power.plot(data=pw, x='MAF')
+#' 
+#' @export
+#'
 power.plot<-function(data=NULL,x='MAF', panel.by='True.Model',
                      select.Alpha = NULL, 
                      select.OR = NULL,

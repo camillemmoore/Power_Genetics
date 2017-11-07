@@ -1,9 +1,16 @@
-####################################################################################
-#Function to calculate MLE's for logistic models
-#Specify a table and the testing model (Dominant, Recessive, Additive, 2df)
-####################################################################################
-
-logistic.mles<-function(t,model){
+#' Function to calculate MLE's for logistic models
+#'
+#' Finds the maximum likelihood estiamtes for a given 2x3 table under the specified genetic model. 
+#'
+#' @param t A 2x3 table of the joint probabilities of disease and genotype.  Rows are case vs. control and columns are genotypes. 
+#' @param model The assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive'
+#' 
+#' @return A vector of logistic regression model coefficients.  
+#'
+#' @export
+#'
+logistic.mles<-
+  function(t,model){
   
   Case.Rate <- sum(t[1,])/sum(t)
   N_AA_case <- t[1,1]

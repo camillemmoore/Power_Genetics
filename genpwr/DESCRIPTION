@@ -13,9 +13,9 @@ Description: genpwr performs power and sample size calcualtions
     Currently, covariates and gene x environment interactions 
     cannot be included in the models. This package will be 
     extended to continuous outcomes.  
-Depends: R (>= 3.3.2)
+Depends: R (>= 3.3.2),
+    ggplot2
 License: NA
 Encoding: UTF-8
 LazyData: true
-
-
+RoxygenNote: 6.0.1.9000

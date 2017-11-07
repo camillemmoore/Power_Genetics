@@ -1,38 +1,27 @@
-###############################################################################################################################
-###############################################################################################################################
-#Function to calculate power for a given sample size
-###############################################################################################################################
-###############################################################################################################################
-
-#Inputs:
-#First must specify sample size and proportion of cases
-#N = Sample size (total), vector
-#and
-#Case.Rate = overall proportion of sample with disease; in a case control study, N cases/(N cases + N controls), vector
-#or
-#k = controls per case, vector
-
-#Minor Allele Freqency
-#MAF, Vector
-
-#Alpha level
-#Alpha, a vector of significance levels
-
-#Effect Size
-#OR, a vector of ORs to detect
-
-#True Model
-#True.Model, Vector of any or all of the following:
-#'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
-
-#Testing Model
-#Test.Model, Vector of any or all of the following
-#'Dominant', 'Additive', '2df', 'Recessive' or 'All'
-
-###########################################################################################################
-#Power calculation function
-###########################################################################################################
-power.calc<-function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, OR=NULL,
+#' Function to Calculate Power
+#'
+#' Calculates the power to detect an odds ratio, OR, at a given sample size, N, with type 1 error rate, Alpha
+#'
+#' @param N Vector of the desired sample size(s) 
+#' @param Case.Rate Vector of the proportion(s) of cases in the sample (cases/(cases + controls)). Either k or Case.Rate must be specified.
+#' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
+#' @param Alpha the desired type 1 error rate(s) 
+#' @param MAF Vector of minor allele frequencies 
+#' @param OR Vector of odds ratios to detect 
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
+#' 
+#' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, OR, Power, etc) 
+#'
+#' @examples 
+#' pw<-power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL, 
+#'     MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), 
+#'     True.Model='All', Test.Model='All')
+#'
+#' @export
+#'
+power.calc<-
+  function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, OR=NULL,
                      Alpha=0.05, True.Model='All', Test.Model='All'){
   
   ############################################################################################################  

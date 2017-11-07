@@ -1,12 +1,27 @@
-###############################################################################################################################
-###############################################################################################################################
-#Function to calculate sample size for a given power
-###############################################################################################################################
-###############################################################################################################################
-
-#Inputs same as for power function, except now there is no N.  Now there is a power input. 
-
-ss.calc<-function(power=0.8, Case.Rate=NULL, k=NULL, MAF=NULL, OR=NULL,
+#' Function to Calculate Sample Size
+#'
+#' Calculates the necessary sample size to acheive the specified level of power to detect an odds ratio, OR, with type 1 error rate, Alpha
+#'
+#' @param power Vector of the desired power(s) 
+#' @param Case.Rate Vector of the proportion(s) of cases in the sample (cases/(cases + controls)).  Either k or Case.Rate must be specified.
+#' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
+#' @param Alpha the desired type 1 error rate(s) 
+#' @param MAF Vector of minor allele frequencies 
+#' @param OR Vector of odds ratios to detect 
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
+#' 
+#' @return A data frame including the total number of subjects required for all combinations of the specified parameters (Case.Rate, OR, Power, etc) 
+#'
+#'@examples 
+#'ss<-ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL, 
+#'    MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), 
+#'    True.Model='All', Test.Model='All')
+#'
+#' @export
+#'
+ss.calc<-
+  function(power=0.8, Case.Rate=NULL, k=NULL, MAF=NULL, OR=NULL,
                   Alpha=0.05, True.Model='All', Test.Model='All'){
   
   ############################################################################################################  
