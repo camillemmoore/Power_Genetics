@@ -16,3 +16,16 @@ The following true underlying genetic models can be assumed:
 Currently, covariates and gene x environment interactions cannot be included in the models. 
 
 This package will be extended to continuous outcomes.  
+
+To install the package, first, you need to install the devtools package. You can do this from CRAN. Invoke R and then type:
+
+install.packages("devtools")
+
+Next, load the devtools package:
+
+library(devtools)
+
+Finally, install the package.
+
+install_github("camillemmoore/Power_Genetics", subdir="genpwr"))
+
