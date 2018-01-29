@@ -28,7 +28,7 @@
 #' @return A series of plots with sample size on the Y axis. 
 #'
 #' @examples 
-#' ss<-ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL, 
+#' ss <- ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL, 
 #'     MAF=seq(0.01, 0.05, 0.01), OR=c(3,4),Alpha=c(0.05), 
 #'     True.Model='All', Test.Model='All')
 #' ss.plot(data=ss, x='MAF',panel.by='OR')
@@ -108,7 +108,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model',
 #' @return A series of plots with sample size on the Y axis. 
 #'
 #' @examples 
-#' pw<-power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL, 
+#' pw <- power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL, 
 #'     MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), 
 #'     True.Model='All', Test.Model='All')
 #' power.plot(data=pw, x='MAF')
