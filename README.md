@@ -31,5 +31,5 @@ library(devtools)
 Finally, install the package.
 
 ```
-install_github("camillemmoore/Power_Genetics", subdir="genpwr"))
+install_github("camillemmoore/Power_Genetics", subdir="genpwr")
 ```
