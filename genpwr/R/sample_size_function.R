@@ -122,7 +122,7 @@ ss.calc<-
         if('Additive1' %in% True.Model | True.Model=='All'){
           OR1=exp(0.5*log(o))
           
-          prob_AB_case_a1<-(OR1*P_AA_case*P_AB/(OR1*P_AA_case+P_AA-P_AA_case))
+          prob_AB_case_a1<-(OR1*prob_AA_case*P_AB/(OR1*prob_AA_case+P_AA-prob_AA_case))
           prob_AB_control_a1<-P_AB-prob_AB_case_a1
           
           add.tab1<-data.frame(model=rep('Additive1',2),table=rbind(c(prob_AA_case, prob_AB_case_a1, prob_BB_case),
@@ -134,7 +134,7 @@ ss.calc<-
         if('Additive2' %in% True.Model | True.Model=='All'){
           OR2=exp(2*log(o))
           
-          prob_BB_case_a2<-(OR2*P_AA_case*P_BB/(OR2*P_AA_case+P_AA-P_AA_case))
+          prob_BB_case_a2<-(OR2*prob_AA_case*P_BB/(OR2*prob_AA_case+P_AA-prob_AA_case))
           prob_BB_control_a2<-P_BB - prob_BB_case_a2
           
           add.tab2<-data.frame(model=rep('Additive2',2),table=rbind(c(prob_AA_case, prob_AB_case, prob_BB_case_a2),
