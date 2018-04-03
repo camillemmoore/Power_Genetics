@@ -1,113 +1,114 @@
 ###########################################################################
 #Functions to calculate the likelihood for each testing model
-#Input MLE's and a 2x3 table
+#For Logisitic Models: Input MLE's and a 2x3 table
+#For Linear Models: Input MLE's, vector of effect sizes, minor allele frequency, and SD of Y given X
 ###########################################################################
 
 
-#' Function to Calculate Additive Log Likelihood
+#' Function to Calculate Additive Log Likelihood for a Logistic Regression Model
 #'
-#' Calculates the log likelihood for a given set of coefficients under an additive genetic model. 
+#' Calculates the log likelihood for a given set of logistic regression coefficients under an additive genetic model.
 #'
 #' @param beta Vector of logistic regression coefficients.
-#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype. 
-#' 
-#' @return The log likelihood. 
+#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
+#'
+#' @return The log likelihood.
 #'
 #' @export
 #'
 additive.ll<-function(beta, t){
   beta0 <- beta[1]
   beta1 <-beta[2]
-  
+
   N_AA_case <- t[1,1]
   N_AB_case <- t[1,2]
   N_BB_case <- t[1,3]
   N_AA_control <- t[2,1]
   N_AB_control <- t[2,2]
   N_BB_control <- t[2,3]
-  
-  ll<- N_AA_case*log(exp(beta0)/(1+exp(beta0))) + 
+
+  ll<- N_AA_case*log(exp(beta0)/(1+exp(beta0))) +
     N_AB_case*log(exp(beta0+beta1)/(1+exp(beta0+beta1)))+
     N_BB_case*log(exp(beta0+2*beta1)/(1+exp(beta0+2*beta1)))+
-    N_AA_control*log(1/(1+exp(beta0))) + 
+    N_AA_control*log(1/(1+exp(beta0))) +
     N_AB_control*log(1/(1+exp(beta0+beta1)))+
     N_BB_control*log(1/(1+exp(beta0+2*beta1)))
-  
+
   return(ll)
 }
 
-#' Function to Calculate Dominant Log Likelihood
+#' Function to Calculate Dominant Log Likelihood for a Logistic Regression Model
 #'
-#' Calculates the log likelihood for a given set of coefficients under a dominant genetic model. 
+#' Calculates the log likelihood for a given set of logistic regression coefficients under a dominant genetic model.
 #'
 #' @param beta Vector of logistic regression coefficients.
-#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype. 
-#' 
-#' @return The log likelihood. 
+#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
+#'
+#' @return The log likelihood.
 #'
 #' @export
 #'
 dominant.ll<-function(beta, t){
   beta0 <- beta[1]
   beta1 <- beta[2]
-  
+
   N_AA_case <- t[1,1]
   N_AB_case <- t[1,2]
   N_BB_case <- t[1,3]
   N_AA_control <- t[2,1]
   N_AB_control <- t[2,2]
   N_BB_control <- t[2,3]
-  
-  ll <- N_AA_case*log(exp(beta0)/(1+exp(beta0))) + 
+
+  ll <- N_AA_case*log(exp(beta0)/(1+exp(beta0))) +
     N_AB_case*log(exp(beta0+beta1)/(1+exp(beta0+beta1)))+
     N_BB_case*log(exp(beta0+beta1)/(1+exp(beta0+beta1)))+
-    N_AA_control*log(1/(1+exp(beta0))) + 
+    N_AA_control*log(1/(1+exp(beta0))) +
     N_AB_control*log(1/(1+exp(beta0+beta1)))+
     N_BB_control*log(1/(1+exp(beta0+beta1)))
-  
+
   return(ll)
 }
 
-#' Function to Calculate Recessive Log Likelihood
+#' Function to Calculate Recessive Log Likelihood for a Logistic Regression Model
 #'
-#' Calculates the log likelihood for a given set of coefficients under a recessive genetic model. 
+#' Calculates the log likelihood for a given set of logistic regression coefficients under a recessive genetic model.
 #'
 #' @param beta Vector of logistic regression coefficients.
-#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype. 
-#' 
-#' @return The log likelihood. 
+#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
+#'
+#' @return The log likelihood.
 #'
 #' @export
 #'
 recessive.ll<-function(beta, t){
   beta0 <- beta[1]
   beta1 <- beta[2]
-  
+
   N_AA_case <- t[1,1]
   N_AB_case <- t[1,2]
   N_BB_case <- t[1,3]
   N_AA_control <- t[2,1]
   N_AB_control <- t[2,2]
   N_BB_control <- t[2,3]
-  
-  ll <- N_AA_case*log(exp(beta0)/(1+exp(beta0))) + 
+
+  ll <- N_AA_case*log(exp(beta0)/(1+exp(beta0))) +
     N_AB_case*log(exp(beta0)/(1+exp(beta0)))+
     N_BB_case*log(exp(beta0+beta1)/(1+exp(beta0+beta1)))+
-    N_AA_control*log(1/(1+exp(beta0))) + 
+    N_AA_control*log(1/(1+exp(beta0))) +
     N_AB_control*log(1/(1+exp(beta0)))+
     N_BB_control*log(1/(1+exp(beta0+beta1)))
-  
+
   return(ll)
 }
 
-#' Function to Calculate 2df Log Likelihood
+#' Function to Calculate 2df Log Likelihood for a Logistic Regression Model
 #'
-#' Calculates the log likelihood for a given set of coefficients under an unspecificed/2df genetic model. 
+#' Calculates the log likelihood for a given set of logistic regression coefficients under an unspecificed/2df genetic model.
 #'
 #' @param beta Vector of logistic regression coefficients.
-#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype. 
-#' 
-#' @return The log likelihood. 
+#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
+#'
+#' @return The log likelihood.
 #'
 #' @export
 #'
@@ -115,50 +116,50 @@ df2.ll<-function(beta, t){
   beta0 <- beta[1]
   beta1 <- beta[2]
   beta2 <- beta[3]
-  
+
   N_AA_case <- t[1,1]
   N_AB_case <- t[1,2]
   N_BB_case <- t[1,3]
   N_AA_control <- t[2,1]
   N_AB_control <- t[2,2]
   N_BB_control <- t[2,3]
-  
-  ll <- N_AA_case*log(exp(beta0)/(1+exp(beta0))) + 
+
+  ll <- N_AA_case*log(exp(beta0)/(1+exp(beta0))) +
     N_AB_case*log(exp(beta0+beta1)/(1+exp(beta0+beta1)))+
     N_BB_case*log(exp(beta0+beta2)/(1+exp(beta0+beta2)))+
-    N_AA_control*log(1/(1+exp(beta0))) + 
+    N_AA_control*log(1/(1+exp(beta0))) +
     N_AB_control*log(1/(1+exp(beta0+beta1)))+
     N_BB_control*log(1/(1+exp(beta0+beta2)))
-  
+
   return(ll)
 }
 
-#' Function to Calculate Null Log Likelihood
+#' Function to Calculate Null Log Likelihood for a Logistic Regression Model
 #'
-#' Calculates the log likelihood for a given set of coefficients under the null. 
+#' Calculates the log likelihood for a given set of logistic regression coefficients under the null.
 #'
-#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype. 
-#' 
-#' @return The log likelihood. 
+#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
+#'
+#' @return The log likelihood.
 #'
 #' @export
 #'
 null.ll<-function(t){
   Case.Rate<-sum(t[1,])/sum(t)
   beta0 = logit(Case.Rate)
-  ll<- Case.Rate*log(exp(beta0)/(1+exp(beta0))) + (1-Case.Rate)*log(1/(1+exp(beta0))) 
+  ll<- Case.Rate*log(exp(beta0)/(1+exp(beta0))) + (1-Case.Rate)*log(1/(1+exp(beta0)))
   return(ll)
 }
 
-#' Function to Calculate Log Likelihood
+#' Function to Calculate Log Likelihood for a Logistic Regression Model
 #'
 #' Convenience function to calculate the log likeilhood of a specified model.
 #'
 #' @param beta Vector of logistic regression coefficients.
-#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype. 
+#' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
 #' @param model The genetic model in the logisitic regression: "Dominant", "Additive", "Recessive", "2df" or "null"
-#' 
-#' @return The log likelihood. 
+#'
+#' @return The log likelihood.
 #'
 #' @export
 #'
@@ -170,3 +171,140 @@ calc.like<-function(beta, t, model){
   if(model=='null'){ll <- null.ll(t)}
   return(ll)
 }
+
+##################################################################
+#Functions to calculate likelihoods for linear models
+##################################################################
+
+#' Function to Calculate Null Log Likelihood for a Linear Regression Model
+#'
+#' Calculates the log likelihood for a given set of linear regression coefficients under the null.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+null.ll.linear<-function(beta, m, es, sd_y_x){
+  ll<- ((1-m)^2)*dnorm(0, mean = beta, sd = sd_y_x, log = TRUE)+
+    2*m*(1-m)*dnorm(es[1], mean = beta, sd = sd_y_x, log = TRUE)+
+    (m^2)*dnorm(es[2], mean = beta, sd = sd_y_x, log = TRUE)
+  return(ll)
+}
+
+#' Function to Calculate Additive Log Likelihood for a Linear Regression Model
+#'
+#' Calculates the log likelihood for a given set of linear regression coefficients under an additive genetic model.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+additive.ll.linear<-function(beta, m, es, sd_y_x){
+  beta0 = beta[1]
+  beta1 = beta[2]
+  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
+    2*m*(1-m)*dnorm(es[1], mean = beta0+beta1, sd = sd_y_x, log = TRUE)+
+    (m^2)*dnorm(es[2], mean = beta0+beta1*2, sd = sd_y_x, log = TRUE)
+  return(ll)
+}
+
+#' Function to Calculate Dominant Log Likelihood for a Linear Regression Model
+#'
+#' Calculates the log likelihood for a given set of linear regression coefficients under a dominant genetic model.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+dominant.ll.linear<-function(beta, m, es, sd_y_x){
+  beta0 = beta[1]
+  beta1 = beta[2]
+  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
+    2*m*(1-m)*dnorm(es[1], mean = beta0+beta1, sd = sd_y_x, log = TRUE)+
+    (m^2)*dnorm(es[2], mean = beta0+beta1, sd = sd_y_x, log = TRUE)
+  return(ll)
+}
+
+#' Function to Calculate Recessive Log Likelihood for a Linear Regression Model
+#'
+#' Calculates the log likelihood for a given set of linear regression coefficients under a recessive genetic model.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+recessive.ll.linear<-function(beta, m, es, sd_y_x){
+  beta0 = beta[1]
+  beta1 = beta[2]
+  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
+    2*m*(1-m)*dnorm(es[1], mean = beta0, sd = sd_y_x, log = TRUE)+
+    (m^2)*dnorm(es[2], mean = beta0+beta1, sd = sd_y_x, log = TRUE)
+  return(ll)
+}
+
+#' Function to Calculate 2 Degree of Freedom Log Likelihood for a Linear Regression Model
+#'
+#' Calculates the log likelihood for a given set of linear regression coefficients under a the 2df model.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+df2.ll.linear<-function(beta, m, es, sd_y_x){
+  beta0 = beta[1]
+  beta1 = beta[2]
+  beta2 = beta[3]
+  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
+    2*m*(1-m)*dnorm(es[1], mean = beta0+beta1, sd = sd_y_x, log = TRUE)+
+    (m^2)*dnorm(es[2], mean = beta0+beta2, sd = sd_y_x, log = TRUE)
+  return(ll)
+}
+
+#' Function to Calculate Log Likelihood for a Linear Regression Model
+#'
+#' Convenience function to calculate the log likeilhood of a specified model.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param model The genetic model in the linear regression: "Dominant", "Additive", "Recessive", "2df" or "null"
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+calc.like.linear<-function(beta, m, es, sd_y_x, model){
+  if(model=='Dominant'){ll <- dominant.ll.linear(beta, m, es, sd_y_x)}
+  if(model=='Additive'){ll <- additive.ll.linear(beta, m, es, sd_y_x)}
+  if(model=='Recessive'){ll <- recessive.ll.linear(beta, m, es, sd_y_x)}
+  if(model=='2df'){ll <- df2.ll.linear(beta, m, es, sd_y_x)}
+  if(model=='null'){ll <- null.ll.linear(beta, m, es, sd_y_x)}
+  return(ll)
+}
+
