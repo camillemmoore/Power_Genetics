@@ -242,30 +242,31 @@ power.calc<-
     ################################################################################################
     #Loop over all of the testing models and calculate power for each OR and MAF scenario
     ################################################################################################
-    for (mod in Test.Model){temp<-NULL
+    for (mod in Test.Model){
+      temp<-NULL
 
-    #Repeat calcualtion for each OR/MAF combination
-    for (j in seq(1, nrow(o.save.tab),2)){
-      #Grab the correct 2x3 table of probabilities
-      t<-o.save.tab[j:(j+1),c("Geno.AA", "Geno.AB", "Geno.BB")]
+      #Repeat calcualtion for each OR/MAF combination
+      for (j in seq(1, nrow(o.save.tab),2)){
+        #Grab the correct 2x3 table of probabilities
+        t<-o.save.tab[j:(j+1),c("Geno.AA", "Geno.AB", "Geno.BB")]
 
-      #Calculate the null and alternative likelihoods
-      ll.alt<-calc.like(logistic.mles(t, model = mod), t, model=mod)
-      ll.null<-null.ll(t)
+        #Calculate the null and alternative likelihoods
+        ll.alt<-calc.like(logistic.mles(t, model = mod), t, model=mod)
+        ll.null<-null.ll(t)
 
-      #Calculate the LRT statistic
-      stat<-2*(as.numeric(ll.alt-ll.null))
+        #Calculate the LRT statistic
+        stat<-2*(as.numeric(ll.alt-ll.null))
 
-      #Calculate the power for the given sample size for a range of Alpha levels
-      if(mod=='2df'){pow = 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat)
-      }else{pow = pnorm(sqrt(N*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(N*stat) - qnorm(1-Alpha/2))}
+        #Calculate the power for the given sample size for a range of Alpha levels
+        if(mod=='2df'){pow = 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat)
+        }else{pow = pnorm(sqrt(N*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(N*stat) - qnorm(1-Alpha/2))}
 
-      temp<-rbind(temp, pow)
-    }
+        temp<-rbind(temp, pow)
+      }
 
-    #Save the power calculations for each testing model in a final table for the sample size and case rate
-    power.tab<-rbind(power.tab,data.frame(Test.Model=mod, o.save.tab[seq(1, nrow(o.save.tab),2),1:3],
-                                          N, N_cases, N_controls, Case.Rate,temp))
+      #Save the power calculations for each testing model in a final table for the sample size and case rate
+      power.tab<-rbind(power.tab,data.frame(Test.Model=mod, o.save.tab[seq(1, nrow(o.save.tab),2),1:3],
+                                            N, N_cases, N_controls, Case.Rate,temp))
     }
     colnames(power.tab)<-c('Test.Model', 'True.Model', 'MAF', 'OR', 'N_total', 'N_cases', 'N_controls','Case.Rate',
                            paste("Power_at_Alpha_", Alpha, sep=''))
