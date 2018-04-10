@@ -29,7 +29,7 @@ linear.mles<-
     #Recessive
     if (model=='Recessive'){
       beta0 = 2*m*(1-m)*es[1]/(1-m^2)
-      beta1 = es[2]
+      beta1 = es[2]-beta0
       beta = c(beta0, beta1)
     }
 
