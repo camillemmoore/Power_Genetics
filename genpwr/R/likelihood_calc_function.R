@@ -299,7 +299,8 @@ df2.ll.linear<-function(beta, m, es, sd_y_x){
 #'
 #' @export
 #'
-calc.like.linear<-function(beta, m, es, sd_y_x, model){
+calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x, model){
+  es <- c(es_ab, es_bb)
   if(model=='Dominant'){ll <- dominant.ll.linear(beta, m, es, sd_y_x)}
   if(model=='Additive'){ll <- additive.ll.linear(beta, m, es, sd_y_x)}
   if(model=='Recessive'){ll <- recessive.ll.linear(beta, m, es, sd_y_x)}
