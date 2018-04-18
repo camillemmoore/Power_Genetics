@@ -31,6 +31,10 @@ ss.calc<-
     stop("k, the number of controls per case, or Case.Rate, the proportion of cases in the study sample, must be specified.")
   }
 
+  if(is.null(k)==F & is.null(Case.Rate)==F){
+    stop("Specify one of k, the number of controls per case, or Case.Rate, the proportion of cases in the study sample, not both.")
+  }
+
   if(is.null(MAF)==T){
     stop("MAF (minor allele frequency) must be specified.")
   }
@@ -40,10 +44,50 @@ ss.calc<-
   }
 
   ############################################################################################################
+  #Error Messages for out of range values
+  ############################################################################################################
+
+  if(sum(Case.Rate>=1)>0 | sum(Case.Rate<=0)>0){
+    stop("R2 must be greater than 0 and less than 1.")
+  }
+
+  if(sum(MAF>=1)>0 | sum(MAF<=0)>0){
+    stop("MAF must be greater than 0 and less than 1.")
+  }
+
+  if(sum(power>=1)>0 | sum(power<=0)>0){
+    stop("Power must be greater than 0 and less than 1.")
+  }
+
+  if(sum(k<=0)>0){
+    stop("k must be greater than 0.")
+  }
+
+  if(sum(OR<=0)>0){
+    stop("OR must be greater than 0.")
+  }
+
+  if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
+    stop("Alpha must be greater than 0 and less than 1.")
+  }
+
+  if(sum(!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All")))>0){
+    stop(paste("Invalid Test.Model:",
+              paste(Test.Model[!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All"))], collapse=', ')))
+  }
+
+  if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All")))>0){
+    stop(paste("Invalid True.Model:",
+              paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All"))], collapse=', ')))
+  }
+  ############################################################################################################
   #Calculate needed sample size information from provided inputs
   ############################################################################################################
   #Test model vector
-  if(Test.Model=='All'){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
+  if('All' %in% Test.Model){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
+
+  #True model vector
+  if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive1", "Additive2")}
 
   #If k is provided calculate the Case.Rate
   if(is.null(Case.Rate)==T){Case.Rate = 1/(1+k)}
@@ -92,7 +136,7 @@ ss.calc<-
         #Create 2x3 tables of joint probabilities for each true model of interest
         ############################################################################
 
-        if('Dominant' %in% True.Model | True.Model=='All'){
+        if('Dominant' %in% True.Model){
           #Dominant Model
           #Solve Quadratic Equation to get 2x3 tables corresponding to the OR
           a <- (1-o)
@@ -121,7 +165,7 @@ ss.calc<-
           save.tab<-rbind(save.tab, dom.tab)
         }
 
-        if('Additive1' %in% True.Model | True.Model=='All'){
+        if('Additive1' %in% True.Model){
           a <- (sqrt(o)-1)
           b <- (P_AB+sqrt(o)*P_BB+Case.Rate-Case.Rate*sqrt(o))
           c <- -P_AB*Case.Rate
@@ -157,7 +201,7 @@ ss.calc<-
           save.tab<-rbind(save.tab, add.tab1)
         }
 
-        if('Additive2' %in% True.Model | True.Model=='All'){
+        if('Additive2' %in% True.Model){
           a <- (o-1)
           b <- (P_AB+o*P_BB+Case.Rate-Case.Rate*o)
           c <- -P_AB*Case.Rate
@@ -193,7 +237,7 @@ ss.calc<-
           save.tab<-rbind(save.tab, add.tab2)
         }
 
-        if('Recessive' %in% True.Model | True.Model=='All'){
+        if('Recessive' %in% True.Model){
           a <- (1-o)
           b <- o*P_BB+(o-1)*Case.Rate+P_AA + P_AB
           c <- -o*(P_BB)*Case.Rate
@@ -274,4 +318,4 @@ ss.calc<-
   }
   return(final.ss.tab)
 
-}
+  }
