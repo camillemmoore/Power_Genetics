@@ -142,12 +142,23 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
                                      ifelse(e.save.tab$True.Model=='Additive1', e.save.tab$ES,
                                             2*e.save.tab$ES)))
 
+      e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
+
+      # For each scenario calculate the SD of Y give X for the true model
+      e.save.tab$sd_y_x_true = mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = ifelse(e.save.tab[x,'True.Model'] %in% c('Additive1', 'Additive2'), 'Additive', e.save.tab[x,'True.Model']))},
+                                                         seq(1:nrow(e.save.tab)))
+
       # For each scenario calculate the Likelihoof and SD of Y given X for the Null/Intercept only model
-      # sd_y_x_null <- mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = "Null")},
+      # sd_y_x_null <- mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = "null")},
       #                      seq(1:nrow(e.save.tab)))
       #NOTE -THE SD_Y_X UNDER THE NULL IS JUST SD_Y...WILL NO LONGER HOLD IF CONTROLLING FOR A CONFOUNDER, FOR EX.
       ll.null = mapply(function(x){calc.like.linear(linear.mles(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], model = 'null'),
-                                                    e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x, 'sd_y'], model='null')}, seq(1:nrow(e.save.tab)))
+                                                    e.save.tab[x,'MAF'],
+                                                    e.save.tab[x,'es_ab'],
+                                                    e.save.tab[x,'es_bb'],
+                                                    e.save.tab[x, 'sd_y'],
+                                                    e.save.tab[x, 'sd_y_x_true'],
+                                                    model='null')}, seq(1:nrow(e.save.tab)))
 
 
     ############################################################################################################
@@ -168,7 +179,12 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
                          seq(1:nrow(e.save.tab)))
 
           ll.alt = mapply(function(x){calc.like.linear(linear.mles(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], model = mod),
-                                    e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], sd_y_x[x], model=mod)}, seq(1:nrow(e.save.tab)))
+                                    e.save.tab[x,'MAF'],
+                                    e.save.tab[x,'es_ab'],
+                                    e.save.tab[x,'es_bb'],
+                                    sd_y_x[x],
+                                    sd_y_x_truth = e.save.tab[x, "sd_y_x_true"],
+                                    model=mod)}, seq(1:nrow(e.save.tab)))
 
           ll.stat = 2*(ll.alt-ll.null)
 

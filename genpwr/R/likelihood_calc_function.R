@@ -173,28 +173,51 @@ calc.like<-function(beta, t, model){
 }
 
 ##################################################################
-#Functions to calculate likelihoods for linear models
+#Functions to calculate expected likelihoods for linear models
 ##################################################################
 
-#' Function to Calculate Null Log Likelihood for a Linear Regression Model
+#' Function to Calculate Expected Log Likelihood for a Single Genotype
 #'
-#' Calculates the log likelihood for a given set of linear regression coefficients under the null.
+#' Calculates the expected log likelihood for a single genotype given the true and estimated mean and standard deviation for the outcome.
 #'
-#' @param beta Vector of linear regression coefficients.
-#' @param m Minor allele frequency.
-#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
-#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param mean_truth Mean of the outcome given X(predictors/genotype) under the true model.
+#' @param mean_model Mean of the outcome given X(predictors/genotype) under the test model.
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #'
 #' @return The log likelihood.
 #'
 #' @export
 #'
-null.ll.linear<-function(beta, m, es, sd_y_x){
-  ll<- ((1-m)^2)*dnorm(0, mean = beta, sd = sd_y_x, log = TRUE)+
-    2*m*(1-m)*dnorm(es[1], mean = beta, sd = sd_y_x, log = TRUE)+
-    (m^2)*dnorm(es[2], mean = beta, sd = sd_y_x, log = TRUE)
-  return(ll)
+expected.linear.ll <- function(mean_truth, mean_model, sd_y_x_truth, sd_y_x_model){
+  -0.5*log(2*pi*sd_y_x_model*sd_y_x_model)-
+  (sd_y_x_truth*sd_y_x_truth + mean_truth^2)/(2*sd_y_x_model*sd_y_x_model)+
+  mean_model*mean_truth/(sd_y_x_model*sd_y_x_model)-
+  mean_model^2/(2*sd_y_x_model*sd_y_x_model)
+  }
+
+#' Function to Calculate Expected Null Log Likelihood for a Linear Regression Model
+#'
+#' Calculates the expected log likelihood for a given set of linear regression coefficients under the null.
+#'
+#' @param beta Vector of linear regression coefficients.
+#' @param m Minor allele frequency.
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
+#'
+#' @return The log likelihood.
+#'
+#' @export
+#'
+null.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
+  ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta, sd_y_x_truth, sd_y_x_model)+
+      2*m*(1-m)*expected.linear.ll(mean_truth=es[1], mean_model=beta, sd_y_x_truth, sd_y_x_model)+
+    (m^2)*expected.linear.ll(mean_truth=es[2], mean_model=beta, sd_y_x_truth, sd_y_x_model)
+
+      return(ll)
 }
+
 
 #' Function to Calculate Additive Log Likelihood for a Linear Regression Model
 #'
@@ -203,18 +226,21 @@ null.ll.linear<-function(beta, m, es, sd_y_x){
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
 #' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
-#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #'
 #' @return The log likelihood.
 #'
 #' @export
 #'
-additive.ll.linear<-function(beta, m, es, sd_y_x){
+additive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
   beta0 = beta[1]
   beta1 = beta[2]
-  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
-    2*m*(1-m)*dnorm(es[1], mean = beta0+beta1, sd = sd_y_x, log = TRUE)+
-    (m^2)*dnorm(es[2], mean = beta0+beta1*2, sd = sd_y_x, log = TRUE)
+
+  ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta0, sd_y_x_truth, sd_y_x_model)+
+  2*m*(1-m)*expected.linear.ll(mean_truth=es[1], mean_model=beta0+beta1, sd_y_x_truth, sd_y_x_model)+
+    (m^2)*expected.linear.ll(mean_truth=es[2], mean_model=beta0+beta1*2, sd_y_x_truth, sd_y_x_model)
+
   return(ll)
 }
 
@@ -225,18 +251,21 @@ additive.ll.linear<-function(beta, m, es, sd_y_x){
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
 #' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
-#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #'
 #' @return The log likelihood.
 #'
 #' @export
 #'
-dominant.ll.linear<-function(beta, m, es, sd_y_x){
+dominant.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
   beta0 = beta[1]
   beta1 = beta[2]
-  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
-    2*m*(1-m)*dnorm(es[1], mean = beta0+beta1, sd = sd_y_x, log = TRUE)+
-    (m^2)*dnorm(es[2], mean = beta0+beta1, sd = sd_y_x, log = TRUE)
+
+  ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta0, sd_y_x_truth, sd_y_x_model)+
+  2*m*(1-m)*expected.linear.ll(mean_truth=es[1], mean_model=beta0+beta1, sd_y_x_truth, sd_y_x_model)+
+    (m^2)*expected.linear.ll(mean_truth=es[2], mean_model=beta0+beta1, sd_y_x_truth, sd_y_x_model)
+
   return(ll)
 }
 
@@ -247,18 +276,20 @@ dominant.ll.linear<-function(beta, m, es, sd_y_x){
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
 #' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
-#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #'
 #' @return The log likelihood.
 #'
 #' @export
 #'
-recessive.ll.linear<-function(beta, m, es, sd_y_x){
+recessive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
   beta0 = beta[1]
   beta1 = beta[2]
-  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
-    2*m*(1-m)*dnorm(es[1], mean = beta0, sd = sd_y_x, log = TRUE)+
-    (m^2)*dnorm(es[2], mean = beta0+beta1, sd = sd_y_x, log = TRUE)
+  ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta0, sd_y_x_truth, sd_y_x_model)+
+  2*m*(1-m)*expected.linear.ll(mean_truth=es[1], mean_model=beta0, sd_y_x_truth, sd_y_x_model)+
+    (m^2)*expected.linear.ll(mean_truth=es[2], mean_model=beta0+beta1, sd_y_x_truth, sd_y_x_model)
+
   return(ll)
 }
 
@@ -269,19 +300,20 @@ recessive.ll.linear<-function(beta, m, es, sd_y_x){
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
 #' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
-#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #'
 #' @return The log likelihood.
 #'
 #' @export
 #'
-df2.ll.linear<-function(beta, m, es, sd_y_x){
+df2.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
   beta0 = beta[1]
   beta1 = beta[2]
   beta2 = beta[3]
-  ll<- ((1-m)^2)*dnorm(0, mean = beta0, sd = sd_y_x, log = TRUE)+
-    2*m*(1-m)*dnorm(es[1], mean = beta0+beta1, sd = sd_y_x, log = TRUE)+
-    (m^2)*dnorm(es[2], mean = beta0+beta2, sd = sd_y_x, log = TRUE)
+  ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta0, sd_y_x_truth, sd_y_x_model)+
+  2*m*(1-m)*expected.linear.ll(mean_truth=es[1], mean_model=beta0+beta1, sd_y_x_truth, sd_y_x_model)+
+    (m^2)*expected.linear.ll(mean_truth=es[2], mean_model=beta0+beta2, sd_y_x_truth, sd_y_x_model)
   return(ll)
 }
 
@@ -292,20 +324,21 @@ df2.ll.linear<-function(beta, m, es, sd_y_x){
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
 #' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
-#' @param sd_y_x The standard deviation of Y (the outcome) given X (predictors/genotype)
+#' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
+#' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #' @param model The genetic model in the linear regression: "Dominant", "Additive", "Recessive", "2df" or "null"
 #'
 #' @return The log likelihood.
 #'
 #' @export
 #'
-calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x, model){
+calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, model){
   es <- c(es_ab, es_bb)
-  if(model=='Dominant'){ll <- dominant.ll.linear(beta, m, es, sd_y_x)}
-  if(model=='Additive'){ll <- additive.ll.linear(beta, m, es, sd_y_x)}
-  if(model=='Recessive'){ll <- recessive.ll.linear(beta, m, es, sd_y_x)}
-  if(model=='2df'){ll <- df2.ll.linear(beta, m, es, sd_y_x)}
-  if(model=='null'){ll <- null.ll.linear(beta, m, es, sd_y_x)}
+  if(model=='Dominant'){ll <- dominant.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
+  if(model=='Additive'){ll <- additive.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
+  if(model=='Recessive'){ll <- recessive.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
+  if(model=='2df'){ll <- df2.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
+  if(model=='null'){ll <- null.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
   return(ll)
 }
 
