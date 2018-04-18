@@ -64,14 +64,18 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
       stop("N must be greater than 0.")
     }
 
+    if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
+      stop("Alpha must be greater than 0 and less than 1.")
+    }
     ############################################################################################################
     #Create model vectors if model = 'All'
     ############################################################################################################
     #Test model vector
-      if(Test.Model=='All'){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
+    if('All' %in% Test.Model){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
 
     #True model vector
-      if(True.Model=='All'){True.Model<-c("Dominant", "Recessive", "Additive1", "Additive2")}
+    if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive1", "Additive2")}
+
 
     ############################################################################################################
     # Calculate var_x (genotype) to do effect size calculations
@@ -162,8 +166,9 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
         if(mod=='2df'){pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
         }else{pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2)), ll.stat)
         }
-        pow <- t(pow)
-        rownames(pow) <- seq(1:nrow(pow))
+        if(length(Alpha)>1){pow <- t(pow)
+        rownames(pow) <- seq(1:nrow(pow))}
+
         #Save the power calculations for each testing model in a final table for the sample size and case rate
         power.tab<-rbind(power.tab,data.frame(Test.Model=mod, True.Model = as.character(e.save.tab[, 'True.Model']),
                  MAF = e.save.tab[, 'MAF'], N=n, ES=e.save.tab[, "ES"] , R2=e.save.tab[, "R2"], SD=e.save.tab[, "sd_y"], ES_AB = e.save.tab[, "es_ab"], ES_BB = e.save.tab[, "es_bb"], pow),row.names = NULL)
