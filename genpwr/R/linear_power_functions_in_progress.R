@@ -67,6 +67,16 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
     if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
       stop("Alpha must be greater than 0 and less than 1.")
     }
+
+    if(sum(!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All")))>0){
+      stop(paste("Invalid Test.Model:",
+               paste(Test.Model[!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All"))], collapse=', ')))
+    }
+
+    if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All")))>0){
+      stop(paste("Invalid True.Model:",
+               paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All"))], collapse=', ')))
+    }
     ############################################################################################################
     #Create model vectors if model = 'All'
     ############################################################################################################
