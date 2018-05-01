@@ -371,9 +371,8 @@ solve_a<-function(b){
     f*log(f/P_BB)
   return(like - ll)
 }
-#b<-uniroot(solve_a, lower=max(0,cr-P_AA)+0.00001, upper=min(P_AB,cr-P_BB)-0.000001 ) #2 rootsin this window
 
-b<-uniroot(solve_a, lower=P_AB*cr+0.0000000001, upper=min(P_AB,cr-P_BB)-0.000001 )$root #this gives the root for an OR>1
+b<-uniroot(solve_a, lower=P_AB*cr+0.0000000001, upper=min(P_AB,cr-P_BB)-0.000001 )$root #the limits are wrong...
 
 a1<- P_AB*(2*b-P_AB)
 b1<- cr*(P_AB^2 - 2*P_AB*b)-b*P_AB^2 + (2*P_AB-P_AA+P_BB)*b^2
