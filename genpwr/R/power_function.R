@@ -50,39 +50,39 @@ power.calc<-
   #Error Messages for out of range values
   ############################################################################################################
 
-    if(sum(Case.Rate>=1)>0 | sum(Case.Rate<=0)>0){
-      stop("R2 must be greater than 0 and less than 1.")
-    }
+  if(sum(Case.Rate>=1)>0 | sum(Case.Rate<=0)>0){
+    stop("R2 must be greater than 0 and less than 1.")
+  }
 
-    if(sum(MAF>=1)>0 | sum(MAF<=0)>0){
-      stop("MAF must be greater than 0 and less than 1.")
-    }
+  if(sum(MAF>=1)>0 | sum(MAF<=0)>0){
+    stop("MAF must be greater than 0 and less than 1.")
+  }
 
-    if(sum(N<=0)>0){
-      stop("N must be greater than 0.")
-    }
+  if(sum(N<=0)>0){
+    stop("N must be greater than 0.")
+  }
 
-    if(sum(k<=0)>0){
-      stop("k must be greater than 0.")
-    }
+  if(sum(k<=0)>0){
+    stop("k must be greater than 0.")
+  }
 
-    if(sum(OR<=0)>0){
-      stop("OR must be greater than 0.")
-    }
+  if(sum(OR<=0)>0){
+    stop("OR must be greater than 0.")
+  }
 
-    if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
-      stop("Alpha must be greater than 0 and less than 1.")
-    }
+  if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
+    stop("Alpha must be greater than 0 and less than 1.")
+  }
 
-    if(sum(!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All")))>0){
-      stop(paste("Invalid Test.Model:",
-                 paste(Test.Model[!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All"))], collapse=', ')))
-    }
+  if(sum(!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All")))>0){
+    stop(paste("Invalid Test.Model:",
+               paste(Test.Model[!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All"))], collapse=', ')))
+  }
 
-    if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All")))>0){
-      stop(paste("Invalid True.Model:",
-                 paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All"))], collapse=', ')))
-    }
+  if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "Additive", "All")))>0){
+    stop(paste("Invalid True.Model:",
+               paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All"))], collapse=', ')))
+  }
   ############################################################################################################
   #Calculate needed sample size information from provided inputs
   ############################################################################################################
@@ -90,6 +90,7 @@ power.calc<-
   if('All' %in% Test.Model){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
 
   #True model vector
+  True.Model[True.Model == "Additive"] <- "Additive2"
   if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive1", "Additive2")}
 
   #If k is provided calculate the Case.Rate
@@ -181,14 +182,7 @@ power.calc<-
 
           fa.1<-function(x){sqrt(o)-x*(P_AA-Case.Rate+x+((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))/((Case.Rate-x-((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))*(P_AB-x))}
 
-          trial<-fa.1(upper.lim)
-          counter<-0
-          while(trial>0 & counter<1000){upper.lim<-upper.lim-0.00000000001
-            trial<-fa.1(upper.lim)
-            counter<-counter+1
-          }
-
-          add1.root<-uniroot(fa.1,lower = 0, upper = upper.lim)$root
+          add1.root<-ll_zero_finder2(fa.1,lower = 0, upper = upper.lim)#$root
 
 
           #Proabilities of disease conditional on genotype
@@ -201,6 +195,22 @@ power.calc<-
           prob_AA_control_a1 <- P_AA-prob_AA_case_a1
           prob_BB_case_a1 <- (prob_AA_case_a1*P_BB*o)/(prob_AA_case_a1*o + prob_AA_control_a1)
           prob_BB_control_a1 <- P_BB-prob_BB_case_a1
+          if(length(add2.root) > 1){
+            qqcr <- numeric(0)
+            for(aqq in 1:length(add2.root)){
+              qqt <- rbind(c(prob_AA_case_a1[aqq], prob_AB_case_a1[aqq], prob_BB_case_a1[aqq]),
+                c(prob_AA_control_a1[aqq], P_AB-prob_AB_case_a1[aqq],prob_BB_control_a1[aqq]))
+              qqcr <- c(qqcr, apply(qqt, 1, sum)[1])
+            }
+            qqz <- which(qqcr - cr < 1e-3)
+            if(length(qqz) > 1) stop("trouble selecting correct zero in additive function")
+            prob_AA_case_a2 <- prob_AA_case_a2[qqz]
+            prob_AB_case_a2 <- prob_AB_case_a2[qqz]
+            prob_BB_case_a2 <- prob_BB_case_a2[qqz]
+            prob_AA_control_a2 <- prob_AA_control_a2[qqz]
+            prob_AB_case_a2 <- prob_AB_case_a2[qqz]
+            prob_BB_control_a2 <- prob_BB_control_a2[qqz]
+          }
 
           add.tab1<-data.frame(model=rep('Additive1',2),table=rbind(c(prob_AA_case_a1, prob_AB_case_a1, prob_BB_case_a1),
                                                                     c(prob_AA_control_a1, P_AB-prob_AB_case_a1,prob_BB_control_a1)))
@@ -217,14 +227,7 @@ power.calc<-
 
           fa.2<-function(x){o-x*(P_AA-Case.Rate+x+((o*x*P_BB)/(P_AB-x+o*x)))/((Case.Rate-x-((o*x*P_BB)/(P_AB-x+o*x)))*(P_AB-x))}
 
-          trial<-fa.2(upper.lim)
-          counter<-0
-          while(trial>0 & counter<1000){upper.lim<-upper.lim-0.00000000001
-          trial<-fa.2(upper.lim)
-          counter<-counter+1
-          }
-
-          add2.root<-uniroot(fa.2,lower = 0, upper =  upper.lim)$root
+          add2.root<-ll_zero_finder2(fa.2,lower = 0, upper =  upper.lim)#$root
 
 
           #Proabilities of disease conditional on genotype
@@ -237,6 +240,23 @@ power.calc<-
           prob_AA_control_a2 <- P_AA-prob_AA_case_a2
           prob_BB_case_a2 <- (prob_AA_case_a2*P_BB*o^2)/(prob_AA_case_a2*o^2 + prob_AA_control_a2)
           prob_BB_control_a2 <- P_BB-prob_BB_case_a2
+          if(length(add2.root) > 1){
+            qqcr <- numeric(0)
+            for(aqq in 1:length(add2.root)){
+              qqt <- rbind(c(prob_AA_case_a2[aqq], prob_AB_case_a2[aqq], prob_BB_case_a2[aqq]),
+                c(prob_AA_control_a2[aqq], P_AB-prob_AB_case_a2[aqq],prob_BB_control_a2[aqq]))
+              qqcr <- c(qqcr, apply(qqt, 1, sum)[1])
+            }
+            qqz <- which(qqcr - Case.Rate < 1e-3)
+            if(length(qqz) > 1) qqz <- which.min(qqcr - Case.Rate < 1e-3)
+            if(length(qqz) > 1) stop("trouble selecting correct zero in additive function")
+            prob_AA_case_a2 <- prob_AA_case_a2[qqz]
+            prob_AB_case_a2 <- prob_AB_case_a2[qqz]
+            prob_BB_case_a2 <- prob_BB_case_a2[qqz]
+            prob_AA_control_a2 <- prob_AA_control_a2[qqz]
+            prob_AB_case_a2 <- prob_AB_case_a2[qqz]
+            prob_BB_control_a2 <- prob_BB_control_a2[qqz]
+          }
 
           add.tab2<-data.frame(model=rep('Additive2',2),table=rbind(c(prob_AA_case_a2, prob_AB_case_a2, prob_BB_case_a2),
                                                                     c(prob_AA_control_a2, P_AB-prob_AB_case_a2,prob_BB_control_a2)))
@@ -289,7 +309,7 @@ power.calc<-
     for (mod in Test.Model){
       temp<-NULL
 
-      #Repeat calcualtion for each OR/MAF combination
+      #Repeat calculation for each OR/MAF combination
       for (j in seq(1, nrow(o.save.tab),2)){
         #Grab the correct 2x3 table of probabilities
         t<-o.save.tab[j:(j+1),c("Geno.AA", "Geno.AB", "Geno.BB")]
@@ -303,7 +323,7 @@ power.calc<-
 
         #Calculate the power for the given sample size for a range of Alpha levels
         if(mod=='2df'){pow = 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat)
-        }else{pow = pnorm(sqrt(N*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(N*stat) - qnorm(1-Alpha/2))}
+        }else{pow = pnorm(sqrt(N*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(N*stat) - qnorm(1-Alpha/2))*0}#
 
         temp<-rbind(temp, pow)
       }
@@ -318,8 +338,6 @@ power.calc<-
 
 
     final.pow.tab<-rbind(final.pow.tab, power.tab)
-
-
   }
   return(final.pow.tab)
 }
