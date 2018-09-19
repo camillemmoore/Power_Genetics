@@ -195,9 +195,9 @@ power.calc<-
           prob_AA_control_a1 <- P_AA-prob_AA_case_a1
           prob_BB_case_a1 <- (prob_AA_case_a1*P_BB*o)/(prob_AA_case_a1*o + prob_AA_control_a1)
           prob_BB_control_a1 <- P_BB-prob_BB_case_a1
-          if(length(add2.root) > 1){
+          if(length(add1.root) > 1){
             qqcr <- numeric(0)
-            for(aqq in 1:length(add2.root)){
+            for(aqq in 1:length(add1.root)){
               qqt <- rbind(c(prob_AA_case_a1[aqq], prob_AB_case_a1[aqq], prob_BB_case_a1[aqq]),
                 c(prob_AA_control_a1[aqq], P_AB-prob_AB_case_a1[aqq],prob_BB_control_a1[aqq]))
               qqcr <- c(qqcr, apply(qqt, 1, sum)[1])
