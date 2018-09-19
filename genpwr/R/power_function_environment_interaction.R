@@ -1,35 +1,35 @@
-
-library(nleqslv)
-source("~/drive/tf/camille/genpwr/Power_Genetics/genpwr/R/logit_function.R")
-source("~/drive/tf/camille/genpwr/Power_Genetics/genpwr/R/zero_finder_nleqslv.R")
-source("~/drive/tf/camille/genpwr/Power_Genetics/genpwr/R/power_function_environment_interaction_t_matrix_eqs.R")
-source("~/drive/tf/camille/genpwr/Power_Genetics/genpwr/R/power_function_environment_interaction_logistic_mle.R")
-
-# In Quanto, with 
-# mode: dominant
-# Environmental Prevalence:
-#> P_e = 0.2
-#> MAF = 0.1
-#> P_AA <- P_AA <- (1 - MAF)^2; P_AB <- 2*(1-MAF)*MAF;P_BB <- MAF^2 # (P_AA = 0.81)
-#> N = 200 #(100 each)
-# disease percentage: 
-#> Case.Rate = 0.5
-#> Alpha <- alpha <- 0.05
-#> OR_G = 1.5
-#> OR_E = 2
-#> OR_GE = 1.8
-#> Test.Model = "Dominant";True.Model="Dominant"
-#> k = NULL
-#> compareQuanto = F
-# results:
-# interaction power: 0.0872
-# gene power: 0.2673
-# environment power: 0.5774
-
+#' Function to Calculate Power for Logistic Models with Environment Interaction
+#'
+#' Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
+#'
+#' @param N Vector of the desired sample size(s)
+#' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
+#' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
+#' @param MAF Vector of minor allele frequencies
+#' @param OR_G Vector of genetic odds ratios to detect
+#' @param OR_E Vector of environmental odds ratios to detect
+#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
+#' @param P_e Vector of proportions of the population with exposure to the environmental effect
+#' @param Alpha the desired type 1 error rate(s)
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
+#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
+#'
+#' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
+#'
+#' @examples
+#' pw <- power.calc.linear(N=c(1000,2000),
+#'     MAF=seq(0.05, 0.1, 0.01), ES=c(3,4),sd_y = c(1,2),Alpha=c(0.05),
+#'     True.Model='All', Test.Model='All')
+#'
+#' @export
+#'
 power_envir.calc <- 
 	function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, OR_G=NULL, OR_E=NULL, OR_GE=NULL, P_e = NULL,
 					Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
 {
+	library(nleqslv)
+
 	if(is.logical(compareQuanto)) compareQuanto = 1 * compareQuanto
 
 	############################################################################################################
@@ -261,219 +261,3 @@ power_envir.calc <-
 
 }
 
-
-
-if(F){ #vestigial stuff to be deleted
-
-	# q + a + b + c
-	# r + w + x + y
-	# all.equal(q + r, P_AA * (1 - P_e))
-	# all.equal(a + w, P_AA * P_e)
-	# all.equal(b + x, (1 - P_AA) * (1 - P_e))
-	# all.equal(c + y, (1 - P_AA) * P_e)
-
-
-	dominant.ll<-function(t)
-	{
-
-		prob_AA_control_e0 <- t[2, 1]
-		prob_AB_control_e0 <- t[2, 2]
-		prob_BB_control_e0 <- t[2, 3]
-		prob_AA_case_e0 <- t[1, 1]
-		prob_AB_case_e0 <- t[1, 2]
-		prob_BB_case_e0 <- t[1, 3]
-		prob_AA_control_e <- t[2, 4]
-		prob_AB_control_e <- t[2, 5]
-		prob_BB_control_e <- t[2, 6]
-		prob_AA_case_e <- t[1, 4]
-		prob_AB_case_e <- t[1, 5]
-		prob_BB_case_e <- t[1, 6]
-		
-
-		ll_fun <- function(beta){
-			prob_AA_case_e0*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_AB_case_e0*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_case_e0*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_case_e*log(exp(beta[1] + beta[3])/(1 + exp(beta[1] + beta[3])))+
-			prob_AB_case_e*log(exp(beta[1] + beta[2] + beta[3] + beta[4])/(1 + exp(beta[1] + beta[2] + beta[3] + beta[4])))+
-			prob_BB_case_e*log(exp(beta[1] + beta[2] + beta[3] + beta[4])/(1 + exp(beta[1] + beta[2] + beta[3] + beta[4])))+
-			prob_AA_control_e0*log(1/(1 + exp(beta[1])))+
-			prob_AB_control_e0*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_control_e0*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_control_e*log(1/(1 + exp(beta[1] + beta[3])))+
-			prob_AB_control_e*log(1/(1 + exp(beta[1] + beta[2] + beta[3] + beta[4])))+
-			prob_BB_control_e*log(1/(1 + exp(beta[1] + beta[2] + beta[3] + beta[4])))
-		}
-
-		ll_g_e_fun <- function(beta){
-			prob_AA_case_e0*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_AB_case_e0*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_case_e0*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_case_e*log(exp(beta[1] + beta[3])/(1 + exp(beta[1] + beta[3])))+
-			prob_AB_case_e*log(exp(beta[1] + beta[2] + beta[3])/(1 + exp(beta[1] + beta[2] + beta[3])))+
-			prob_BB_case_e*log(exp(beta[1] + beta[2] + beta[3])/(1 + exp(beta[1] + beta[2] + beta[3])))+
-			prob_AA_control_e0*log(1/(1 + exp(beta[1])))+
-			prob_AB_control_e0*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_control_e0*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_control_e*log(1/(1 + exp(beta[1] + beta[3])))+
-			prob_AB_control_e*log(1/(1 + exp(beta[1] + beta[2] + beta[3])))+
-			prob_BB_control_e*log(1/(1 + exp(beta[1] + beta[2] + beta[3])))
-		}
-
-		ll_e_fun <- function(beta){
-			prob_AA_case_e0*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_AB_case_e0*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_BB_case_e0*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_AA_case_e*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_AB_case_e*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_case_e*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_control_e0*log(1/(1 + exp(beta[1])))+
-			prob_AB_control_e0*log(1/(1 + exp(beta[1])))+
-			prob_BB_control_e0*log(1/(1 + exp(beta[1])))+
-			prob_AA_control_e*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_AB_control_e*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_control_e*log(1/(1 + exp(beta[1] + beta[2])))
-		}
-
-		ll_g_fun <- function(beta){
-			prob_AA_case_e0*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_AB_case_e0*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_case_e0*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_case_e*log(exp(beta[1])/(1 + exp(beta[1])))+
-			prob_AB_case_e*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_case_e*log(exp(beta[1] + beta[2])/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_control_e0*log(1/(1 + exp(beta[1])))+
-			prob_AB_control_e0*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_control_e0*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_AA_control_e*log(1/(1 + exp(beta[1])))+
-			prob_AB_control_e*log(1/(1 + exp(beta[1] + beta[2])))+
-			prob_BB_control_e*log(1/(1 + exp(beta[1] + beta[2])))
-		}
-
-		beta <- optim(c(0,0,0,0), function(x) -ll_fun(x), control=c(abstol = 0.00001))$par
-		beta_g_e <- optim(c(0,0,0), function(x) -ll_g_e_fun(x), control=c(abstol = 0.00001))$par
-		beta_e <- optim(c(0,0), function(x) -ll_e_fun(x), control=c(abstol = 0.00001))$par
-		beta_g <- optim(c(0,0), function(x) -ll_g_fun(x), control=c(abstol = 0.00001))$par
-
-		ll <- ll_fun(beta)
-		ll_g_e <- ll_g_e_fun(beta_g_e)
-		ll_e <- ll_e_fun(beta_e)
-		ll_g <- ll_g_fun(beta_g)
-
-		Case.Rate <- sum(t[1,])	
-
-		ll.null <- Case.Rate*log(exp(logit(sum(t[1,])/sum(t)))/(1+exp(logit(sum(t[1,])/sum(t))))) + (1-Case.Rate)*log(1/(1+exp(logit(sum(t[1,])/sum(t)))))
-		# logit(sum(t[1,])/sum(t))
-		pow_res <- numeric(3)
-		pow_res[1] <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*0
-		pow_res[2] <- pnorm(sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2))*0
-		# pnorm(sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2))*0
-		pow_res[3] <- pnorm(sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2))*0
-		return(pow_res)
-	}
-
-	pow <- dominant.ll(t)
-
-
-
-
-	fun_ex <- function(x) {
-		f <- numeric(3)
-		f[1] <- sum(x) - 2 * x[1] + 1
-		f[2] <- sum(x) + x[2] + 4
-		f[3] <- sum(x) + 3 * x[3] - 2 
-		f
-	}
-
-	x.start <- c(1,1,1)
-	nleqslv(x.start, fun_ex)
-
-
-
-
-	## logistic mles
-	# NOTE: NOT SURE IF I NEED THIS
-	logistic.mles<-function(t,model)
-	{
-
-		prob_AA_control_e0 <- t[2, 1]
-		prob_AB_control_e0 <- t[2, 2]
-		prob_BB_control_e0 <- t[2, 3]
-		prob_AA_case_e0 <- t[1, 1]
-		prob_AB_case_e0 <- t[1, 2]
-		prob_BB_case_e0 <- t[1, 3]
-		prob_AA_control_e <- t[2, 4]
-		prob_AB_control_e <- t[2, 5]
-		prob_BB_control_e <- t[2, 6]
-		prob_AA_case_e <- t[1, 4]
-		prob_AB_case_e <- t[1, 5]
-		prob_BB_case_e <- t[1, 6] #generate dataset based on these probabilities and see if the betas match up
-		Case.Rate <- sum(t[1,])
-
-		if (model=='null'){#Null MOdel
-			beta0 = logit(Case.Rate)
-			ll<- Case.Rate*log(exp(beta0)/(1+exp(beta0))) + (1-Case.Rate)*log(1/(1+exp(beta0)))
-		}
-
-		#Dominant
-		if (model=='Dominant'){
-			beta0 <- logit(prob_AA_case_e0/(prob_AA_control_e0 + prob_AA_case_e0))
-			betaG <- logit((prob_AB_case_e0+prob_BB_case_e0)/(prob_AB_control_e0+prob_BB_control_e0+prob_AB_case_e0+prob_BB_case_e0)) - beta0
-			betaE <- logit(prob_AA_case_e/(prob_AA_control_e+prob_AA_case_e)) - beta0
-			betaGE <- logit((prob_AB_case_e+prob_BB_case_e)/(prob_AB_control_e+prob_BB_control_e+prob_AB_case_e+prob_BB_case_e)) - beta0 - betaG - betaE
-			beta <- c(beta0, betaG, betaE, betaGE)
-		}
-
-		#Recessive
-		if (model=='Recessive'){
-		}
-
-		#2DF
-		if (model=='2df'){
-		}
-
-		#Additive Model - need to use an optimizer to solve
-		if (model=='Additive'){
-		}
-		return(beta)
-	}
-	# NOTE: NOT SURE IF I NEED THIS
-	null.ll<-function(t){
-		Case.Rate<-sum(t[1,])/sum(t)
-		beta0 = logit(Case.Rate)
-		ll<- Case.Rate*log(exp(beta0)/(1+exp(beta0))) + (1-Case.Rate)*log(1/(1+exp(beta0)))
-		return(ll)
-	}
-
-	# a = (alpha omega epsilon - alpha epsilon + alpha - sqrt((-alpha omega epsilon + alpha epsilon - alpha + b omega - b + c omega - c + delta omega - delta - omega + 1)^2 - 4 (omega - 1) (-alpha delta omega epsilon + alpha omega epsilon + alpha (-b) omega epsilon - alpha c omega epsilon)) + b (-omega) + b - c omega + c - delta omega + delta + omega - 1)/(2 (omega - 1)) 
-
-	# step 2:
-
-	# (b ( -1 -alpha epsilon + alpha + delta - delta gamma + gamma) + (alpha - 1) (delta - 1) (epsilon - 1) gamma)/(b (-1 + gamma) - (-alpha epsilon + alpha + epsilon + 1) gamma) = (a ( -1 -alpha epsilon + alpha + delta - delta gamma + gamma) + alpha (delta - 1) epsilon gamma)/(a (-1 + gamma) - alpha epsilon gamma)
-
-	if(F){
-		# none of this is working
-		# looking below, I think that works better
-		# want to constrain x values to be greater than 0
-
-		# constr_0_1 <- function(z) (atan(z) + pi/2) / pi
-		constr_0_1 <- function(z) 1/(1 + exp(-z))
-		# constr_0_1_inv <- function(y) -log(1/y - 1)
-		fun2 <- function(z){
-			x <- constr_0_1(z) # constrained to be greater than 1
-			# x = constr_0_1(z) #function constrained to be between 0 and 1
-			f <- fun(x)
-			# f <- numeric(3)
-
-			# f[1] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]/((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1])) - OR_E
-			# f[2] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]/((1 - Case.Rate - sum(x)) * ((1 - P_AA) * (1 - P_e) - x[2])) - OR_G
-			# f[3] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]/((1 - Case.Rate - sum(x)) * ((1 - P_AA) * P_e - x[3])) - OR_GE#OR_E*OR_G*OR_GE
-			# f
-		}
-		z.start <- c(-2.2,-2.2,-2.2)
-		# solving gives you your z's:
-		res_z <- nleqslv(z.start, fun2)#, control=list(trace=0,btol=.01,delta="cauchy"))
-		res <- constr_0_1(res_z$x)
-	}
-
-}
