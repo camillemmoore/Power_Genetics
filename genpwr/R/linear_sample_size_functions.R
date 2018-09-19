@@ -206,7 +206,7 @@ ss.calc.linear<-
                                        ES_AB = e.save.tab[, "es_ab"], ES_BB = e.save.tab[, "es_bb"], ss),row.names = NULL)
 
       }}
-    colnames(ss.tab)<-c('Test.Model', 'True.Model', 'MAF', 'N_total','ES', 'R2','SD_Y','ES_AB', 'ES_BB',
+    colnames(ss.tab)<-c('Test.Model', 'True.Model', 'MAF', 'Power','ES', 'R2','SD_Y','ES_AB', 'ES_BB',
                            paste("N_total_at_Alpha_", Alpha, sep=''))
 
     return(ss.tab)
