@@ -49,6 +49,8 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
                   select.Test.Model = NULL)
 {
 
+  library(ggplot2)
+
   #Create Dataset with separate rows for each Alpha level
   indices<-grep("N_total_at_Alpha_",colnames(data))
   Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],"N_total_at_Alpha_")), ncol=2, byrow=TRUE)[,2])
@@ -148,9 +150,13 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
                      select.Test.Model = NULL)
 {
 
+  library(ggplot2)
+
   #Create Dataset with separate rows for each Alpha level
-  indices<-grep("Power_at_Alpha_",colnames(data))
-  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],"Power_at_Alpha_")), ncol=2, byrow=TRUE)[,2])
+  powerstr <- "Power_at_Alpha_"
+  if(any(grepl("Power_GE_at_Alpha_", colnames(data)))) powerstr <- "Power_GE_at_Alpha_"
+  indices<-grep(powerstr,colnames(data))
+  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],powerstr)), ncol=2, byrow=TRUE)[,2])
 
   ss.new<-NULL
   for (i in 1:length(Alphas)){ss.new<-rbind(ss.new, data.frame(data[-indices], Power=data[,indices[i]], Alpha=Alphas[i]))}
@@ -168,21 +174,35 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
   if(is.null(select.Test.Model)==F){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
 
-  var<-c("MAF", 'OR','ES','R2','N_total', 'Case.Rate', 'SD_Y','Alpha', 'True.Model')
-  if(linear.effect.measure=='ES'){var <- var[!(var=='R2')]}
-  if(linear.effect.measure=='R2'){var <- var[!(var=='ES')]}
+  var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "ES","R2","N_total", "Case.Rate", "SD_Y","Alpha", "True.Model")
+  if(linear.effect.measure=="ES"){var <- var[var != "R2"]}
+  if(linear.effect.measure=="R2"){var <- var[var != "ES"]}
   var<-var[!(var %in% c(x, panel.by))]
   var<-var[var %in% colnames(ss.new)]
   graphs<-unique.data.frame(ss.new[,var])
 
   for(j in 1:nrow(graphs)){
-    subtitle<-paste("Power by ", x, ": ",
-                       var[1], '=', graphs[j,1], ', ',
-                       var[2], '=', graphs[j,2],', ',
-                       var[3], '=', graphs[j,3],', ',
-                       var[4], '=', graphs[j,4], sep='')
-    temp1<-ss.new[ss.new[,var[1]]==graphs[j,1] & ss.new[,var[2]]==graphs[j,2]
-                  &ss.new[,var[3]]==graphs[j,3] & ss.new[,var[4]]==graphs[j,4],]
+    subtitle<-paste0("Power by ", x, ": ",
+                  paste0(sapply(1:ncol(graphs), function(ii) 
+                    paste0(var[ii], "=", graphs[j,ii])), collapse =  ", "))
+    if(length(unlist(strsplit(subtitle, split = ", "))) > 4){
+      # split up the title if it's too long for one line
+      st_vec0 <- unlist(strsplit(subtitle, split = ", "))
+      num_items <- 5
+      n_locs <- seq(from = num_items, to = length(st_vec0) + ceiling(length(st_vec0)/(num_items - 1)) - 1, by = num_items)
+      st_vec <- character(length(st_vec0) + length(n_locs))
+      qq = 1
+      for(ii in 1:length(st_vec)){
+        if(ii %in% n_locs){st_vec[ii] <- "\n"
+        }else{st_vec[ii] <- st_vec0[qq]; qq = qq + 1}
+      }
+      subtitle <- paste0(st_vec, collapse = ", ")
+      subtitle <- gsub("\n, ", "\n", subtitle)
+    }
+
+    # temp1<-ss.new[ss.new[,var[1]]==graphs[j,1] & ss.new[,var[2]]==graphs[j,2]
+    #               &ss.new[,var[3]]==graphs[j,3] & ss.new[,var[4]]==graphs[j,4],]
+    temp1 <- ss.new[apply(sapply(1:ncol(graphs), function(ii) ss.new[,var[ii]]==graphs[j,ii]), 1, all),]
 
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
@@ -248,6 +268,8 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
                     select.True.Model = NULL,
                     select.Test.Model = NULL)
 {
+
+  library(ggplot2)
 
   #Create Dataset with separate rows for each Alpha level
   indices<-grep("OR_at_Alpha_",colnames(data))
