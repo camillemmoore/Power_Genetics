@@ -18,9 +18,9 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' pw <- power.calc.linear(N=c(1000,2000),
-#'     MAF=seq(0.05, 0.1, 0.01), ES=c(3,4),sd_y = c(1,2),Alpha=c(0.05),
-#'     True.Model='All', Test.Model='All')
+#' pw <- power_envir.calc(P_e = 0.2, MAF = 0.1, N = 200, Case.Rate = 0.5, Alpha = 0.05, 
+#'		OR_G = 1.5, OR_E = 2, OR_GE = 1.8, Test.Model = "All", True.Model = "All")
+#'
 #'
 #' @export
 #'
@@ -205,7 +205,7 @@ power_envir.calc <-
 					}
 
 					m.save.tab<-rbind(m.save.tab,
-						data.frame(True.Model = save.tab$model, MAF=m, P_e = P_e_ii, matrix(rep(data.frame(o.grid[o_ii,]),nrow(save.tab)), ncol = 3, byrow = T),
+						data.frame(True.Model = save.tab$model, MAF=m, P_e = P_e_ii, matrix(rep(as.numeric(o.grid[o_ii,]),nrow(save.tab)), ncol = 3, byrow = T),
 							Disease.Status = rep(c("case", "control"),nrow(save.tab)/2),
 							Geno.AA.e0 = save.tab[,2],Geno.AB.e0 = save.tab[,3], Geno.BB.e0 = save.tab[,4],
 							Geno.AA.e = save.tab[,5],Geno.AB.e = save.tab[,6], Geno.BB.e = save.tab[,7]))
@@ -249,7 +249,7 @@ power_envir.calc <-
 			}
 			power.tab <- data.frame(Test.Model=mod, pe.save.tab[seq(1, nrow(pe.save.tab),2),1:6],
 													N, N_cases, N_controls, Case.Rate,temp)
-			names(power.tab)[5:7] <- c("OR_G", "OR_E", "OR_GE")
+			names(power.tab)[5:8] <- c("OR_G", "OR_E", "OR_GE", "N_total")
 			# power.tab<-rbind(power.tab, power.tab0)
 			# colnames(power.tab)[1:11]<-c("Test.Model", "True.Model", "MAF", "P_e", "OR_G", "OR_E", "OR_GE", "N", "N_cases", "N_controls", "Case.Rate")#, 
 										# paste0("Power", gsub("pow", "", c("pow_GE", "pow_G", "pow_E")), "_at_Alpha_", Alpha))
@@ -257,6 +257,7 @@ power_envir.calc <-
 		}
 	}
 	final.pow.tab <- final.pow.tab[,c(1:4, 7, 5:6, 8:ncol(final.pow.tab))]
+	final.pow.tab <- final.pow.tab[,-which(colnames(final.pow.tab) %in% c("Power_G_at_Alpha_0.05", "Power_E_at_Alpha_0.05"))]
 	return(final.pow.tab)
 
 }
