@@ -1,4 +1,29 @@
-
+#' Function to Calculate Power for Logistic Models with Environment Interaction
+#'
+#' Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
+#'
+#' @param N Vector of the desired sample size(s)
+#' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
+#' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
+#' @param MAF Vector of minor allele frequencies
+#' @param OR_G Vector of genetic odds ratios to detect
+#' @param OR_E Vector of environmental odds ratios to detect
+#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
+#' @param P_e Vector of proportions of the population with exposure to the environmental effect
+#' @param Alpha the desired type 1 error rate(s)
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
+#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
+#'
+#' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
+#'
+#' @examples
+#' ssc <- ss_envir.calc(P_e = 0.2, MAF = 0.1, power = 0.6, Case.Rate = 0.5, Alpha = 0.05, 
+#'		OR_G = 1.5, OR_E = 2, OR_GE = 1.8, Test.Model = "All", True.Model = "All")
+#'
+#'
+#' @export
+#'
 ss_envir.calc <- 
 	function(power=0.8, Case.Rate=NULL, k=NULL, MAF=NULL, OR_G=NULL, OR_E=NULL, OR_GE=NULL, P_e = NULL,
 					Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
@@ -170,7 +195,7 @@ ss_envir.calc <-
 					}
 
 					m.save.tab<-rbind(m.save.tab,
-						data.frame(True.Model = save.tab$model, MAF=m, P_e = P_e_ii, matrix(rep(data.frame(o.grid[o_ii,]),nrow(save.tab)), ncol = 3, byrow = T),
+						data.frame(True.Model = save.tab$model, MAF=m, P_e = P_e_ii, matrix(rep(as.numeric(o.grid[o_ii,]),nrow(save.tab)), ncol = 3, byrow = T),
 							Disease.Status = rep(c("case", "control"),nrow(save.tab)/2),
 							Geno.AA.e0 = save.tab[,2],Geno.AB.e0 = save.tab[,3], Geno.BB.e0 = save.tab[,4],
 							Geno.AA.e = save.tab[,5],Geno.AB.e = save.tab[,6], Geno.BB.e = save.tab[,7]))

@@ -1,3 +1,9 @@
+
+
+####################################################################################
+# odds ratios for different models
+####################################################################################
+
 #' Odds ratio calculation
 #'
 #' Calculates odds ratio for given parameters. Used by the function effect_size_function.
@@ -17,12 +23,6 @@
 #'
 #' @export
 #'
-
-
-####################################################################################
-# odds ratios for different models
-####################################################################################
-
 or_calc <- function(a,b,c,d,e,f, mod, risk_allele)
 {
   if(mod == "Recessive"){

@@ -422,7 +422,6 @@ add.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 ####################################################################################
 # For a 2DF model
 ####################################################################################
-
 #' 2df Model Function
 #'
 #' Operates within effect_size_function to calculate odds ratios for a Test.Model of "2df"
@@ -595,11 +594,6 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #'
 #' @export
 #'
-
-
-# example
-# effect_size_function(N=N, Case.Rate = Case.Rate, MAF = MAF, power = power, risk_allele = risk_allele, Alpha = 0.05, True.Model = True.Model, Test.Model = Test.Model)
-
 effect_size_function <-
   function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, power=NULL, risk_allele = T,
                      Alpha=0.05, True.Model='All', Test.Model='All')

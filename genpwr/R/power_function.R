@@ -22,7 +22,8 @@
 #'
 power.calc<-
   function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, OR=NULL,
-                     Alpha=0.05, True.Model='All', Test.Model='All'){
+                     Alpha=0.05, True.Model='All', Test.Model='All')
+{
 
   ############################################################################################################
   #Error Messages for insufficient sample size information, MAF, and case vs. control ratio
@@ -182,7 +183,7 @@ power.calc<-
 
           fa.1<-function(x){sqrt(o)-x*(P_AA-Case.Rate+x+((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))/((Case.Rate-x-((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))*(P_AB-x))}
 
-          add1.root<-ll_zero_finder2(fa.1,lower = 0, upper = upper.lim)#$root
+          add1.root<-zero_finder_nleqslv(fa.1,veclength = 1, x.start.vals = runif(1)*soln)
 
 
           #Proabilities of disease conditional on genotype
@@ -202,7 +203,7 @@ power.calc<-
                 c(prob_AA_control_a1[aqq], P_AB-prob_AB_case_a1[aqq],prob_BB_control_a1[aqq]))
               qqcr <- c(qqcr, apply(qqt, 1, sum)[1])
             }
-            qqz <- which(qqcr - cr < 1e-3)
+            qqz <- which(qqcr - Case.Rate < 1e-3)
             if(length(qqz) > 1) stop("trouble selecting correct zero in additive function")
             prob_AA_case_a2 <- prob_AA_case_a2[qqz]
             prob_AB_case_a2 <- prob_AB_case_a2[qqz]
@@ -227,8 +228,7 @@ power.calc<-
 
           fa.2<-function(x){o-x*(P_AA-Case.Rate+x+((o*x*P_BB)/(P_AB-x+o*x)))/((Case.Rate-x-((o*x*P_BB)/(P_AB-x+o*x)))*(P_AB-x))}
 
-          add2.root<-ll_zero_finder2(fa.2,lower = 0, upper =  upper.lim)#$root
-
+          add2.root<-zero_finder_nleqslv(fa.2,veclength = 1, x.start.vals = runif(1)*soln)
 
           #Proabilities of disease conditional on genotype
           P_AB_case_a2 <- add2.root/P_AB

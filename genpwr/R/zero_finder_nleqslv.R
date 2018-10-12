@@ -1,4 +1,27 @@
+#' Zero finder
+#'
+#' Finds zeros of multinomial functions using the nleqslv package
+#'
+#' @param afun The function to find zeros
+#' @param veclength The dimension of the system of equations
+#' @param tol The range within which to set start values for the function to use to find zeros
+#' @param x.start.vals Optional user defined start values
+#' @return Predicted zeros of the given equation
+#'
+#' @examples
+#' afun <- function(x) {
+#' 	y <- numeric(2)
+#' 	y[1] <- x[1]^2 + x[2]^2 - 1
+#' 	y[2] <- exp(x[1]-1) + x[2]^3 - 1
+#' 	y
+#' }
+#'
+#' zero_finder_nleqslv(afun)
+#'
+#' @export
+#'
 zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL){
+	library(nleqslv)
 	# x.start gives example values to base x.start values on. If null, x.start values are randomly selected from runif
 	conv <- reps <- 0
 	while(conv == 0){
@@ -26,26 +49,3 @@ zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL)
 
 
 
-# I don't know what this is for....
-zero_finder_nleqslv.2 <- function(afun, iter = 60)
-{
-	conv <- reps <- 0
-	fres <- numeric(0)
-	while(reps < iter){
-		reps <- reps + 1
-		x.start <- c(runif(1)*0.8)
-		res <- tryCatch(nleqslv(x.start, afun), error = function(e) "error", warning = function(w) "warning")
-		if(length(res) != 1){
-			if(res$message == "Function criterion near zero" & all(res$x > 0) & all(res$x < 1)){
-				if(res$x > 0 & res$x < 1){
-					if(length(fres) == 0){
-						fres <- c(fres, res$x)
-					}else if(!any(sapply(fres, function(q) (all.equal(q, res$x, tolerance = 8e-7) == T)))){
-						fres <- c(fres, res$x)
-					}
-				}
-			}
-		}
-	}
-	return(fres)
-}

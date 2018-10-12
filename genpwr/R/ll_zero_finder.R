@@ -1,6 +1,7 @@
 #' Zero finding function
 #'
 #' Finds the zeros of a function af. Alternative to uniroot, designed specifically to work with the genpwr package.
+#' Finds multiple zeros if a function has more than one in the given range.
 #'
 #' @param af The function for which to find the zero(s)
 #' @param ii Number of iterations. The more iterations, the more accuracy. It is recommended that ii be at least 4.
@@ -15,8 +16,6 @@
 #'
 #' @export
 #'
-
-
 ll_zero_finder2 <- function(af, ii = 6, lower = 0, upper = 1, qdelta = 27){
 	if(ii < 4) print("if iterations 'ii' set to less than 4, the function may not detect multiple zeros which are close together")
 	# finds the zeros of a function between 0 and 1

@@ -1,4 +1,18 @@
-
+#' Function to calculate MLE's for logistic models with logistic environment interaction
+#'
+#' Finds the maximum likelihood estimates for a given 2x3 table under the specified genetic model. 
+#'
+#' @param t A 2x6 table of the joint probabilities of disease, genotype, and environment. Rows are case vs. control and columns are genotypes. 
+#' @param N Sample size
+#' @param power Power
+#' @param Alpha Alpha
+#' @param mod Test model
+#' @param compareQuanto whether to include the factor to match with Quanto's calculations
+#' 
+#' @return A vector of logistic regression model coefficients.  
+#'
+#' @export
+#'
 ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod, compareQuanto = 0){
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
 	if(!any(c(is.null(N), is.null(power)))) stop("must specify either N or power, not both")

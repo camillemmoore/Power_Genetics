@@ -21,7 +21,8 @@
 #' @export
 #'
 power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
-           Alpha=0.05, True.Model='All', Test.Model='All'){
+           Alpha=0.05, True.Model='All', Test.Model='All')
+{
 
     ############################################################################################################
     #Error Messages for insufficient sample size information, MAF, and case vs. control ratio
@@ -90,81 +91,84 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
     ############################################################################################################
     # Calculate var_x (genotype) to do effect size calculations
     ############################################################################################################
-      var_x_dom = (1^2)*(1-(1-MAF)^2)-(1*(1-(1-MAF)^2))^2
-      var_x_add = (1^2)*(2*MAF*(1-MAF))+(2^2)*(MAF^2)-(1*(2*MAF*(1-MAF))+2*(MAF^2))^2
-      var_x_rec = (1^2)*(MAF^2)-(1*(MAF^2))^2
+    var_x_dom = (1^2)*(1-(1-MAF)^2)-(1*(1-(1-MAF)^2))^2
+    var_x_add = (1^2)*(2*MAF*(1-MAF))+(2^2)*(MAF^2)-(1*(2*MAF*(1-MAF))+2*(MAF^2))^2
+    var_x_rec = (1^2)*(MAF^2)-(1*(MAF^2))^2
 
-      var_x <- data.frame(True.Model=c(rep('Dominant', length(var_x_dom)),
-                                       rep('Additive1', length(var_x_add)),
-                                       rep('Additive2', length(var_x_add)),
-                                       rep('Recessive', length(var_x_rec))),
-                          MAF = rep(MAF, 4),
-                          var_x = c(var_x_dom, var_x_add, var_x_add, var_x_rec)
-                          )
+    var_x <- data.frame(True.Model=c(rep('Dominant', length(var_x_dom)),
+                                     rep('Additive1', length(var_x_add)),
+                                     rep('Additive2', length(var_x_add)),
+                                     rep('Recessive', length(var_x_rec))),
+                        MAF = rep(MAF, 4),
+                        var_x = c(var_x_dom, var_x_add, var_x_add, var_x_rec)
+                        )
 
-  ############################################################################################################
-  # Create a data.frame with all possible combinations of MAF, SD and effect size
-  # Will calculate power for each of these scenarios
-  ############################################################################################################
-      # Depending on if ES or R2 is calculated, calcuate the other effect size measure
-      if (is.null(ES)==T){e.save.tab = expand.grid(True.Model, MAF, sd_y, R2)
-        colnames(e.save.tab) <- c('True.Model','MAF', 'sd_y', 'R2')
-        e.save.tab <- merge(e.save.tab, var_x)
-        e.save.tab$ES <- sqrt(e.save.tab$R2)*e.save.tab$sd_y/sqrt(e.save.tab$var_x)
-        e.save.tab <- e.save.tab[!(e.save.tab$True.Model=='Additive1'),]
+    ############################################################################################################
+    # Create a data.frame with all possible combinations of MAF, SD and effect size
+    # Will calculate power for each of these scenarios
+    ############################################################################################################
+
+    # Depending on if ES or R2 is calculated, calcuate the other effect size measure
+    if (is.null(ES)){
+      e.save.tab = expand.grid(True.Model, MAF, sd_y, R2)
+      colnames(e.save.tab) <- c('True.Model','MAF', 'sd_y', 'R2')
+      e.save.tab <- merge(e.save.tab, var_x)
+      e.save.tab$ES <- sqrt(e.save.tab$R2)*e.save.tab$sd_y/sqrt(e.save.tab$var_x)
+      e.save.tab <- e.save.tab[!(e.save.tab$True.Model=='Additive1'),]
+    }
+
+    if (is.null(R2)){
+      e.save.tab = expand.grid(True.Model, MAF, sd_y, ES)
+      colnames(e.save.tab) <- c("True.Model", 'MAF', 'sd_y', 'ES')
+      e.save.tab <- merge(e.save.tab, var_x)
+      e.save.tab$R2 <- (e.save.tab$ES^2)*e.save.tab$var_x/(e.save.tab$sd_y^2)
+      if(sum(e.save.tab$R2>=1)>0){
+        excluded <- e.save.tab[e.save.tab$R2>=1,c("True.Model", "MAF", "sd_y", "ES", "R2")]
+        e.save.tab <- e.save.tab[e.save.tab$R2<1,]
+
+        message("Some combinations of the specified ES and sd_y imply R2>1 and 0 or negative variance of y within a genotype.\n
+                Power was not calculated for the following combinations: \n", paste(capture.output(print(excluded)), collapse = "\n"))
       }
-
-      if (is.null(R2)==T){e.save.tab = expand.grid(True.Model, MAF, sd_y, ES)
-        colnames(e.save.tab) <- c("True.Model", 'MAF', 'sd_y', 'ES')
-        e.save.tab <- merge(e.save.tab, var_x)
-        e.save.tab$R2 <- (e.save.tab$ES^2)*e.save.tab$var_x/(e.save.tab$sd_y^2)
-        if(sum(e.save.tab$R2>=1)>0){
-          excluded <- e.save.tab[e.save.tab$R2>=1,c("True.Model", "MAF", "sd_y", "ES", "R2")]
-          e.save.tab <- e.save.tab[e.save.tab$R2<1,]
-
-          message("Some combinations of the specified ES and sd_y imply R2>1 and 0 or negative variance of y within a genotype.\n
-                  Power was not calculated for the following combinations: \n", paste(capture.output(print(excluded)), collapse = "\n"))
-        }
-        if(nrow(e.save.tab)==0){
-          stop("All combinations of the specified ES and sd_y imply R2>1 and 0 or negative variance of y within a genotype.\n
-                  Power could not be calculated. Try using smaller ES and/or larger sd_y.")
-        }
+      if(nrow(e.save.tab)==0){
+        stop("All combinations of the specified ES and sd_y imply R2>1 and 0 or negative variance of y within a genotype.\n
+                Power could not be calculated. Try using smaller ES and/or larger sd_y.")
       }
+    }
 
-      # For each scenario calculate the true differences in means AB-AA and BB-AA
-      e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
-                              ifelse(e.save.tab$True.Model=='Recessive', 0,
-                                     ifelse(e.save.tab$True.Model=='Additive1', 0.5*e.save.tab$ES,
-                                            e.save.tab$ES)))
+    # For each scenario calculate the true differences in means AB-AA and BB-AA
+    e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
+                            ifelse(e.save.tab$True.Model=='Recessive', 0,
+                                   ifelse(e.save.tab$True.Model=='Additive1', 0.5*e.save.tab$ES,
+                                          e.save.tab$ES)))
 
-      e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
-                              ifelse(e.save.tab$True.Model=='Recessive', e.save.tab$ES,
-                                     ifelse(e.save.tab$True.Model=='Additive1', e.save.tab$ES,
-                                            2*e.save.tab$ES)))
+    e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
+                            ifelse(e.save.tab$True.Model=='Recessive', e.save.tab$ES,
+                                   ifelse(e.save.tab$True.Model=='Additive1', e.save.tab$ES,
+                                          2*e.save.tab$ES)))
 
-      e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
+    e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
 
-      # For each scenario calculate the SD of Y give X for the true model
-      e.save.tab$sd_y_x_true = mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = ifelse(e.save.tab[x,'True.Model'] %in% c('Additive1', 'Additive2'), 'Additive', e.save.tab[x,'True.Model']))},
-                                                         seq(1:nrow(e.save.tab)))
+    # For each scenario calculate the SD of Y give X for the true model
+    e.save.tab$sd_y_x_true = mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = ifelse(e.save.tab[x,'True.Model'] %in% c('Additive1', 'Additive2'), 'Additive', e.save.tab[x,'True.Model']))},
+                                                       seq(1:nrow(e.save.tab)))
 
-      # For each scenario calculate the Likelihoof and SD of Y given X for the Null/Intercept only model
-      # sd_y_x_null <- mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = "null")},
-      #                      seq(1:nrow(e.save.tab)))
-      #NOTE -THE SD_Y_X UNDER THE NULL IS JUST SD_Y...WILL NO LONGER HOLD IF CONTROLLING FOR A CONFOUNDER, FOR EX.
-      ll.null = mapply(function(x){calc.like.linear(linear.mles(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], model = 'null'),
-                                                    e.save.tab[x,'MAF'],
-                                                    e.save.tab[x,'es_ab'],
-                                                    e.save.tab[x,'es_bb'],
-                                                    e.save.tab[x, 'sd_y'],
-                                                    e.save.tab[x, 'sd_y_x_true'],
-                                                    model='null')}, seq(1:nrow(e.save.tab)))
+    # For each scenario calculate the Likelihoof and SD of Y given X for the Null/Intercept only model
+    # sd_y_x_null <- mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = "null")},
+    #                      seq(1:nrow(e.save.tab)))
+    #NOTE -THE SD_Y_X UNDER THE NULL IS JUST SD_Y...WILL NO LONGER HOLD IF CONTROLLING FOR A CONFOUNDER, FOR EX.
+    ll.null = mapply(function(x){calc.like.linear(linear.mles(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], model = 'null'),
+                                                  e.save.tab[x,'MAF'],
+                                                  e.save.tab[x,'es_ab'],
+                                                  e.save.tab[x,'es_bb'],
+                                                  e.save.tab[x, 'sd_y'],
+                                                  e.save.tab[x, 'sd_y_x_true'],
+                                                  model='null')}, seq(1:nrow(e.save.tab)))
 
 
     ############################################################################################################
     # Calculate Power for each scenario in e.save.tab under the specified testing model
     ############################################################################################################
-      power.tab <- NULL
+    power.tab <- NULL
 
     ############################################################################################################
     #Loop over sample size
@@ -190,7 +194,7 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
 
         #Calculate the power for the given sample size for a range of Alpha levels
         if(mod=='2df'){pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
-        }else{pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2)), ll.stat)
+        }else{pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*0, ll.stat) # second part multiplied by 0 because of the disagreement with Quanto's methods
         }
         if(length(Alpha)>1){pow <- t(pow)
         rownames(pow) <- seq(1:nrow(pow))}
@@ -199,11 +203,12 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
         power.tab<-rbind(power.tab,data.frame(Test.Model=mod, True.Model = as.character(e.save.tab[, 'True.Model']),
                  MAF = e.save.tab[, 'MAF'], N=n, ES=e.save.tab[, "ES"] , R2=e.save.tab[, "R2"], SD=e.save.tab[, "sd_y"], ES_AB = e.save.tab[, "es_ab"], ES_BB = e.save.tab[, "es_bb"], pow),row.names = NULL)
 
-      }}
+      }
+    }
       colnames(power.tab)<-c('Test.Model', 'True.Model', 'MAF', 'N_total','ES', 'R2','SD_Y','ES_AB', 'ES_BB',
                              paste("Power_at_Alpha_", Alpha, sep=''))
 
     return(power.tab)
-  }
+}
 
 

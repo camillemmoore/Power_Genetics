@@ -17,6 +17,7 @@
 #' @param panel.by A grouping variable to panel the graphs by: "True.Model", "MAF", "OR", "Alpha", or "Power"
 #' @param y_limit An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically
 #' @param y_log  Logical, specifying whether the y axis should be logarithmic. Default is F
+#' @param return_gg Logical, specifying whether to return the ggplot object instead of printing out the plot
 #' @param select.Alpha Only produce graphs for the specified Alpha level(s).
 #' @param select.OR Only produce graphs for the specified odds ratio(s).
 #' @param select.ES Only produce graphs for the specified effect size(s).
@@ -37,7 +38,7 @@
 #'
 #' @export
 #'
-ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F,
+ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F, return_gg = F,
                   select.Alpha = NULL,
                   select.OR = NULL,
                   select.ES = NULL,
@@ -50,10 +51,13 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 {
 
   library(ggplot2)
-
-  #Create Dataset with separate rows for each Alpha level
-  indices<-grep("N_total_at_Alpha_",colnames(data))
-  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],"N_total_at_Alpha_")), ncol=2, byrow=TRUE)[,2])
+  
+  nstr <- "N_total_at_Alpha_"
+  if(any(grepl("SampleSize_GE_at_Alpha_", colnames(data)))) nstr <- "SampleSize_GE_at_Alpha_"
+ 
+  #Create Dataset with separate rows for each Alpha level  
+  indices<-grep(nstr,colnames(data))
+  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],nstr)), ncol=2, byrow=TRUE)[,2])
 
   ss.new<-NULL
   for (i in 1:length(Alphas)){ss.new<-rbind(ss.new, data.frame(data[-indices], N_total=data[,indices[i]], Alpha=Alphas[i]))}
@@ -70,20 +74,21 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
   if(is.null(select.Test.Model)==F){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
 
-  var<-c("MAF", 'OR','ES','Power', 'Case.Rate', 'SD','Alpha', 'True.Model')
+  # var<-c("MAF", 'OR','ES','Power', 'Case.Rate', 'SD','Alpha', 'True.Model')
+  var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "ES","R2","Power", "Case.Rate", "SD_Y","Alpha", "True.Model")
   var<-var[!(var %in% c(x, panel.by))]
-  var<-var[var %in% colnames(graphs)]
+  var<-var[var %in% colnames(ss.new)]
+
+  if(return_gg) resplots <- list()
 
   graphs<-unique.data.frame(ss.new[,var])
   # graphs$Test.Model<-graphs$
-  for(j in 1:nrow(graphs)){
-    subtitle<-paste("N by ", x, ": ",
-                     var[1], '=', graphs[j,1], ', ',
-                     var[2], '=', graphs[j,2],', ',
-                     var[3], '=', graphs[j,3],', ',
-                     var[4], '=', graphs[j,4], sep='')
-    temp1<-ss.new[ss.new[,var[1]]==graphs[j,1] & ss.new[,var[2]]==graphs[j,2]
-                  &ss.new[,var[3]]==graphs[j,3] & ss.new[,var[4]]==graphs[j,4],]
+  for(j in 1:nrow(graphs))
+  {
+    subtitle<-paste0("N by ", x, ": ",
+                  paste0(sapply(1:ncol(graphs), function(ii) 
+                    paste0(var[ii], "=", graphs[j,ii])), collapse =  ", "))
+    temp1 <- ss.new[apply(sapply(1:ncol(graphs), function(ii) ss.new[,var[ii]]==graphs[j,ii]), 1, all),]
 
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
@@ -98,8 +103,12 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
     if(y_log){
       plot_obj <- plot_obj + scale_y_log10()
     }
-    print(plot_obj)
+    if(return_gg){ 
+      resplots <- c(resplots, list(plot_obj))
+      return(resplots)
+    }else print(plot_obj)
   }
+
 }
 
 
@@ -117,6 +126,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 #' @param panel.by A grouping variable to panel the graphs by: "True.Model", "MAF", "OR", "Alpha", or "N_total"
 #' @param y_limit An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically
 #' @param y_log  Logical, specifying whether the y axis should be logarithmic. Default is F
+#' @param return_gg Logical, specifying whether to return the ggplot object instead of printing out the plot
 #' @param select.Alpha Only produce graphs for the specified Alpha level(s).
 #' @param select.OR Only produce graphs for the specified odds ratio(s).
 #' @param select.ES Only produce graphs for the specified effect sizes(s).
@@ -137,7 +147,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 #'
 #' @export
 #'
-power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F,
+power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F, return_gg = F,
                      linear.effect.measure = 'ES',
                      select.Alpha = NULL,
                      select.OR = NULL,
@@ -163,15 +173,15 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 
   ss.new$Test.Model <- as.character(ss.new$Test.Model)
   #Subset data to only include those in the select. statements
-  if(is.null(select.Alpha)==F){ss.new<-ss.new[ss.new$Alpha %in% select.Alpha,]}
-  if(is.null(select.OR)==F){ss.new<-ss.new[ss.new$OR %in% select.OR,]}
-  if(is.null(select.ES)==F){ss.new<-ss.new[ss.new$ES %in% select.ES,]}
-  if(is.null(select.N)==F){ss.new<-ss.new[ss.new$N_total %in% select.N,]}
-  if(is.null(select.MAF)==F){ss.new<-ss.new[ss.new$MAF %in% select.MAF,]}
-  if(is.null(select.Case.Rate)==F){ss.new<-ss.new[ss.new$Case.Rate %in% select.Case.Rate,]}
-  if(is.null(select.SD)==F){ss.new<-ss.new[ss.new$SD_Y %in% select.SD,]}
-  if(is.null(select.True.Model)==F){ss.new<-ss.new[ss.new$True.Model %in% select.True.Model,]}
-  if(is.null(select.Test.Model)==F){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
+  if(!is.null(select.Alpha)){ss.new<-ss.new[ss.new$Alpha %in% select.Alpha,]}
+  if(!is.null(select.OR)){ss.new<-ss.new[ss.new$OR %in% select.OR,]}
+  if(!is.null(select.ES)){ss.new<-ss.new[ss.new$ES %in% select.ES,]}
+  if(!is.null(select.N)){ss.new<-ss.new[ss.new$N_total %in% select.N,]}
+  if(!is.null(select.MAF)){ss.new<-ss.new[ss.new$MAF %in% select.MAF,]}
+  if(!is.null(select.Case.Rate)){ss.new<-ss.new[ss.new$Case.Rate %in% select.Case.Rate,]}
+  if(!is.null(select.SD)){ss.new<-ss.new[ss.new$SD_Y %in% select.SD,]}
+  if(!is.null(select.True.Model)){ss.new<-ss.new[ss.new$True.Model %in% select.True.Model,]}
+  if(!is.null(select.Test.Model)){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
 
   var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "ES","R2","N_total", "Case.Rate", "SD_Y","Alpha", "True.Model")
@@ -180,6 +190,8 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
   var<-var[!(var %in% c(x, panel.by))]
   var<-var[var %in% colnames(ss.new)]
   graphs<-unique.data.frame(ss.new[,var])
+
+  if(return_gg) resplots <- list()
 
   for(j in 1:nrow(graphs)){
     subtitle<-paste0("Power by ", x, ": ",
@@ -217,7 +229,10 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
     if(y_log){
       plot_obj <- plot_obj + scale_y_log10()
     }
-    print(plot_obj)
+    if(return_gg){ 
+      resplots <- c(resplots, list(plot_obj))
+      return(resplots)
+    }else print(plot_obj)
   }
 }
 
@@ -236,6 +251,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #' @param panel.by A grouping variable to panel the graphs by: "True.Model", "MAF", "Power", "Alpha", or "N_total"
 #' @param y_limit An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically
 #' @param y_log  Logical, specifying whether the y axis should be logarithmic. Default is F
+#' @param return_gg Logical, specifying whether to return the ggplot object instead of printing out the plot
 #' @param select.Alpha Only produce graphs for the specified Alpha level(s).
 #' @param select.power Only produce graphs for the specified Power(s).
 #' @param select.ES Only produce graphs for the specified effect sizes(s).
@@ -256,7 +272,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #'
 #' @export
 #'
-or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F,
+or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F, return_gg = F,
                     linear.effect.measure = 'ES',
                     select.Alpha = NULL,
                     select.power = NULL,
@@ -298,6 +314,8 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
   var<-var[var %in% colnames(ss.new)]
   graphs<-unique.data.frame(ss.new[,var])
 
+  if(return_gg) resplots <- list()
+
   for(j in 1:nrow(graphs)){
     subtitle<-paste("OR by ", x, ": ",
        var[1], '=', graphs[j,1], ', ',
@@ -320,7 +338,10 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
     if(y_log){
       plot_obj <- plot_obj + scale_y_log10()
     }
-    print(plot_obj)
+    if(return_gg){ 
+      resplots <- c(resplots, list(plot_obj))
+      return(resplots)
+    }else print(plot_obj)
 
 
   }
