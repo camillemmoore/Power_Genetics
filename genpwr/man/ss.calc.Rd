@@ -31,8 +31,8 @@ A data frame including the total number of subjects required for all combination
 Calculates the necessary sample size to acheive the specified level of power to detect an odds ratio, OR, with type 1 error rate, Alpha
 }
 \examples{
-ss<-ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL, 
-   MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), 
+ss <- ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL,
+   MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05),
    True.Model='All', Test.Model='All')
 
 }

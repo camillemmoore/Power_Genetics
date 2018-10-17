@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihood_calc_function.R
 \name{calc.like}
 \alias{calc.like}
-\title{Function to Calculate Log Likelihood}
+\title{Function to Calculate Log Likelihood for a Logistic Regression Model}
 \usage{
 calc.like(beta, t, model)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihood_calc_function.R
 \name{dominant.ll}
 \alias{dominant.ll}
-\title{Function to Calculate Dominant Log Likelihood}
+\title{Function to Calculate Dominant Log Likelihood for a Logistic Regression Model}
 \usage{
 dominant.ll(beta, t)
 }
@@ -15,5 +15,5 @@ dominant.ll(beta, t)
 The log likelihood.
 }
 \description{
-Calculates the log likelihood for a given set of coefficients under a dominant genetic model.
+Calculates the log likelihood for a given set of logistic regression coefficients under a dominant genetic model.
 }

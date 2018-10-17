@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihood_calc_function.R
 \name{additive.ll}
 \alias{additive.ll}
-\title{Function to Calculate Additive Log Likelihood}
+\title{Function to Calculate Additive Log Likelihood for a Logistic Regression Model}
 \usage{
 additive.ll(beta, t)
 }
@@ -15,5 +15,5 @@ additive.ll(beta, t)
 The log likelihood.
 }
 \description{
-Calculates the log likelihood for a given set of coefficients under an additive genetic model.
+Calculates the log likelihood for a given set of logistic regression coefficients under an additive genetic model.
 }

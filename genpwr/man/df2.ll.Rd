@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihood_calc_function.R
 \name{df2.ll}
 \alias{df2.ll}
-\title{Function to Calculate 2df Log Likelihood}
+\title{Function to Calculate 2df Log Likelihood for a Logistic Regression Model}
 \usage{
 df2.ll(beta, t)
 }
@@ -15,5 +15,5 @@ df2.ll(beta, t)
 The log likelihood.
 }
 \description{
-Calculates the log likelihood for a given set of coefficients under an unspecificed/2df genetic model.
+Calculates the log likelihood for a given set of logistic regression coefficients under an unspecificed/2df genetic model.
 }

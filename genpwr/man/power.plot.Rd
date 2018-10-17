@@ -5,9 +5,11 @@
 \title{Function to Plot Power Results}
 \usage{
 power.plot(data = NULL, x = "MAF", panel.by = "True.Model",
-  select.Alpha = NULL, select.OR = NULL, select.N = NULL,
-  select.MAF = NULL, select.Case.Rate = NULL, select.True.Model = NULL,
-  select.Test.Model = NULL)
+  y_limit = NULL, y_log = F, return_gg = F,
+  linear.effect.measure = "ES", select.Alpha = NULL,
+  select.OR = NULL, select.ES = NULL, select.N = NULL,
+  select.MAF = NULL, select.Case.Rate = NULL, select.SD = NULL,
+  select.True.Model = NULL, select.Test.Model = NULL)
 }
 \arguments{
 \item{data}{The data frame result from \code{\link{power.calc}}}
@@ -16,9 +18,17 @@ power.plot(data = NULL, x = "MAF", panel.by = "True.Model",
 
 \item{panel.by}{A grouping variable to panel the graphs by: "True.Model", "MAF", "OR", "Alpha", or "N_total"}
 
+\item{y_limit}{An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically}
+
+\item{y_log}{Logical, specifying whether the y axis should be logarithmic. Default is F}
+
+\item{return_gg}{Logical, specifying whether to return the ggplot object instead of printing out the plot}
+
 \item{select.Alpha}{Only produce graphs for the specified Alpha level(s).}
 
 \item{select.OR}{Only produce graphs for the specified odds ratio(s).}
+
+\item{select.ES}{Only produce graphs for the specified effect sizes(s).}
 
 \item{select.N}{Only produce graphs for the specified sample size(s).}
 
@@ -26,19 +36,21 @@ power.plot(data = NULL, x = "MAF", panel.by = "True.Model",
 
 \item{select.Case.Rate}{Only produce graphs for the specified case rate(s).}
 
+\item{select.SD}{Only produce graphs for the specified standard deviation(s).}
+
 \item{select.True.Model}{Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive".}
 
 \item{select.Test.Model}{Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df".}
 }
 \value{
-A series of plots with sample size on the Y axis.
+A series of plots with power on the Y axis.
 }
 \description{
 Plot the power results by MAF, OR, Alpha or N
 }
 \examples{
-pw<-power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL, 
-    MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), 
+pw <- power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
+    MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05),
     True.Model='All', Test.Model='All')
 power.plot(data=pw, x='MAF')
 

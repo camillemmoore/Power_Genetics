@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihood_calc_function.R
 \name{null.ll}
 \alias{null.ll}
-\title{Function to Calculate Null Log Likelihood}
+\title{Function to Calculate Null Log Likelihood for a Logistic Regression Model}
 \usage{
 null.ll(t)
 }
@@ -13,5 +13,5 @@ null.ll(t)
 The log likelihood.
 }
 \description{
-Calculates the log likelihood for a given set of coefficients under the null.
+Calculates the log likelihood for a given set of logistic regression coefficients under the null.
 }

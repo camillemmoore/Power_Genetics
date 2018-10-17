@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihood_calc_function.R
 \name{recessive.ll}
 \alias{recessive.ll}
-\title{Function to Calculate Recessive Log Likelihood}
+\title{Function to Calculate Recessive Log Likelihood for a Logistic Regression Model}
 \usage{
 recessive.ll(beta, t)
 }
@@ -15,5 +15,5 @@ recessive.ll(beta, t)
 The log likelihood.
 }
 \description{
-Calculates the log likelihood for a given set of coefficients under a recessive genetic model.
+Calculates the log likelihood for a given set of logistic regression coefficients under a recessive genetic model.
 }
