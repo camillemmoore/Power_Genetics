@@ -1,7 +1,7 @@
 ## Overview
-This is Camille's GitHub Repository for power and sample size calculations for genetic association studies.  Currently, the genpwr package allows for power and sample size calcualtions in case/control studies under genetic model mis-specification.  
+This is the GitHub Repository for genpwr, an R package which aids in power and sample size calculations for genetic association studies.  The genpwr package allows for power and sample size calculations for case/control studies, as well as studies of continuous phenotypes, under genetic model mis-specification.  
 
-Power and/or sample size can be calculted for the following logisitic regression models:
+Power and/or sample size can be calculted for the following logisitic and linear regression models:
 - Additive Genetic Effect
 - Dominant Genetic Effect
 - Recessive Genetic Effect
@@ -12,7 +12,7 @@ The following true underlying genetic models can be assumed:
 - Dominant
 - Recessive
 
-Currently, covariates and gene x environment interactions cannot be included in the models. This package will be extended to continuous outcomes.  
+Gene x environment interactions with a binary environmental factor (ex. smoking yes/no) can be included in the models. This functionality is being extended to include continuouse environment measurements.   
 
 ## Install genpwr
 
