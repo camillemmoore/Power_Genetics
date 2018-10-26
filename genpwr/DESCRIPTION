@@ -1,11 +1,11 @@
 Package: genpwr
-Title: Power Calcualtions Under Genetic Model Mis-Specification
+Title: Power Calculations Under Genetic Model Misspecification
 Version: 0.0.0.9000
 Authors@R: person("Camille", "Moore", email = 	"moorec@njhealth.org", role = c("aut", "cre"))
 Description: genpwr performs power and sample size calcualtions     
     for case/control genetic association studies and allows for   
     model mis-specification.  Power and/or sample size can be 
-    calculted for the following logisitic regression models: 
+    calculated for the following logisitic regression models: 
     Additive Genetic Effect, Dominant Genetic Effect, Recessive 
     Genetic Effect, Unspecified Genetic Effect (2 degree of 
     freedom test - most flexible).  The following true underlying 
@@ -13,9 +13,10 @@ Description: genpwr performs power and sample size calcualtions
     Currently, covariates and gene x environment interactions 
     cannot be included in the models. This package will be 
     extended to continuous outcomes.  
-Depends: R (>= 3.3.2),
-    ggplot2
+Depends: R (>= 3.3.2), ggplot2, nleqslv
 License: NA
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr

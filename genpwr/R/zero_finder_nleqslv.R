@@ -2,6 +2,8 @@
 #'
 #' Finds zeros of multinomial functions using the nleqslv package
 #'
+#' @import nleqslv
+#'
 #' @param afun The function to find zeros
 #' @param veclength The dimension of the system of equations
 #' @param tol The range within which to set start values for the function to use to find zeros
@@ -21,7 +23,7 @@
 #' @export
 #'
 zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL){
-	library(nleqslv)
+	# library(nleqslv)
 	# x.start gives example values to base x.start values on. If null, x.start values are randomly selected from runif
 	conv <- reps <- 0
 	while(conv == 0){
