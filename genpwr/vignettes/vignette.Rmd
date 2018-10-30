@@ -87,7 +87,9 @@ library(genpwr)
 
 ## Examples
 
-* Power Calculation for a study case control study with 400 subjects, including 160 cases and 240 controls (case rate of 40%) over a range of minor allele frequencies from 0.05 to 0.1.  We calculate power to detect an odds ratio of 4 for all potential true and test models.     
+### Power Calculation for a Case Control Study 
+
+We calculate power to detect an odds ratio of 3 in a case control study with 400 subjects, including 160 cases and 240 controls (case rate of 40%) over a range of minor allele frequencies from 0.05 to 0.1.  We calculate power for all possible combinations of true and test models, assuming an alpha of 0.05.     
 
 ```{r}
 pw <- power.calc(N=400, Case.Rate=0.4, k=NULL,
