@@ -16,35 +16,29 @@ library(ggplot2)
 set.seed(1014)
 ```
 
-The genpwr package allows the user to perform power calculations for hypothetical genetic association studies using user-specified genetic models, such as additive, dominant, and recessive. The user has the option to specify the "True" genetic model (the actual genetic behavior of the given variant) as well as the "Test" model (the model used for calculating the power).
+The genpwr package performs power and sample size calculations for genetic association studies, considering the impact of mis-specification of the genetic model.  The user can specify the true genetic model, such as additive, dominant, and recessive, which represents the actual relationship between genotype and the outcome.  The user also specifies a "Test" model, which indicates how the genetic effect will be coded for statistical testing.  Options for test models include: additive, dominant, recessive and 2 degree of freedom (also called genotypic) tests.  
 
-The genpwr package allows the user to perform calculations from any combination of the following options:
+The genpwr package allows the user to perform calculations for:
 
-* Logistic or linear outcome variable
+* Binary (case/control) or continuous outcome variables
 
-* Optional interaction between genetic variant and environmental exposure
+* Tests of gene and gene x environment interactions
 
-* Environmental exposure can be linear or logistic
+* Currently environmental factors must be binary, however we are currently working on extensions to continuous environmental measurements. 
 
 genpwr is capable of calculating:
 
 * sample size
 
-* effect size (or odds ratio in the case of a logistic outcome variable)
+* detectable effect size (or odds ratio in the case of a binary outcome variable)
 
 * power
 
-provided that two of the three above variables are entered into the model.
+provided that two of the three above variables are entered into the appropriate genpwr function.
 
-Input variables include:
-
-* Case Rate (or standard deviation in linear outcome models)
-
- - Can also specify number of controls per case
+In addition to specifying of the three above variables (power, sample size, effect size), input variables include:
 
 * Minor Allele Frequency
-
-* Genetic odds ratio (or effect size in the case of linear outcome models)
 
 * Type 1 error rate, or "Alpha"
 
@@ -52,13 +46,19 @@ Input variables include:
 
 * "Test" model type (recessive, dominant, additive, 2 degree of freedom)
 
-Assuming an environmental exposure interaction term is included:
+* For binary outcomes / logistic regression models, either:
+  - Case rate 
+  - The number of controls per case
+ 
+* For continuous outcomes / linear regression models, the population standard deviation of the outcome. 
+
+Assuming an environmental exposure interaction term is to be tested:
 
 * Population prevalence of environmental exposure
 
-* Environmental exposure odds ratio (or effect size in the case of linear outcome models)
+* Environmental exposure odds ratio (or effect size in the case of linear regression models)
 
-* Environmental exposure / genetic variant interaction term odds ratio (or effect size in the case of linear outcome models)
+* Environmental exposure / genetic variant interaction term odds ratio (or effect size in the case of linear regression models)
 
 ## Install genpwr 
 
@@ -87,7 +87,7 @@ library(genpwr)
 
 ## Examples
 
-* Power Calculation
+* Power Calculation for a study case control study with 400 subjects, including 160 cases and 240 controls (case rate of 40%) over a range of minor allele frequencies from 0.05 to 0.1.  We calculate power to detect an odds ratio of 4 for all potential true and test models.     
 
 ```{r}
 pw <- power.calc(N=400, Case.Rate=0.4, k=NULL,
@@ -96,7 +96,7 @@ pw <- power.calc(N=400, Case.Rate=0.4, k=NULL,
    Test.Model=c("Dominant", "Recessive", "Additive", "2df"))
 ```
 
-We look to see what our resultant data frame looks like:
+We look to see what the resulting data frame looks like:
 
 ```{r}
 head(pw)
@@ -108,7 +108,7 @@ We then use the plotting function to plot these results
 power.plot(pw)
 ```
 
-### Sample Size Calculation
+### Sample Size Calculation for a Case Control Study
 
 ```{r}
 ss <- ss.calc(OR=4, Case.Rate=0.4, k=NULL,
@@ -123,7 +123,7 @@ Plot:
 ss.plot(ss)
 ```
 
-### Odds Ratio Calculation
+### Detectable Odds Ratio Calculation for a Case Control Study
 
 ```{r}
 or <- effect_size_function(N=1000, Case.Rate=0.4, k=NULL,
@@ -135,7 +135,7 @@ or <- effect_size_function(N=1000, Case.Rate=0.4, k=NULL,
 or.plot(or)
 ```
 
-### Power with logistic environment interaction
+### Power Calculation for a Case Control Study with a Gene x Environment Interaction
 
 ```{r}
 pec <- power_envir.calc(N=500, Case.Rate=0.3, MAF=seq(0.2,0.4,0.02), OR_G=3, 
@@ -147,7 +147,7 @@ pec <- power_envir.calc(N=500, Case.Rate=0.3, MAF=seq(0.2,0.4,0.02), OR_G=3,
 power.plot(pec)
 ```
 
-### Sample size with logistic environment interaction
+### Sample Size Calculation for a Case Control Study with a Gene x Environment Interaction
 
 ```{r}
 sse <- ss_envir.calc(power=0.5, Case.Rate=0.4, MAF=seq(0.3,0.4,0.05), OR_G=1.5, 
