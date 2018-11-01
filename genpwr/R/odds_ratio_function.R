@@ -574,7 +574,7 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
   return(or.tab)
 }
 
-#' Effect size function
+#' Odds Ratio Function
 #'
 #' Calculates the odds ratio for a given power, at a given sample size, N, with type 1 error rate, Alpha
 #'
@@ -594,7 +594,7 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #'
 #' @export
 #'
-effect_size_function <-
+odds_ratio_function <-
   function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, power=NULL, risk_allele = T,
                      Alpha=0.05, True.Model='All', Test.Model='All')
 {
@@ -702,7 +702,7 @@ effect_size_function <-
     N_controls <- sample.size.tab[zz,'N_controls']
 
     ############################################################################################################
-    #Use power's and MAF's to calculate true distriubiton of genotypes and disease
+    #Use power's and MAF's to calculate true distribution of genotypes and disease
     ############################################################################################################
     ##############################################################################
     #For each power

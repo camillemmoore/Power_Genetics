@@ -8,7 +8,7 @@
 #' @param sd_y Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.
 #' @param ES Vector of effect sizes (difference in means) to detect. Either ES or R2 must be specified.
 #' @param R2 Vector of R-squared values to detect. Either ES or R2 must be specified.
-#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)

@@ -153,7 +153,7 @@ null.ll<-function(t){
 
 #' Function to Calculate Log Likelihood for a Logistic Regression Model
 #'
-#' Convenience function to calculate the log likeilhood of a specified model.
+#' Convenience function to calculate the log likelihood of a specified model.
 #'
 #' @param beta Vector of logistic regression coefficients.
 #' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
@@ -319,7 +319,7 @@ df2.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 
 #' Function to Calculate Log Likelihood for a Linear Regression Model
 #'
-#' Convenience function to calculate the log likeilhood of a specified model.
+#' Convenience function to calculate the log likelihood of a specified model.
 #'
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
@@ -342,3 +342,21 @@ calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, mo
   return(ll)
 }
 
+#' Function to return log likelihood function for specified model type
+#'
+#' Convenience function to return log likelihood function for specified model type
+#'
+#' @param model The genetic model in the linear regression: "Dominant", "Additive", "Recessive", "2df" or "null"
+#'
+#' @return Log likelihood function for specified model type
+#'
+#' @export
+#'
+ll.linear.selector <- function(model){
+  if(model=='Dominant'){res <- dominant.ll.linear}
+  if(model=='Additive'){res <- additive.ll.linear}
+  if(model=='Recessive'){res <- recessive.ll.linear}
+  if(model=='2df'){res <- df2.ll.linear}
+  if(model=='null'){res <- null.ll.linear}
+  return(res)
+}

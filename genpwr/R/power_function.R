@@ -8,7 +8,7 @@
 #' @param Alpha the desired type 1 error rate(s)
 #' @param MAF Vector of minor allele frequencies
 #' @param OR Vector of odds ratios to detect
-#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, OR, Power, etc)
@@ -80,9 +80,9 @@ power.calc<-
                paste(Test.Model[!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All"))], collapse=', ')))
   }
 
-  if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "Additive", "All")))>0){
+  if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive", "Additive", "All")))>0){
     stop(paste("Invalid True.Model:",
-               paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All"))], collapse=', ')))
+               paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive", "All"))], collapse=', ')))
   }
   ############################################################################################################
   #Calculate needed sample size information from provided inputs
@@ -91,8 +91,8 @@ power.calc<-
   if('All' %in% Test.Model){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
 
   #True model vector
-  True.Model[True.Model == "Additive"] <- "Additive2"
-  if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive1", "Additive2")}
+  # True.Model[True.Model == "Additive"] <- "Additive"
+  if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive")}
 
   #If k is provided calculate the Case.Rate
   if(is.null(Case.Rate)==T){Case.Rate = 1/(1+k)}
@@ -174,7 +174,7 @@ power.calc<-
           save.tab<-rbind(save.tab, dom.tab)
         }
 
-        if('Additive1' %in% True.Model){
+        if('Additive' %in% True.Model){
           a <- (sqrt(o)-1)
           b <- (P_AB+sqrt(o)*P_BB+Case.Rate-Case.Rate*sqrt(o))
           c <- -P_AB*Case.Rate
@@ -213,56 +213,56 @@ power.calc<-
             prob_BB_control_a2 <- prob_BB_control_a2[qqz]
           }
 
-          add.tab1<-data.frame(model=rep('Additive1',2),table=rbind(c(prob_AA_case_a1, prob_AB_case_a1, prob_BB_case_a1),
+          add.tab1<-data.frame(model=rep('Additive',2),table=rbind(c(prob_AA_case_a1, prob_AB_case_a1, prob_BB_case_a1),
                                                                     c(prob_AA_control_a1, P_AB-prob_AB_case_a1,prob_BB_control_a1)))
 
           save.tab<-rbind(save.tab, add.tab1)
         }
 
-        if('Additive2' %in% True.Model){
-          a <- (o-1)
-          b <- (P_AB+o*P_BB+Case.Rate-Case.Rate*o)
-          c <- -P_AB*Case.Rate
-          soln <- quad_roots(a,b,c)[2]
-          upper.lim<-min(soln, P_AB)
+        # if('Additive2' %in% True.Model){
+        #   a <- (o-1)
+        #   b <- (P_AB+o*P_BB+Case.Rate-Case.Rate*o)
+        #   c <- -P_AB*Case.Rate
+        #   soln <- quad_roots(a,b,c)[2]
+        #   upper.lim<-min(soln, P_AB)
 
-          fa.2<-function(x){o-x*(P_AA-Case.Rate+x+((o*x*P_BB)/(P_AB-x+o*x)))/((Case.Rate-x-((o*x*P_BB)/(P_AB-x+o*x)))*(P_AB-x))}
+        #   fa.2<-function(x){o-x*(P_AA-Case.Rate+x+((o*x*P_BB)/(P_AB-x+o*x)))/((Case.Rate-x-((o*x*P_BB)/(P_AB-x+o*x)))*(P_AB-x))}
 
-          add2.root<-zero_finder_nleqslv(fa.2,veclength = 1, x.start.vals = runif(1)*soln)
+        #   add2.root<-zero_finder_nleqslv(fa.2,veclength = 1, x.start.vals = runif(1)*soln)
 
-          #Proabilities of disease conditional on genotype
-          P_AB_case_a2 <- add2.root/P_AB
+        #   #Proabilities of disease conditional on genotype
+        #   P_AB_case_a2 <- add2.root/P_AB
 
-          #Joint probabilities of disease and genotype
-          prob_AB_case_a2 <- P_AB_case_a2*P_AB
-          prob_AB_control_a2 <- (1-P_AB_case_a2)*P_AB
-          prob_AA_case_a2 <-P_AA*prob_AB_case_a2/(o*prob_AB_control_a2+prob_AB_case_a2)
-          prob_AA_control_a2 <- P_AA-prob_AA_case_a2
-          prob_BB_case_a2 <- (prob_AA_case_a2*P_BB*o^2)/(prob_AA_case_a2*o^2 + prob_AA_control_a2)
-          prob_BB_control_a2 <- P_BB-prob_BB_case_a2
-          if(length(add2.root) > 1){
-            qqcr <- numeric(0)
-            for(aqq in 1:length(add2.root)){
-              qqt <- rbind(c(prob_AA_case_a2[aqq], prob_AB_case_a2[aqq], prob_BB_case_a2[aqq]),
-                c(prob_AA_control_a2[aqq], P_AB-prob_AB_case_a2[aqq],prob_BB_control_a2[aqq]))
-              qqcr <- c(qqcr, apply(qqt, 1, sum)[1])
-            }
-            qqz <- which(qqcr - Case.Rate < 1e-3)
-            if(length(qqz) > 1) qqz <- which.min(qqcr - Case.Rate < 1e-3)
-            if(length(qqz) > 1) stop("trouble selecting correct zero in additive function")
-            prob_AA_case_a2 <- prob_AA_case_a2[qqz]
-            prob_AB_case_a2 <- prob_AB_case_a2[qqz]
-            prob_BB_case_a2 <- prob_BB_case_a2[qqz]
-            prob_AA_control_a2 <- prob_AA_control_a2[qqz]
-            prob_AB_case_a2 <- prob_AB_case_a2[qqz]
-            prob_BB_control_a2 <- prob_BB_control_a2[qqz]
-          }
+        #   #Joint probabilities of disease and genotype
+        #   prob_AB_case_a2 <- P_AB_case_a2*P_AB
+        #   prob_AB_control_a2 <- (1-P_AB_case_a2)*P_AB
+        #   prob_AA_case_a2 <-P_AA*prob_AB_case_a2/(o*prob_AB_control_a2+prob_AB_case_a2)
+        #   prob_AA_control_a2 <- P_AA-prob_AA_case_a2
+        #   prob_BB_case_a2 <- (prob_AA_case_a2*P_BB*o^2)/(prob_AA_case_a2*o^2 + prob_AA_control_a2)
+        #   prob_BB_control_a2 <- P_BB-prob_BB_case_a2
+        #   if(length(add2.root) > 1){
+        #     qqcr <- numeric(0)
+        #     for(aqq in 1:length(add2.root)){
+        #       qqt <- rbind(c(prob_AA_case_a2[aqq], prob_AB_case_a2[aqq], prob_BB_case_a2[aqq]),
+        #         c(prob_AA_control_a2[aqq], P_AB-prob_AB_case_a2[aqq],prob_BB_control_a2[aqq]))
+        #       qqcr <- c(qqcr, apply(qqt, 1, sum)[1])
+        #     }
+        #     qqz <- which(qqcr - Case.Rate < 1e-3)
+        #     if(length(qqz) > 1) qqz <- which.min(qqcr - Case.Rate < 1e-3)
+        #     if(length(qqz) > 1) stop("trouble selecting correct zero in additive function")
+        #     prob_AA_case_a2 <- prob_AA_case_a2[qqz]
+        #     prob_AB_case_a2 <- prob_AB_case_a2[qqz]
+        #     prob_BB_case_a2 <- prob_BB_case_a2[qqz]
+        #     prob_AA_control_a2 <- prob_AA_control_a2[qqz]
+        #     prob_AB_case_a2 <- prob_AB_case_a2[qqz]
+        #     prob_BB_control_a2 <- prob_BB_control_a2[qqz]
+        #   }
 
-          add.tab2<-data.frame(model=rep('Additive2',2),table=rbind(c(prob_AA_case_a2, prob_AB_case_a2, prob_BB_case_a2),
-                                                                    c(prob_AA_control_a2, P_AB-prob_AB_case_a2,prob_BB_control_a2)))
+        #   add.tab2<-data.frame(model=rep('Additive2',2),table=rbind(c(prob_AA_case_a2, prob_AB_case_a2, prob_BB_case_a2),
+        #                                                             c(prob_AA_control_a2, P_AB-prob_AB_case_a2,prob_BB_control_a2)))
 
-          save.tab<-rbind(save.tab, add.tab2)
-        }
+        #   save.tab<-rbind(save.tab, add.tab2)
+        # }
 
         if('Recessive' %in% True.Model){
           a <- (1-o)

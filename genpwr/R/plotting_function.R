@@ -25,7 +25,7 @@
 #' @param select.MAF Only produce graphs for the specified minor allele frequency(ies).
 #' @param select.Case.Rate Only produce graphs for the specified case rate(s).
 #' @param select.SD Only produce graphs for the specified standard deviation(s).
-#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive".
+#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive", "Dominant", "Recessive".
 #' @param select.Test.Model Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df".
 #'
 #' @return A series of plots with sample size on the Y axis.
@@ -134,7 +134,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 #' @param select.MAF Only produce graphs for the specified minor allele frequency(ies).
 #' @param select.Case.Rate Only produce graphs for the specified case rate(s).
 #' @param select.SD Only produce graphs for the specified standard deviation(s).
-#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive".
+#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive", "Dominant", "Recessive".
 #' @param select.Test.Model Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df".
 #'
 #' @return A series of plots with power on the Y axis.
@@ -142,7 +142,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 #' @examples
 #' pw <- power.calc(N=c(400, 600), Case.Rate=c(0.4), k=NULL,
 #'    MAF=seq(0.05, 0.1, 0.01), OR=c(3),Alpha=c(0.05),
-#'    True.Model=c("Dominant", "Recessive", "Additive1"), 
+#'    True.Model=c("Dominant", "Recessive", "Additive"), 
 #'    Test.Model=c("Dominant", "Recessive", "Additive", "2df"))
 #'
 #' @export
@@ -259,7 +259,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #' @param select.MAF Only produce graphs for the specified minor allele frequency(ies).
 #' @param select.Case.Rate Only produce graphs for the specified case rate(s).
 #' @param select.SD Only produce graphs for the specified standard deviation(s).
-#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive".
+#' @param select.True.Model Only produce graphs for the specified true genetic model(s): "Additive", "Dominant", "Recessive".
 #' @param select.Test.Model Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df".
 #'
 #' @return A series of plots with power on the Y axis.

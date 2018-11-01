@@ -8,7 +8,7 @@
 #' @param sd_y Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.
 #' @param ES Vector of effect sizes (difference in means) to detect. Either ES or R2 must be specified.
 #' @param R2 Vector of R-squared values to detect. Either ES or R2 must be specified.
-#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
@@ -74,9 +74,9 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
                paste(Test.Model[!(Test.Model %in% c("Dominant", "Recessive", "Additive", "2df", "All"))], collapse=', ')))
     }
 
-    if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All")))>0){
+    if(sum(!(True.Model %in% c("Dominant", "Recessive", "Additive", "All")))>0){
       stop(paste("Invalid True.Model:",
-               paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive1", "Additive2", "All"))], collapse=', ')))
+               paste(True.Model[!(True.Model %in% c("Dominant", "Recessive", "Additive", "All"))], collapse=', ')))
     }
     ############################################################################################################
     #Create model vectors if model = 'All'
@@ -85,7 +85,7 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
     if('All' %in% Test.Model){Test.Model<-c("Dominant", "Recessive", "Additive", "2df")}
 
     #True model vector
-    if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive1", "Additive2")}
+    if('All' %in% True.Model){True.Model<-c("Dominant", "Recessive", "Additive")}
 
 
     ############################################################################################################
@@ -96,11 +96,10 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
     var_x_rec = (1^2)*(MAF^2)-(1*(MAF^2))^2
 
     var_x <- data.frame(True.Model=c(rep('Dominant', length(var_x_dom)),
-                                     rep('Additive1', length(var_x_add)),
-                                     rep('Additive2', length(var_x_add)),
+                                     rep('Additive', length(var_x_add)),
                                      rep('Recessive', length(var_x_rec))),
-                        MAF = rep(MAF, 4),
-                        var_x = c(var_x_dom, var_x_add, var_x_add, var_x_rec)
+                        MAF = rep(MAF, 3),
+                        var_x = c(var_x_dom, var_x_add, var_x_rec)
                         )
 
     ############################################################################################################
@@ -114,7 +113,7 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
       colnames(e.save.tab) <- c('True.Model','MAF', 'sd_y', 'R2')
       e.save.tab <- merge(e.save.tab, var_x)
       e.save.tab$ES <- sqrt(e.save.tab$R2)*e.save.tab$sd_y/sqrt(e.save.tab$var_x)
-      e.save.tab <- e.save.tab[!(e.save.tab$True.Model=='Additive1'),]
+      # e.save.tab <- e.save.tab[!(e.save.tab$True.Model=='Additive1'),] # not sure what this is for
     }
 
     if (is.null(R2)){
@@ -138,19 +137,19 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
     # For each scenario calculate the true differences in means AB-AA and BB-AA
     e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
                             ifelse(e.save.tab$True.Model=='Recessive', 0,
-                                   ifelse(e.save.tab$True.Model=='Additive1', 0.5*e.save.tab$ES,
+                                   ifelse(e.save.tab$True.Model=='Additive', 0.5*e.save.tab$ES,
                                           e.save.tab$ES)))
 
     e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
                             ifelse(e.save.tab$True.Model=='Recessive', e.save.tab$ES,
-                                   ifelse(e.save.tab$True.Model=='Additive1', e.save.tab$ES,
+                                   ifelse(e.save.tab$True.Model=='Additive', e.save.tab$ES,
                                           2*e.save.tab$ES)))
 
     e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
 
     # For each scenario calculate the SD of Y give X for the true model
-    e.save.tab$sd_y_x_true = mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = ifelse(e.save.tab[x,'True.Model'] %in% c('Additive1', 'Additive2'), 'Additive', e.save.tab[x,'True.Model']))},
-                                                       seq(1:nrow(e.save.tab)))
+    e.save.tab$sd_y_x_true = mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],
+                              model = e.save.tab[x,'True.Model'])}, seq(1:nrow(e.save.tab)))
 
     # For each scenario calculate the Likelihoof and SD of Y given X for the Null/Intercept only model
     # sd_y_x_null <- mapply(function(x){linear.sds(e.save.tab[x,'MAF'], e.save.tab[x,'es_ab'], e.save.tab[x,'es_bb'], e.save.tab[x,'sd_y'],model = "null")},
