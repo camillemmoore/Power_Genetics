@@ -37,7 +37,7 @@ ss.plot(data = NULL, x = "MAF", panel.by = "True.Model",
 
 \item{select.SD}{Only produce graphs for the specified standard deviation(s).}
 
-\item{select.True.Model}{Only produce graphs for the specified true genetic model(s): "Additive1", "Additive2", "Dominant", "Recessive".}
+\item{select.True.Model}{Only produce graphs for the specified true genetic model(s): "Additive", "Dominant", "Recessive".}
 
 \item{select.Test.Model}{Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df".}
 }

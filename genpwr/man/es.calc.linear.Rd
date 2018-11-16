@@ -18,7 +18,7 @@ es.calc.linear(power = NULL, N = NULL, MAF = NULL, sd_y = NULL,
 
 \item{Alpha}{the desired type 1 error rate(s)}
 
-\item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'}
+\item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
 }

@@ -173,7 +173,7 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 		e.save.tab$ES_GE <- sqrt(e.save.tab$R2_GE * e.save.tab$sd_y^2 / (e.save.tab$var_x * P_e * (1 - P_e)))
 
 		e.save.tab$ES_G <- e.save.tab$ES_G_bar - e.save.tab$ES_GE * e.save.tab$P_e
-		e.save.tab$ES_E <- e.save.tab$ES_E_bar - e.save.tab$ES_GE * unlist(mu_g[e.save.tab$True.Model])
+		e.save.tab$ES_E <- e.save.tab$ES_E_bar - e.save.tab$ES_GE * mu_g[mu_g$True.Model == e.save.tab$True.Model, "mu_g"]
 
 		e.save.tab <- e.save.tab[,c("True.Model", "MAF", "P_e", "sd_y", "var_x", "ES_G", "ES_E", "ES_GE",
 			"ES_G_bar", "ES_E_bar", "R2_G", "R2_E", "R2_GE")]

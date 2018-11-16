@@ -17,5 +17,5 @@ calc.like(beta, t, model)
 The log likelihood.
 }
 \description{
-Convenience function to calculate the log likeilhood of a specified model.
+Convenience function to calculate the log likelihood of a specified model.
 }

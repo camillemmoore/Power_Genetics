@@ -23,5 +23,5 @@ calc.like.linear(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, model)
 The log likelihood.
 }
 \description{
-Convenience function to calculate the log likeilhood of a specified model.
+Convenience function to calculate the log likelihood of a specified model.
 }
