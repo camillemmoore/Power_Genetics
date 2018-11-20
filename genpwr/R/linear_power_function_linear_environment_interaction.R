@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, P_e=NULL, 
+power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, sd_e=NULL, 
 		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
 {
 
@@ -123,8 +123,19 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 	P_AA <- (1-MAF)^2
 	P_AB <- 2*MAF*(1-MAF)
 	P_BB <- MAF^2
-	beta0 <- c(-ES_G*(P_AB + P_BB), -ES_G*P_BB, -ES_G*(P_AB + 2*P_BB))
-	names(beta0) <- c("Dominant", "Recessive", "Additive")
+	# beta0 <- c(-ES_G*(P_AB + P_BB), -ES_G*P_BB, -ES_G*(P_AB + 2*P_BB))
+	# names(beta0) <- c("Dominant", "Recessive", "Additive")
+	
+	beta0_dom = -ES_G*(P_AB + P_BB)
+	beta0_add = -ES_G*(P_AB + 2*P_BB)
+	beta0_rec = -ES_G*P_BB
+
+	beta0 <- data.frame(True.Model=c(rep("Dominant", length(beta0_dom)),
+									rep("Additive", length(beta0_add)),
+									rep("Recessive", length(beta0_rec))),
+						MAF = rep(MAF, 3),
+						beta0 = c(beta0_dom, beta0_add, beta0_rec)
+						)
 
 	############################################################################################################
 	# Calculate variances to go between R2 and ES (genotype) to do effect size calculations
@@ -172,36 +183,38 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 
 
 	if(all(is.null(c(ES_G, ES_E, ES_GE)))){
-		e.save.tab = expand.grid(True.Model, MAF, P_e, sd_y, R2_G, R2_E, R2_GE, stringsAsFactors = F)
-		colnames(e.save.tab) <- c("True.Model", "MAF", "P_e", "sd_y", "R2_G", "R2_E", "R2_GE")
+		e.save.tab = expand.grid(True.Model, MAF, sd_e, sd_y, R2_G, R2_E, R2_GE, stringsAsFactors = F)
+		colnames(e.save.tab) <- c("True.Model", "MAF", "sd_e", "sd_y", "R2_G", "R2_E", "R2_GE")
 		e.save.tab <- merge(e.save.tab, var_x)
 		e.save.tab <- merge(e.save.tab, mu_g)
+		e.save.tab <- merge(e.save.tab, beta0)
 
 		e.save.tab$ES_G_bar <- sqrt(e.save.tab$R2_G * e.save.tab$sd_y^2 / (e.save.tab$var_x))
-		e.save.tab$ES_E_bar <- sqrt(e.save.tab$R2_E * e.save.tab$sd_y^2 / (e.save.tab$P_e * (1 - e.save.tab$P_e)))
-		e.save.tab$ES_GE <- sqrt(e.save.tab$R2_GE * e.save.tab$sd_y^2 / (e.save.tab$var_x * P_e * (1 - P_e)))
+		e.save.tab$ES_E_bar <- sqrt(e.save.tab$R2_E * e.save.tab$sd_y^2 / (e.save.tab$sd_e^2))
+		e.save.tab$ES_GE <- sqrt(e.save.tab$R2_GE * e.save.tab$sd_y^2 / (e.save.tab$var_x * sd_e^2))
 
-		e.save.tab$ES_G <- e.save.tab$ES_G_bar - e.save.tab$ES_GE * e.save.tab$P_e
-		e.save.tab$ES_E <- e.save.tab$ES_E_bar - e.save.tab$ES_GE * unlist(mu_g[e.save.tab$True.Model])
+		e.save.tab$ES_G <- e.save.tab$ES_G_bar #- e.save.tab$ES_GE * e.save.tab$P_e
+		e.save.tab$ES_E <- e.save.tab$ES_E_bar - e.save.tab$ES_GE * mu_g[mu_g$True.Model == e.save.tab$True.Model, "mu_g"]
 
-		e.save.tab <- e.save.tab[,c("True.Model", "MAF", "P_e", "sd_y", "var_x", "ES_G", "ES_E", "ES_GE",
+		e.save.tab <- e.save.tab[,c("True.Model", "MAF", "sd_e", "sd_y", "var_x", "beta0", "ES_G", "ES_E", "ES_GE",
 			"ES_G_bar", "ES_E_bar", "R2_G", "R2_E", "R2_GE")]
 	}
 
 	if(all(is.null(c(R2_G, R2_E, R2_GE)))){
-		e.save.tab = expand.grid(True.Model, MAF, P_e, sd_y, ES_G, ES_E, ES_GE, stringsAsFactors = F)
-		colnames(e.save.tab) <- c("True.Model", "MAF", "P_e", "sd_y", "ES_G", "ES_E", "ES_GE")
+		e.save.tab = expand.grid(True.Model, MAF, sd_e, sd_y, ES_G, ES_E, ES_GE, stringsAsFactors = F)
+		colnames(e.save.tab) <- c("True.Model", "MAF", "sd_e", "sd_y", "ES_G", "ES_E", "ES_GE")
 		e.save.tab <- merge(e.save.tab, var_x)
 		e.save.tab <- merge(e.save.tab, mu_g)
+		e.save.tab <- merge(e.save.tab, beta0)
 
-		e.save.tab$ES_G_bar <- e.save.tab$ES_G + e.save.tab$ES_GE * e.save.tab$P_e
+		e.save.tab$ES_G_bar <- e.save.tab$ES_G #+ e.save.tab$ES_GE * e.save.tab$sd_e
 		e.save.tab$ES_E_bar <- e.save.tab$ES_E + e.save.tab$ES_GE * e.save.tab$mu_g
 
 		e.save.tab$R2_G <- e.save.tab$ES_G_bar^2 * e.save.tab$var_x / e.save.tab$sd_y^2
-		e.save.tab$R2_E <- e.save.tab$ES_E_bar^2 * e.save.tab$P_e * (1 - e.save.tab$P_e) / e.save.tab$sd_y^2
-		e.save.tab$R2_GE <- e.save.tab$ES_GE^2 * e.save.tab$var_x * P_e * (1 - P_e) / e.save.tab$sd_y^2
+		e.save.tab$R2_E <- e.save.tab$ES_E_bar^2 * e.save.tab$sd_e^2 / e.save.tab$sd_y^2
+		e.save.tab$R2_GE <- e.save.tab$ES_GE^2 * e.save.tab$var_x * sd_e^2 / e.save.tab$sd_y^2
 
-		e.save.tab <- e.save.tab[,c("True.Model", "MAF", "P_e", "sd_y", "var_x", "ES_G", "ES_E", "ES_GE",
+		e.save.tab <- e.save.tab[,c("True.Model", "MAF", "sd_e", "sd_y", "var_x", "beta0", "ES_G", "ES_E", "ES_GE",
 			"ES_G_bar", "ES_E_bar", "R2_G", "R2_E", "R2_GE")]
 
 
@@ -220,14 +233,14 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 
 	# For each scenario calculate the SD of Y give X for the true model
 	e.save.tab$sd_y_x_true = mapply(function(x){ # MAF=    P_e=    ES_G=   ES_E=   ES_GE=
-		linear.outcome.log.envir.interaction.sds(MAF = e.save.tab[x,'MAF'], P_e = e.save.tab[x,'P_e'], 
-			sd_y = e.save.tab[x,'sd_y'], ES_G = e.save.tab[x,'ES_G'], ES_E = e.save.tab[x,'ES_E'], ES_GE = e.save.tab[x,'ES_GE'], 
-			True.Model = e.save.tab[x, "True.Model"], mod = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
+		linear.outcome.linear.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"], 
+			sd_y = e.save.tab[x,"sd_y"], ES_G = e.save.tab[x,"ES_G"], ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"],
+			True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
 	# sd for no interaction for reduced model
 	e.save.tab$sd_y_x_true_0int = mapply(function(x){ # MAF=    P_e=    ES_G=   ES_E=   ES_GE=
-		linear.outcome.log.envir.interaction.sds(MAF = e.save.tab[x,'MAF'], P_e = e.save.tab[x,'P_e'], 
-			sd_y = e.save.tab[x,'sd_y'], ES_G = e.save.tab[x,'ES_G_bar'], ES_E = e.save.tab[x,'ES_E_bar'], ES_GE = 0, 
-			True.Model = e.save.tab[x, "True.Model"], mod = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
+		linear.outcome.linear.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"],  
+			sd_y = e.save.tab[x,"sd_y"], ES_G = e.save.tab[x,"ES_G_bar"], ES_E = e.save.tab[x,"ES_E_bar"], ES_GE = 0,
+			True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
 
 
 	############################################################################################################
@@ -245,8 +258,8 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 		for (mod in Test.Model){
 			# Calculate SD of Y given X for each scenario, given the test model
 			sd_y_x <- mapply(function(x){
-				linear.outcome.log.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], 
-					sd_y = e.save.tab[x, "sd_y"], P_e = e.save.tab[x,"P_e"], ES_G = e.save.tab[x,"ES_G"], 
+				linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], 
+					sd_y = e.save.tab[x, "sd_y"], sd_e = e.save.tab[x,"sd_e"], ES_G = e.save.tab[x,"ES_G"], 
 					ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"], mod = mod, True.Model = e.save.tab[x, "True.Model"])
 				}, seq(1:nrow(e.save.tab)))
 			# Calculate SD of Y given X for each scenario, given the test model with no effect size for the reduced model
