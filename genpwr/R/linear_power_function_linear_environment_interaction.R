@@ -235,12 +235,12 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 	e.save.tab$sd_y_x_true = mapply(function(x){ # MAF=    P_e=    ES_G=   ES_E=   ES_GE=
 		linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"], 
 			sd_y = e.save.tab[x,"sd_y"], ES_G = e.save.tab[x,"ES_G"], ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"],
-			True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
+			mod = e.save.tab[x,"True.Model"], True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
 	# sd for no interaction for reduced model
 	e.save.tab$sd_y_x_true_0int = mapply(function(x){ # MAF=    P_e=    ES_G=   ES_E=   ES_GE=
 		linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"],  
 			sd_y = e.save.tab[x,"sd_y"], ES_G = e.save.tab[x,"ES_G_bar"], ES_E = e.save.tab[x,"ES_E_bar"], ES_GE = 0,
-			True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
+			mod = e.save.tab[x,"True.Model"], True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
 
 
 	############################################################################################################
@@ -258,21 +258,24 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 		for (mod in Test.Model){
 			# Calculate SD of Y given X for each scenario, given the test model
 			sd_y_x <- mapply(function(x){
-				linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], 
+				linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], beta0 = e.save.tab[x,"MAF"], 
 					sd_y = e.save.tab[x, "sd_y"], sd_e = e.save.tab[x,"sd_e"], ES_G = e.save.tab[x,"ES_G"], 
 					ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"], mod = mod, True.Model = e.save.tab[x, "True.Model"])
 				}, seq(1:nrow(e.save.tab)))
 			# Calculate SD of Y given X for each scenario, given the test model with no effect size for the reduced model
-			sd_y_x_0int <- mapply(function(x){linear.outcome.log.envir.interaction.sds(MAF = e.save.tab[x,'MAF'], 
-				sd_y = e.save.tab[x, "sd_y"], P_e = e.save.tab[x,'P_e'], ES_G = e.save.tab[x,'ES_G_bar'], 
-				ES_E = e.save.tab[x,'ES_E_bar'], ES_GE = 0, mod = mod, True.Model = e.save.tab[x, "True.Model"])}, seq(1:nrow(e.save.tab)))
+			sd_y_x_0int <- mapply(function(x){
+				linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,'MAF'], beta0 = e.save.tab[x,"beta0"], 
+					sd_y = e.save.tab[x, "sd_y"], sd_e = e.save.tab[x,'sd_e'], ES_G = e.save.tab[x,'ES_G_bar'], 
+					ES_E = e.save.tab[x,'ES_E_bar'], ES_GE = 0, mod = mod, True.Model = e.save.tab[x, "True.Model"])
+				}, seq(1:nrow(e.save.tab)))
 
 
-			ll.alt <- mapply(function(x){calc.like.linear.log.envir.interaction(
-				linear.mles.log.envir.interaction(MAF = e.save.tab[x,"MAF"], P_e = e.save.tab[x, "P_e"], ES_G = e.save.tab[x,"ES_G"], 
+			ll.alt <- mapply(function(x){calc.like.linear.lin.envir.interaction(
+				linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G"], beta0 = e.save.tab[x,"beta0"],
 					ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"], Test.Model = mod, True.Model = e.save.tab[x, "True.Model"]),
 									MAF = e.save.tab[x,"MAF"],
-									P_e = e.save.tab[x, "P_e"],
+									beta0 = e.save.tab[x,"beta0"],
+									sd_e = e.save.tab[x, "sd_e"],
 									ES_G = e.save.tab[x,"ES_G"],
 									ES_E = e.save.tab[x,"ES_E"],
 									ES_GE = e.save.tab[x,"ES_GE"],
@@ -282,11 +285,12 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 									Test.Model=mod)}, seq(1:nrow(e.save.tab)))
 			
 			# reduced is the same calculation, except with ES_GE equal to 0
-			ll.reduced <- mapply(function(x){calc.like.linear.log.envir.interaction(
-				linear.mles.log.envir.interaction(MAF = e.save.tab[x,"MAF"], P_e = e.save.tab[x, "P_e"], ES_G = e.save.tab[x,"ES_G_bar"], 
+			ll.reduced <- mapply(function(x){calc.like.linear.lin.envir.interaction(
+				linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G_bar"], beta0 = e.save.tab[x,"beta0"],
 					ES_E = e.save.tab[x,"ES_E_bar"], ES_GE = 0, Test.Model = mod, True.Model = e.save.tab[x, "True.Model"]),
 									MAF = e.save.tab[x,"MAF"],
-									P_e = e.save.tab[x, "P_e"],
+									beta0 = e.save.tab[x,"beta0"],
+									sd_e = e.save.tab[x, "sd_e"],
 									ES_G = e.save.tab[x,"ES_G_bar"],
 									ES_E = e.save.tab[x,"ES_E_bar"],
 									ES_GE = 0,
@@ -309,13 +313,13 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 
 			#Save the power calculations for each testing model in a final table for the sample size and case rate
 			power.tab<-rbind(power.tab,data.frame(Test.Model=mod, True.Model = as.character(e.save.tab[, "True.Model"]),
-					MAF = e.save.tab[, "MAF"], N = n, P_e = e.save.tab[, "P_e"], ES_G = e.save.tab[, "ES_G"], 
+					MAF = e.save.tab[, "MAF"], N = n, sd_e = e.save.tab[, "sd_e"], ES_G = e.save.tab[, "ES_G"], 
 					ES_E = e.save.tab[, "ES_E"], ES_GE = e.save.tab[, "ES_GE"], R2_G=e.save.tab[, "R2_G"], 
 					R2_E=e.save.tab[, "R2_E"], R2_GE=e.save.tab[, "R2_GE"], SD=e.save.tab[, "sd_y"], pow),row.names = NULL)
 
 		}
 	}
-	colnames(power.tab)<-c("Test.Model", "True.Model", "MAF", "N_total", "P_e", "ES_G", "ES_E", "ES_GE", 
+	colnames(power.tab)<-c("Test.Model", "True.Model", "MAF", "N_total", "sd_e", "ES_G", "ES_E", "ES_GE", 
 				"R2_G", "R2_E", "R2_GE", "SD_Y", paste("Power_at_Alpha_", Alpha, sep=''))
 
 	return(power.tab)
