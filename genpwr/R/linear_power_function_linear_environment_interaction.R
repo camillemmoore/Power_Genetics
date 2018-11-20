@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, sd_e=NULL, 
+power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, sd_e=NULL, 
 		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
 {
 
@@ -233,12 +233,12 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 
 	# For each scenario calculate the SD of Y give X for the true model
 	e.save.tab$sd_y_x_true = mapply(function(x){ # MAF=    P_e=    ES_G=   ES_E=   ES_GE=
-		linear.outcome.linear.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"], 
+		linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"], 
 			sd_y = e.save.tab[x,"sd_y"], ES_G = e.save.tab[x,"ES_G"], ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"],
 			True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
 	# sd for no interaction for reduced model
 	e.save.tab$sd_y_x_true_0int = mapply(function(x){ # MAF=    P_e=    ES_G=   ES_E=   ES_GE=
-		linear.outcome.linear.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"],  
+		linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,"MAF"], sd_e = e.save.tab[x,"sd_e"], beta0 = e.save.tab[x,"beta0"],  
 			sd_y = e.save.tab[x,"sd_y"], ES_G = e.save.tab[x,"ES_G_bar"], ES_E = e.save.tab[x,"ES_E_bar"], ES_GE = 0,
 			True.Model = e.save.tab[x,"True.Model"])}, seq(1:nrow(e.save.tab)))
 
