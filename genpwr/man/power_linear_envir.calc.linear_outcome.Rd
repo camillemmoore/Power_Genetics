@@ -16,6 +16,20 @@ power_linear_envir.calc.linear_outcome(N = NULL, MAF = NULL,
 
 \item{MAF}{Vector of minor allele frequencies}
 
+\item{ES_G}{Vector of genetic effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
+\item{ES_E}{Vector of environmental effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
+\item{ES_GE}{Vector of genetic/environment interaction effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
+\item{sd_e}{Standard deviation of the environmental variable}
+
+\item{R2_G}{Vector of genetic R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
+\item{R2_E}{Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
+\item{R2_GE}{Vector of genetic/environment interaction R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
 \item{sd_y}{Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.}
 
 \item{Alpha}{the desired type 1 error rate(s)}
@@ -24,9 +38,7 @@ power_linear_envir.calc.linear_outcome(N = NULL, MAF = NULL,
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
 
-\item{ES}{Vector of effect sizes (difference in means) to detect. Either ES or R2 must be specified.}
-
-\item{R2}{Vector of R-squared values to detect. Either ES or R2 must be specified.}
+\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
@@ -35,8 +47,8 @@ A data frame including the power for all combinations of the specified parameter
 Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 }
 \examples{
-pw <- power.calc.linear(N=c(1000,2000),
-    MAF=seq(0.05, 0.1, 0.01), ES=c(3,4),sd_y = c(1,2),Alpha=c(0.05),
-    True.Model='All', Test.Model='All')
+pw <- power_linear_envir.calc.linear_outcome(N=c(1000,2000), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
+	sd_e = c(1,1.2), MAF=seq(0.28, 0.3, 0.01), sd_y = c(5, 8),Alpha=c(0.05),
+	True.Model='All', Test.Model='All')
 
 }
