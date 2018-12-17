@@ -48,7 +48,7 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 			"and gene-environment interaction) must be specified."))
 	}
 
-	if(is.null(k)==F & is.null(Case.Rate)==F){
+	if(is.null(k) & is.null(Case.Rate)){
 		stop("Specify one of k, the number of controls per case, or Case.Rate, the proportion of cases in the study sample, not both.")
 	}
 
