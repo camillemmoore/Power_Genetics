@@ -165,6 +165,7 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 
 				pow <- mapply(function(x){ll.ge.logistic.lin.envir(
 					sd_e = e.save.tab[x,"sd_e"],
+					MAF = e.save.tab[x,"MAF"],
 					N =ss,
 					beta0 = e.save.tab[x,"beta0"],
 					OR_G = e.save.tab[x,"OR_G"],

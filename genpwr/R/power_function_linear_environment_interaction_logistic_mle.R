@@ -17,9 +17,13 @@ integrand_funct_control <- function(x1, x2){
 }
 
 
-ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model, compareQuanto = 0){
+ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model, compareQuanto = 0){
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
 	if(!any(c(is.null(N), is.null(power)))) stop("must specify either N or power, not both")
+
+	P_AA <- (1 - MAF)^2
+	P_AB <- 2*(1-MAF)*MAF
+	P_BB <- MAF^2
 
 	beta_true <- c(beta0, log(OR_G), log(OR_E), log(OR_GE))
 
