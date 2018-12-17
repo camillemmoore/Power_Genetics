@@ -85,13 +85,24 @@ linear.outcome.lin.envir.interaction.sds <- function(MAF, sd_e, beta0, ES_G, ES_
 
 	gvec_true <- X_mat_returner(True.Model)[1:3,2]
 	gvec_test <- X_mat_returner(mod)[1:3,2]
+	if(mod == "2df") gvec_test <- X_mat_returner("Dominant")[1:3,2]
 	prob_vec <- c((1-MAF)^2, 2*(1-MAF)*MAF, MAF^2)
 
+	# mod indices change if mod is 2df to select the proper genotype scenario since the coefficients for AB are independent of those for BB
+	if(mod == "2df") mod_indices = list(c(1,2,4,5), c(1,2,4,5), c(1,3,4,6)) else(mod_indices = list(c(1,2,3,4), c(1,2,3,4), c(1,2,3,4)))
+
 	sd_y_x <- sqrt(sd_y^2 + sum(sapply(1:3, function(x){
-				-2 * prob_vec[x] * ((beta0 + ES_G*gvec_true[x])*(ES_test[1] + ES_test[2]*gvec_test[x]) + 
-					(ES_E + ES_GE*gvec_true[x])*(ES_test[3] + ES_test[4]*gvec_test[x])*sd_e^2) + 
-				prob_vec[x] * ((ES_test[1] + ES_test[2]*gvec_test[x])^2 + (ES_test[3] + ES_test[4]*gvec_test[x])^2*sd_e^2)
+				-2 * prob_vec[x] * ((beta0 + ES_G*gvec_true[x])*(ES_test[mod_indices[[x]][1]] + ES_test[mod_indices[[x]][2]]*gvec_test[x]) + 
+					(ES_E + ES_GE*gvec_true[x])*(ES_test[mod_indices[[x]][3]] + ES_test[mod_indices[[x]][4]]*gvec_test[x])*sd_e^2) + 
+				prob_vec[x] * ((ES_test[mod_indices[[x]][1]] + ES_test[mod_indices[[x]][2]]*gvec_test[x])^2 + (ES_test[mod_indices[[x]][3]] + 
+					ES_test[mod_indices[[x]][4]]*gvec_test[x])^2*sd_e^2)
 				})))
+	# this old way works if you aren't using the "mod_indices", which are necessary for 2df
+	# sd_y_x <- sqrt(sd_y^2 + sum(sapply(1:3, function(x){
+	# 			-2 * prob_vec[x] * ((beta0 + ES_G*gvec_true[x])*(ES_test[1] + ES_test[2]*gvec_test[x]) + 
+	# 				(ES_E + ES_GE*gvec_true[x])*(ES_test[3] + ES_test[4]*gvec_test[x])*sd_e^2) + 
+	# 			prob_vec[x] * ((ES_test[1] + ES_test[2]*gvec_test[x])^2 + (ES_test[3] + ES_test[4]*gvec_test[x])^2*sd_e^2)
+	# 			})))
 
 	return(sd_y_x)
 }

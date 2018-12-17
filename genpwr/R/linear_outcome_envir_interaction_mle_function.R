@@ -36,6 +36,16 @@ X_mat_returner <- function(mod)
 		c(1, 1, 1, 1),
 		c(1, 2, 1, 2))
 
+	X_mat_2df <- rbind(
+		c(1, 0, 0, 0, 0, 0),
+		c(1, 1, 0, 0, 0, 0),
+		c(1, 0, 1, 0, 0, 0),
+		c(1, 0, 0, 1, 0, 0),
+		c(1, 1, 0, 1, 1, 0),
+		c(1, 0, 1, 1, 0, 1)
+		
+		)
+
 	X_mat_null <- rbind(
 		c(1, 0, 0, 0),
 		c(1, 0, 0, 0),
@@ -44,7 +54,7 @@ X_mat_returner <- function(mod)
 		c(1, 0, 0, 0),
 		c(1, 0, 0, 0))
 
-	X_mat_list <- list("Dominant" = X_mat_dom, "Recessive" = X_mat_rec, "Additive" = X_mat_add, "null" = X_mat_null)
+	X_mat_list <- list("Dominant" = X_mat_dom, "Recessive" = X_mat_rec, "Additive" = X_mat_add, "2df" = X_mat_2df, "null" = X_mat_null)
 
 	return(X_mat_list[[mod]])
 }

@@ -76,9 +76,9 @@ power_envir.calc <-
 	############################################################################################################
 
 	if(sum(Case.Rate>=1)>0 | sum(Case.Rate<=0)>0){
-		stop("R2 must be greater than 0 and less than 1.")
+		stop("Case.Rate must be greater than 0 and less than 1.")
 	}
-
+	
 	if(sum(MAF>=1)>0 | sum(MAF<=0)>0){
 		stop("MAF must be greater than 0 and less than 1.")
 	}

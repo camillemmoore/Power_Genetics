@@ -6,17 +6,22 @@
 #' @param Alpha the desired type 1 error rate(s)
 #' @param MAF Vector of minor allele frequencies
 #' @param sd_y Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.
-#' @param ES Vector of effect sizes (difference in means) to detect. Either ES or R2 must be specified.
-#' @param R2 Vector of R-squared values to detect. Either ES or R2 must be specified.
+#' @param ES_G Vector of genetic effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
+#' @param ES_E Vector of environmental effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
+#' @param ES_GE Vector of genetic/environment interaction effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
+#' @param R2_G Vector of genetic R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
+#' @param R2_E Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
+#' @param P_e Vector of proportions of the population with exposure to the environmental effect
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
+#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' pw <- power.calc.linear(N=c(1000,2000),
-#'     MAF=seq(0.05, 0.1, 0.01), ES=c(3,4),sd_y = c(1,2),Alpha=c(0.05),
-#'     True.Model='All', Test.Model='All')
+#' power_envir.calc.linear_outcome(N=c(100,200), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
+#' 	ES_GE = c(0.5, 2), Alpha = 0.05, MAF = c(0.1, 0.2), P_e = c(0.2, 0.3), 
+#' 	sd_y = 10, True.Model = "All", Test.Model = "All")
 #'
 #' @export
 #'
@@ -44,7 +49,7 @@ power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NU
 			"gene, environment, and gene-environment interaction) must be specified."))
 	}
 
-	print(c(ES_G, ES_E, ES_GE, R2_G, R2_E, R2_GE))
+	# print(c(ES_G, ES_E, ES_GE, R2_G, R2_E, R2_GE))
 
 	if(any(!is.null(c(ES_G, ES_E, ES_GE))) & any(!is.null(c(R2_G, R2_E, R2_GE)))){
 		stop(paste0("Specify either all of ES_G, ES_E, and ES_GE (detectable effect sizes for gene, environment,", 
