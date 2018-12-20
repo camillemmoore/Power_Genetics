@@ -2,21 +2,58 @@
 
 
 
-
+#' Function to generate integrand for mle for cases
+#'
+#' Returns the standard deviation of y given x for linear models with linear environment interaction
+#'
+#' @param x1 "true" part of model
+#' @param x2 "test" part of model
+#'
+#' @return a function to be used as the integrand for the mle
+#'
+#' @export
+#'
 integrand_funct_case <- function(x1, x2){
 	return(exp(x1) / (1 + exp(x1)) * log(exp(x2) / (1 + exp(x2))))
 }
-# integrand_funct_case <- function(x1, x2){
-# 	xposneg <- function(anx) if(anx >= 1) return(1/(1 + exp(-anx))) else return(exp(anx)/(1 + exp(anx)))
-# 	# return(1/ (1 + exp(-x1)) * log(1 / (1 + exp(-x2))))
-# 	return(xposneg(x1) * log(xposneg(x2)))
-# }
+
+#' Function to generate integrand for mle for controls
+#'
+#' Returns the standard deviation of y given x for linear models with linear environment interaction
+#'
+#' @param x1 "true" part of model
+#' @param x2 "test" part of model
+#'
+#' @return a function to be used as the integrand for the mle
+#'
+#' @export
+#'
 integrand_funct_control <- function(x1, x2){
 	# xposneg <- function(anx) if(anx >= 1) return(exp(-anx)/(1 + exp(-anx))) else return(1/(1 + exp(anx)))
 	return(1 / (1 + exp(x1)) * log(1 / (1 + exp(x2))))
 }
 
-
+#' Function to output log likelihood for logistic outcome with linear environment variables
+#'
+#' Returns the standard deviation of y given x for linear models with linear environment interaction
+#'
+#' @param sd_e Standard deviation of the environmental variable
+#' @param N desired sample size
+#' @param MAF Vector of minor allele frequencies
+#' @param power desired power
+#' @param beta0 the beta0 coefficient in the logistic model
+#' @param OR_G Vector of genetic odds ratios to detect
+#' @param OR_E Vector of environmental odds ratios to detect
+#' @param OR_GE Vector of genetic/environmental interaction odds ratios to detect
+#' @param Alpha the desired type 1 error rate(s)
+#' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
+#' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
+#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
+#'
+#' @return a function to be used as the integrand for the mle
+#'
+#' @export
+#'
 ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model, compareQuanto = 0){
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
 	if(!any(c(is.null(N), is.null(power)))) stop("must specify either N or power, not both")
