@@ -323,7 +323,7 @@ power.calc<-
 
         #Calculate the power for the given sample size for a range of Alpha levels
         if(mod=='2df'){pow = 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat)
-        }else{pow = pnorm(sqrt(N*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(N*stat) - qnorm(1-Alpha/2))*0}#
+        }else{pow = pnorm(sqrt(N*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(N*stat) - qnorm(1-Alpha/2))*1}#
 
         temp<-rbind(temp, pow)
       }

@@ -719,8 +719,10 @@ odds_ratio_function <-
         #log likelihood stats
         ############################################################################################################
 
-        stat = ((qnorm(1-alpha0/2)+qnorm(pow))^2)/N
-
+        #stat = ((qnorm(1-alpha0/2)+qnorm(pow))^2)/N
+        stat = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=1),
+                           lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
+        
         #For the 2DF Test the detectable LRT test statistic is:
         stat_2df = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=2),
                        lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N

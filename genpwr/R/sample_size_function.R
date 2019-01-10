@@ -300,7 +300,9 @@ ss.calc<-
         ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
                            lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
       }
-      }else{ss = (qnorm(1-Alpha/2)+qnorm(power))^2/stat}
+      }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=1),
+                               lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+      }
 
       temp<-rbind(temp, ss)
     }
