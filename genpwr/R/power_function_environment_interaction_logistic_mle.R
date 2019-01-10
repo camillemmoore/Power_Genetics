@@ -349,11 +349,11 @@ ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod, compareQuanto 
 	ll.null <- Case.Rate*log(exp(logit(sum(t[1,])/sum(t)))/(1+exp(logit(sum(t[1,])/sum(t))))) + (1-Case.Rate)*log(1/(1+exp(logit(sum(t[1,])/sum(t)))))
 	# logit(sum(t[1,])/sum(t))
 	if(is.null(power)){
-		power_res <- numeric(3)
-		power_res[1] <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*compareQuanto
-		power_res[2] <- pnorm(sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2))*compareQuanto
+		# power_res <- numeric(3)
+		power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*compareQuanto
+		# power_res[2] <- pnorm(sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2))*compareQuanto
 		# pnorm(sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2))*compareQuanto
-		power_res[3] <- pnorm(sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2))*compareQuanto
+		# power_res[3] <- pnorm(sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2))*compareQuanto
 		return(power_res)
 	}
 	if(is.null(N)){
