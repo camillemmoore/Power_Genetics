@@ -5,8 +5,7 @@
 \alias{ll.ge.logistic}
 \title{Function to calculate MLE's for logistic models with logistic environment interaction}
 \usage{
-ll.ge.logistic(t, N = NULL, power = NULL, Alpha, mod,
-  compareQuanto = 0)
+ll.ge.logistic(t, N = NULL, power = NULL, Alpha, mod)
 }
 \arguments{
 \item{t}{A 2x6 table of the joint probabilities of disease, genotype, and environment. Rows are case vs. control and columns are genotypes.}
@@ -18,8 +17,6 @@ ll.ge.logistic(t, N = NULL, power = NULL, Alpha, mod,
 \item{Alpha}{Alpha}
 
 \item{mod}{Test model}
-
-\item{compareQuanto}{whether to include the factor to match with Quanto's calculations}
 }
 \value{
 A vector of logistic regression model coefficients.

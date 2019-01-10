@@ -6,7 +6,7 @@
 \title{Function to output log likelihood for logistic outcome with linear environment variables}
 \usage{
 ll.ge.logistic.lin.envir(sd_e, N = NULL, MAF, power = NULL, beta0,
-  OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model, compareQuanto = 0)
+  OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model)
 }
 \arguments{
 \item{sd_e}{Standard deviation of the environmental variable}
@@ -30,8 +30,6 @@ ll.ge.logistic.lin.envir(sd_e, N = NULL, MAF, power = NULL, beta0,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 }
 \value{
 a function to be used as the integrand for the mle

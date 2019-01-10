@@ -9,7 +9,7 @@ power_linear_envir.calc.linear_outcome(N = NULL, MAF = NULL,
   ES_G = NULL, ES_E = NULL, ES_GE = NULL, sd_e = NULL,
   R2_G = NULL, R2_E = NULL, R2_GE = NULL, sd_y = NULL,
   Alpha = 0.05, True.Model = "All", Test.Model = "All",
-  compareQuanto = 0)
+  compareQuanto = 1)
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}

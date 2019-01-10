@@ -6,8 +6,7 @@
 \usage{
 ss_envir.calc(power = 0.8, Case.Rate = NULL, k = NULL, MAF = NULL,
   OR_G = NULL, OR_E = NULL, OR_GE = NULL, P_e = NULL,
-  Alpha = 0.05, True.Model = "All", Test.Model = "All",
-  compareQuanto = 0)
+  Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{Case.Rate}{proportion of cases in the sample (cases/(cases + controls)).}
@@ -27,8 +26,6 @@ ss_envir.calc(power = 0.8, Case.Rate = NULL, k = NULL, MAF = NULL,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 
 \item{N}{Vector of the desired sample size(s)}
 
