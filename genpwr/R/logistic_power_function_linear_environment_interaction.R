@@ -13,7 +13,6 @@
 #' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
-#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
@@ -26,11 +25,8 @@
 #' @export
 #'
 power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL, OR_E=NULL, OR_GE=NULL, sd_e=NULL, 
-		Case.Rate=NULL, k=NULL, Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
+		Case.Rate=NULL, k=NULL, Alpha=0.05, True.Model='All', Test.Model='All')
 {
-
-	compareQuanto = 1 * compareQuanto
-	library(MASS)
 
 	############################################################################################################
 	#Error Messages for insufficient sample size information, MAF, and case vs. control ratio
@@ -173,8 +169,7 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 					OR_GE = e.save.tab[x,"OR_GE"],
 					Alpha = alpha0,
 					True.Model = e.save.tab[x,"True.Model"],
-					Test.Model = mod,
-					compareQuanto = compareQuanto)}, seq(1:nrow(e.save.tab)))
+					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
 				temp.0 <- cbind(temp.0, pow)
 				colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
@@ -215,7 +210,6 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 #' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
-#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
@@ -228,10 +222,9 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 #' @export
 #'
 ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NULL, OR_E=NULL, OR_GE=NULL, sd_e=NULL, 
-		Case.Rate=NULL, k=NULL, Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
+		Case.Rate=NULL, k=NULL, Alpha=0.05, True.Model='All', Test.Model='All')
 {
 
-	compareQuanto = 1 * compareQuanto
 	library(MASS)
 
 	############################################################################################################
@@ -375,8 +368,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 					OR_GE = e.save.tab[x,"OR_GE"],
 					Alpha = alpha0,
 					True.Model = e.save.tab[x,"True.Model"],
-					Test.Model = mod,
-					compareQuanto = compareQuanto)}, seq(1:nrow(e.save.tab)))
+					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
 				temp.0 <- cbind(temp.0, pow)
 				colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)

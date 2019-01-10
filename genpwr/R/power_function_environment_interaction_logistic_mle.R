@@ -7,13 +7,12 @@
 #' @param power Power
 #' @param Alpha Alpha
 #' @param mod Test model
-#' @param compareQuanto whether to include the factor to match with Quanto's calculations
 #' 
 #' @return A vector of logistic regression model coefficients.  
 #'
 #' @export
 #'
-ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod, compareQuanto = 0){
+ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod){
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
 	if(!any(c(is.null(N), is.null(power)))) stop("must specify either N or power, not both")
 
@@ -350,10 +349,10 @@ ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod, compareQuanto 
 	# logit(sum(t[1,])/sum(t))
 	if(is.null(power)){
 		# power_res <- numeric(3)
-		power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*compareQuanto
-		# power_res[2] <- pnorm(sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2))*compareQuanto
-		# pnorm(sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2))*compareQuanto
-		# power_res[3] <- pnorm(sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2))*compareQuanto
+		power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*1
+		# power_res[2] <- pnorm(sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g-ll.null)) - qnorm(1-Alpha/2))*1
+		# pnorm(sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_g_e-ll_e)) - qnorm(1-Alpha/2))*1
+		# power_res[3] <- pnorm(sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll_e-ll.null)) - qnorm(1-Alpha/2))*1
 		return(power_res)
 	}
 	if(is.null(N)){

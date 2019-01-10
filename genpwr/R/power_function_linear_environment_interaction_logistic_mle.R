@@ -48,13 +48,14 @@ integrand_funct_control <- function(x1, x2){
 #' @param Alpha the desired type 1 error rate(s)
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
-#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
 #'
 #' @return a function to be used as the integrand for the mle
 #'
 #' @export
 #'
-ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model, compareQuanto = 0){
+ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model){
+
+
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
 	if(!any(c(is.null(N), is.null(power)))) stop("must specify either N or power, not both")
 
@@ -190,7 +191,7 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 
 	# Case.Rate <- sum(t[1,])	
 	if(is.null(power)){
-		power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*compareQuanto
+		power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*1
 		return(power_res)
 	}
 	if(is.null(N)){
