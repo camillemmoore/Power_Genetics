@@ -193,7 +193,7 @@ power.calc.linear<-function(N=NULL, MAF=NULL, ES=NULL,R2=NULL, sd_y=NULL,
 
         #Calculate the power for the given sample size for a range of Alpha levels
         if(mod=='2df'){pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
-        }else{pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*0, ll.stat) # second part multiplied by 0 because of the disagreement with Quanto's methods
+        }else{pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat) # second part multiplied by 0 because of the disagreement with Quanto's methods
         }
         if(length(Alpha)>1){pow <- t(pow)
         rownames(pow) <- seq(1:nrow(pow))}

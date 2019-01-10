@@ -134,8 +134,10 @@ es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
 				# Calculate the LRT statistic, given Alpha, Power and N
 				############################################################################################################
 				#For 1DF Test.Models the detectable LRT test statistic is:
-				stat = ((qnorm(1-Alpha/2)+qnorm(power))^2)/N
-
+				#stat = ((qnorm(1-Alpha/2)+qnorm(power))^2)/N
+			  stat = uniroot(function(x) ncp.search(x, power, stat, Alpha, df=1),
+			                     lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
+			  
 				#For the 2DF Test the detectable LRT test statistic is:
 				stat_2df = uniroot(function(x) ncp.search(x, power, stat, Alpha, df=2),
 											 lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N

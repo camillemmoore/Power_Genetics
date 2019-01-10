@@ -195,7 +195,9 @@ ss.calc.linear<-
                              lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat}, ll.stat))
           }
           ss<-t(ss)
-        }else{ss = mapply(function(stat)(qnorm(1-Alpha/2)+qnorm(p))^2/stat, ll.stat)
+        }else{ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, stat, Alpha[q], df=1),
+                                                           lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat}, ll.stat))
+          #ss = mapply(function(stat)(qnorm(1-Alpha/2)+qnorm(p))^2/stat, ll.stat)
           if(length(Alpha)>1){ss<-t(ss)}
         }
 

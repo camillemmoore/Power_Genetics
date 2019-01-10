@@ -27,7 +27,7 @@
 #' @export
 #'
 power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, sd_e=NULL, 
-		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
+		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 1)
 {
 
 	if(is.logical(compareQuanto)) compareQuanto = 1 * compareQuanto
