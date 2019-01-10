@@ -19,4 +19,4 @@
 #'
 ncp.search<-
   function(x, power, stat, Alpha, df){
-  (1-power)-pchisq(qchisq(1-Alpha, df, ncp=0), df=2, ncp = x) }
+  (1-power)-pchisq(qchisq(1-Alpha, df, ncp=0), df=df, ncp = x) }
