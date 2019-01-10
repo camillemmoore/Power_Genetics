@@ -1,4 +1,4 @@
-#' Function to Calculate Power for Linear Models with logistic environment interaction
+#' Function to Calculate Power for Linear Models with linear environment interaction
 #'
 #' Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 #'

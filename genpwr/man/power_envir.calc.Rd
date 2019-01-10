@@ -6,8 +6,7 @@
 \usage{
 power_envir.calc(N = NULL, Case.Rate = NULL, k = NULL, MAF = NULL,
   OR_G = NULL, OR_E = NULL, OR_GE = NULL, P_e = NULL,
-  Alpha = 0.05, True.Model = "All", Test.Model = "All",
-  compareQuanto = 0)
+  Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}
@@ -30,9 +29,9 @@ power_envir.calc(N = NULL, Case.Rate = NULL, k = NULL, MAF = NULL,
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
 
-\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
-
 \item{OR_G}{Vector of genetic/environmental interaction odds ratios to detect}
+
+\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)

@@ -280,36 +280,38 @@ ss.calc<-
     ################################################################################################
     #Loop over all of the testing models and calculate Sample Size for each OR and MAF scenario
     ################################################################################################
-    for (mod in Test.Model){temp<-NULL
+    for (mod in Test.Model){
+      temp<-NULL
 
-    #Repeat calcualtion for each OR/MAF combination
-    for (j in seq(1, nrow(o.save.tab),2)){
-      #Grab the correct 2x3 table of probabilities
-      t<-o.save.tab[j:(j+1),c("Geno.AA", "Geno.AB", "Geno.BB")]
+      #Repeat calcualtion for each OR/MAF combination
+      for (j in seq(1, nrow(o.save.tab),2)){
+        #Grab the correct 2x3 table of probabilities
+        t<-o.save.tab[j:(j+1),c("Geno.AA", "Geno.AB", "Geno.BB")]
 
-      #Calculate the null and alternative likelihoods
-      ll.alt<-calc.like(logistic.mles(t, model = mod), t, model=mod)
-      ll.null<-null.ll(t)
+        #Calculate the null and alternative likelihoods
+        ll.alt<-calc.like(logistic.mles(t, model = mod), t, model=mod)
+        ll.null<-null.ll(t)
 
-      #Calculate the LRT statistic
-      stat<-2*(as.numeric(ll.alt-ll.null))
+        #Calculate the LRT statistic
+        stat<-2*(as.numeric(ll.alt-ll.null))
 
-      #Calculate the SS for the given power for a range of Alpha levels
-      if(mod=='2df'){ss<-NULL
-      for (q in 1:length(Alpha)){
-        ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
-                           lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+        #Calculate the SS for the given power for a range of Alpha levels
+        ss<-NULL
+        for (q in 1:length(Alpha)){
+          if(mod=='2df'){
+              ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
+                                 lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+          }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=1),
+                                   lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+          }
+        }
+
+        temp<-rbind(temp, ss)
       }
-      }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=1),
-                               lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
-      }
 
-      temp<-rbind(temp, ss)
-    }
-
-    #Save the power calculations for each testing model in a final table for the sample size and case rate
-    ss.tab<-rbind(ss.tab,data.frame(Test.Model=mod, o.save.tab[seq(1, nrow(o.save.tab),2),1:3],
-                                    Power=power, Case.Rate,temp))
+      #Save the power calculations for each testing model in a final table for the sample size and case rate
+      ss.tab<-rbind(ss.tab,data.frame(Test.Model=mod, o.save.tab[seq(1, nrow(o.save.tab),2),1:3],
+                                      Power=power, Case.Rate,temp))
     }
     colnames(ss.tab)<-c('Test.Model', 'True.Model', 'MAF', 'OR', 'Power','Case.Rate',
                         paste("N_total_at_Alpha_", Alpha, sep=''))

@@ -13,7 +13,6 @@
 #' @param Alpha the desired type 1 error rate(s)
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
-#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
@@ -26,9 +25,8 @@
 #'
 ss_envir.calc <- 
 	function(power=0.8, Case.Rate=NULL, k=NULL, MAF=NULL, OR_G=NULL, OR_E=NULL, OR_GE=NULL, P_e = NULL,
-					Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
+					Alpha=0.05, True.Model='All', Test.Model='All')
 {
-	if(is.logical(compareQuanto)) compareQuanto = 1 * compareQuanto
 
 	############################################################################################################
 	#Error Messages for insufficient sample size information, MAF, odds ratios, and case vs. control ratio
@@ -225,7 +223,7 @@ ss_envir.calc <-
 				for (j in seq(1, nrow(pe.save.tab),2)){
 					t<-pe.save.tab[j:(j+1),c("Geno.AA.e0", "Geno.AB.e0", "Geno.BB.e0", "Geno.AA.e", "Geno.AB.e", "Geno.BB.e")]
 
-					mres <- ll.ge.logistic(t, power = power, Alpha = alpha0, mod = mod, compareQuanto = compareQuanto)
+					mres <- ll.ge.logistic(t, power = power, Alpha = alpha0, mod = mod)
 					# mres <<- mres
 					# #Calculate the mreser for the given sample size for a range of Alpha levels
 					# if(mod=='2df'){mres = 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat)

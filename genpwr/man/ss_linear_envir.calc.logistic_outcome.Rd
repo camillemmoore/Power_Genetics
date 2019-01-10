@@ -8,7 +8,7 @@
 ss_linear_envir.calc.logistic_outcome(power = NULL, MAF = NULL,
   OR_G = NULL, OR_E = NULL, OR_GE = NULL, sd_e = NULL,
   Case.Rate = NULL, k = NULL, Alpha = 0.05, True.Model = "All",
-  Test.Model = "All", compareQuanto = 0)
+  Test.Model = "All")
 }
 \arguments{
 \item{power}{Vector of the desired power(s)}
@@ -32,8 +32,6 @@ ss_linear_envir.calc.logistic_outcome(power = NULL, MAF = NULL,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
