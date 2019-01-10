@@ -297,13 +297,13 @@ ss.calc<-
 
         #Calculate the SS for the given power for a range of Alpha levels
         ss<-NULL
-        if(mod=='2df'){
-          for (q in 1:length(Alpha)){
-            ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
-                               lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
-          }
-        }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=1),
+        for (q in 1:length(Alpha)){
+          if(mod=='2df'){
+              ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
                                  lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+          }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=1),
+                                   lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+          }
         }
 
         temp<-rbind(temp, ss)
