@@ -237,8 +237,8 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 	############################################################################################################
 	#Error Messages for insufficient sample size information, MAF, and case vs. control ratio
 	############################################################################################################
-	if(is.null(N)){
-		stop("N, the total sample size, must be specified.")
+	if(is.null(power)){
+		stop("power, the total power, must be specified.")
 	}
 
 	if(is.null(MAF)){
@@ -266,8 +266,8 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 		stop("MAF must be greater than 0 and less than 1.")
 	}
 
-	if(sum(N<=0)>0){
-		stop("N must be greater than 0.")
+	if(sum(power<=0) | power >= 1){
+		stop("power must be greater than 0 and less than 1.")#N
 	}
 
 	if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
@@ -355,7 +355,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 	############################################################################################################
 	#Loop over sample size
 	############################################################################################################
-	for (apow in N){
+	for (apow in power){
 
 		################################################################################################
 		#Loop over all of the testing models and calculate power for each ES, SD, and MAF scenario
@@ -365,7 +365,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 			for(alpha0 in Alpha){
 				temp.0 <- NULL
 
-				pow <- mapply(function(x){ll.ge.logistic.lin.envir(
+				ss <- mapply(function(x){ll.ge.logistic.lin.envir(
 					sd_e = e.save.tab[x,"sd_e"],
 					MAF = e.save.tab[x,"MAF"],
 					power =apow,
@@ -379,7 +379,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 					compareQuanto = compareQuanto)}, seq(1:nrow(e.save.tab)))
 
 				temp.0 <- cbind(temp.0, pow)
-				colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
+				colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)
 				temp <- cbind(temp.0, temp)
 
 				# ll.stat = 2*(ll.alt-ll.reduced)

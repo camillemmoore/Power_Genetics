@@ -28,7 +28,7 @@ power_envir.calc <-
 	function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, OR_G=NULL, OR_E=NULL, OR_GE=NULL, P_e = NULL,
 					Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 0)
 {
-	library(nleqslv)
+	# library(nleqslv)
 
 	if(is.logical(compareQuanto)) compareQuanto = 1 * compareQuanto
 
@@ -243,7 +243,7 @@ power_envir.calc <-
 
 					temp.0<-rbind(temp.0, mres)
 				}
-				colnames(temp.0) <- paste0("Power", gsub("pow", "", c("pow_GE", "pow_G", "pow_E")), "_at_Alpha_", alpha0)
+				colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
 				temp <- cbind(temp, temp.0)
 				#Save the power calculations for each testing model in a final table for the sample size and case rate
 			}
@@ -257,7 +257,7 @@ power_envir.calc <-
 		}
 	}
 	final.pow.tab <- final.pow.tab[,c(1:4, 7, 5:6, 8:ncol(final.pow.tab))]
-	final.pow.tab <- final.pow.tab[,-which(colnames(final.pow.tab) %in% c("Power_G_at_Alpha_0.05", "Power_E_at_Alpha_0.05"))]
+	# final.pow.tab <- final.pow.tab[,-which(colnames(final.pow.tab) %in% c("Power_G_at_Alpha_0.05", "Power_E_at_Alpha_0.05"))]
 	return(final.pow.tab)
 
 }
