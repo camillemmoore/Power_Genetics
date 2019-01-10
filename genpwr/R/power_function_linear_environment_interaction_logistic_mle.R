@@ -191,19 +191,21 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 
 	# Case.Rate <- sum(t[1,])	
 	if(is.null(power)){
-		power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*1
+		stat <- 2*(as.numeric(ll-ll_g_e))
+		if(Test.Model=='2df'){
+			power_res <- 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat)
+		}else{
+			power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*1
+		}
 		return(power_res)
 	}
 	if(is.null(N)){
 		stat <- 2*(as.numeric(ll-ll_g_e))
 		if(Test.Model=='2df'){
-			ss <- NULL
-			for (q in 1:length(Alpha)){
-				ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
-								lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
-			}
+			ss <- c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
+							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
 		}else{
-			ss = (qnorm(1-Alpha/2)+qnorm(power))^2/(2*(ll-ll_g_e))
+			ss <- (qnorm(1-Alpha/2)+qnorm(power))^2/(2*(ll-ll_g_e))
 		}
 		return(ss)
 	}
