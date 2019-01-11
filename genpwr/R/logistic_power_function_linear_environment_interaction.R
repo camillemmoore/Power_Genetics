@@ -259,7 +259,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 		stop("MAF must be greater than 0 and less than 1.")
 	}
 
-	if(sum(power<=0) | power >= 1){
+	if(sum(power<=0)>0 | sum(power >= 1)>0){
 		stop("power must be greater than 0 and less than 1.")#N
 	}
 
@@ -348,7 +348,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 	############################################################################################################
 	#Loop over sample size
 	############################################################################################################
-	for (apow in power){
+	for (pow in power){
 
 		################################################################################################
 		#Loop over all of the testing models and calculate power for each ES, SD, and MAF scenario
