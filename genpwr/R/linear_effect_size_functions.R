@@ -135,11 +135,11 @@ es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
 				############################################################################################################
 				#For 1DF Test.Models the detectable LRT test statistic is:
 				#stat = ((qnorm(1-Alpha/2)+qnorm(power))^2)/N
-			  stat = uniroot(function(x) ncp.search(x, power, stat, Alpha, df=1),
+			  stat = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=1),
 			                     lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
 			  
 				#For the 2DF Test the detectable LRT test statistic is:
-				stat_2df = uniroot(function(x) ncp.search(x, power, stat, Alpha, df=2),
+				stat_2df = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=2),
 											 lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
 
 				##########################################################################
@@ -200,7 +200,7 @@ es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
 							R2 <- round(ES^2 * var_x$var_x[var_x$True.Model == mod_true] / sd_y^2, digits = 5)
 							ES <- round(ES, digits = 5)
 
-							res <- data.frame(rbind(c(mod_test, mod_true, m, N, ES, R2, power, sd_y, alpha0)), stringsAsFactors = F)
+							res <- data.frame(rbind(c(mod_test, mod_true, m, N, ES, R2, pow, sd_y, alpha0)), stringsAsFactors = F)
 							names(res) <- c("Test.Model", "True.Model", "MAF", "N", "ES", "R2", "power", "sd_y", "Alpha")
 							alph.save.tab <- rbind(alph.save.tab, res)
 						}
