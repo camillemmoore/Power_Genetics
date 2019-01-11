@@ -133,15 +133,9 @@ ss.calc.linear<-
     }
 
     # For each scenario calculate the true differences in means AB-AA and BB-AA
-    e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
-                              ifelse(e.save.tab$True.Model=='Recessive', 0,
-                                     ifelse(e.save.tab$True.Model=='Additive', 0.5*e.save.tab$ES,
-                                            e.save.tab$ES)))
+    e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Recessive', 0, e.save.tab$ES)
 
-    e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
-                              ifelse(e.save.tab$True.Model=='Recessive', e.save.tab$ES,
-                                     ifelse(e.save.tab$True.Model=='Additive', e.save.tab$ES,
-                                            2*e.save.tab$ES)))
+    e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Additive', 2*e.save.tab$ES,e.save.tab$ES)
 
     e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
 
