@@ -152,13 +152,10 @@ es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
 						for(mod_true in True.Model){
 
 							# For each scenario calculate the true differences in means AB-AA and BB-AA
-							es_ab = ifelse(mod_true=='Dominant', 1,
-													ifelse(mod_true=='Recessive', 0,
-															ifelse(mod_true=='Additive', 0.5*1, 1)))
-
-							es_bb = ifelse(mod_true=='Dominant', 1,
-													ifelse(mod_true=='Recessive', 1,
-														ifelse(mod_true=='Additive', 1, 2*1)))
+							es_ab = ifelse(mod_true=='Recessive', 0, 1)
+													
+							es_bb = ifelse(mod_true=='Additive', 2, 1)
+													
 							es_vec <- c(es_ab, es_bb)
 
 							# the function to find my ES
