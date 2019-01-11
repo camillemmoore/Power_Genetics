@@ -202,10 +202,11 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 	if(is.null(N)){
 		stat <- 2*(as.numeric(ll-ll_g_e))
 		if(Test.Model=='2df'){
-			ss <- c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
-							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
+			ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=2),
+							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}else{
-			ss <- (qnorm(1-Alpha/2)+qnorm(power))^2/(2*(ll-ll_g_e))
+		  ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=1),
+		                      lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}
 		return(ss)
 	}
