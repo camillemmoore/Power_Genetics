@@ -348,7 +348,7 @@ ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod){
 	ll.null <- Case.Rate*log(exp(logit(sum(t[1,])/sum(t)))/(1+exp(logit(sum(t[1,])/sum(t))))) + (1-Case.Rate)*log(1/(1+exp(logit(sum(t[1,])/sum(t)))))
 	# logit(sum(t[1,])/sum(t))
 	if(is.null(power)){
-		if(mod == "2df"){
+		if(mod == "2df"){stat <- 2*(as.numeric(ll-ll_g_e))
 			power_res <- 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = N*stat) 
 		}else{
 			power_res <- pnorm(sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2)) + pnorm(-sqrt(N*2*(ll-ll_g_e)) - qnorm(1-Alpha/2))*1
@@ -358,10 +358,11 @@ ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod){
 	if(is.null(N)){
 		stat <- 2*(as.numeric(ll-ll_g_e))
 		if(mod=='2df'){
-			ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
+			ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=2),
 							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}else{
-			ss <- (qnorm(1-Alpha/2)+qnorm(power))^2/(2*(ll-ll_g_e))
+		  ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=1),
+		                lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}
 		return(ss)
 	}
