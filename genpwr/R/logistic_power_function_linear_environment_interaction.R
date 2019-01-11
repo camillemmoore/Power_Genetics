@@ -172,8 +172,8 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
 				temp.0 <- cbind(temp.0, pow)
-				colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
-				temp <- cbind(temp.0, temp)
+				#colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
+				temp <- cbind(temp, temp.0)
 
 				# ll.stat = 2*(ll.alt-ll.reduced)
 				# if(length(Alpha)>1){pow <- t(pow)
@@ -371,8 +371,8 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
 				temp.0 <- cbind(temp.0, ss)
-				colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)
-				temp <- cbind(temp.0, temp)
+				#colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)
+				temp <- cbind(temp, temp.0)
 
 				# ll.stat = 2*(ll.alt-ll.reduced)
 				# if(length(Alpha)>1){pow <- t(pow)
@@ -388,7 +388,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 		}
 	}
 	colnames(ss.tab)<-c("Test.Model", "True.Model", "MAF", "N_total", "SD_E", "OR_G", "OR_E", "OR_GE", 
-				"Case.Rate", paste0("Power_at_Alpha_", Alpha))
+				"Case.Rate", paste0("N_total_at_Alpha_", Alpha))
 
 	return(ss.tab)
 }
