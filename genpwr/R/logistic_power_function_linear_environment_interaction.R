@@ -361,7 +361,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 				ss <- mapply(function(x){ll.ge.logistic.lin.envir(
 					sd_e = e.save.tab[x,"sd_e"],
 					MAF = e.save.tab[x,"MAF"],
-					power =apow,
+					power =pow,
 					beta0 = e.save.tab[x,"beta0"],
 					OR_G = e.save.tab[x,"OR_G"],
 					OR_E = e.save.tab[x,"OR_E"],
@@ -370,7 +370,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 					True.Model = e.save.tab[x,"True.Model"],
 					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
-				temp.0 <- cbind(temp.0, pow)
+				temp.0 <- cbind(temp.0, ss)
 				colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)
 				temp <- cbind(temp.0, temp)
 
