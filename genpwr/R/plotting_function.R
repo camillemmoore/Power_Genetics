@@ -18,6 +18,7 @@
 #' @param y_limit An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically
 #' @param y_log  Logical, specifying whether the y axis should be logarithmic. Default is F
 #' @param return_gg Logical, specifying whether to return the ggplot object instead of printing out the plot
+#' @param linear.effect.measure Should the graphs indicate ES values, or R2 values? (default ES)
 #' @param select.Alpha Only produce graphs for the specified Alpha level(s).
 #' @param select.OR Only produce graphs for the specified odds ratio(s).
 #' @param select.ES Only produce graphs for the specified effect size(s).
@@ -51,6 +52,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 {
 
   library(ggplot2)
+  "%ni%" <- Negate("%in%")
   
   nstr <- "N_total_at_Alpha_"
   if(any(grepl("SampleSize_GE_at_Alpha_", colnames(data)))) nstr <- "SampleSize_GE_at_Alpha_"
@@ -75,9 +77,14 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 
 
   # var<-c("MAF", 'OR','ES','Power', 'Case.Rate', 'SD','Alpha', 'True.Model')
-  var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "ES","R2","Power", "Case.Rate", "SD_Y","Alpha", "True.Model")
+  var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "sd_e", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_E", "R2_G", "R2_GE",
+      "Power", "Case.Rate", "SD_Y","Alpha", "True.Model")
   var<-var[!(var %in% c(x, panel.by))]
   var<-var[var %in% colnames(ss.new)]
+  
+  if(linear.effect.measure %ni% c("ES", "R2")) stop("'linear.effect.measure should be either 'ES' or 'R2'")
+  if(linear.effect.measure=="ES"){var <- var[var %ni% c("R2", "R2_G", "R2_E", "R2_GE")]}
+  if(linear.effect.measure=="R2"){var <- var[var %ni% c("ES", "ES_G", "ES_E", "ES_GE")]}
 
   if(return_gg) resplots <- list()
 
@@ -127,6 +134,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 #' @param y_limit An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically
 #' @param y_log  Logical, specifying whether the y axis should be logarithmic. Default is F
 #' @param return_gg Logical, specifying whether to return the ggplot object instead of printing out the plot
+#' @param linear.effect.measure Should the graphs indicate ES values, or R2 values? (default ES)
 #' @param select.Alpha Only produce graphs for the specified Alpha level(s).
 #' @param select.OR Only produce graphs for the specified odds ratio(s).
 #' @param select.ES Only produce graphs for the specified effect sizes(s).
@@ -161,6 +169,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 {
 
   library(ggplot2)
+  "%ni%" <- Negate("%in%")
 
   #Create Dataset with separate rows for each Alpha level
   powerstr <- "Power_at_Alpha_"
@@ -184,9 +193,11 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
   if(!is.null(select.Test.Model)){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
 
-  var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "ES","R2","N_total", "Case.Rate", "SD_Y","Alpha", "True.Model")
-  if(linear.effect.measure=="ES"){var <- var[var != "R2"]}
-  if(linear.effect.measure=="R2"){var <- var[var != "ES"]}
+  var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "sd_e", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_E", "R2_G", "R2_GE",
+      "N_total", "Case.Rate", "SD_Y","Alpha", "True.Model")
+  if(linear.effect.measure %ni% c("ES", "R2")) stop("'linear.effect.measure should be either 'ES' or 'R2'")
+  if(linear.effect.measure=="ES"){var <- var[var %ni% c("R2", "R2_G", "R2_E", "R2_GE")]}
+  if(linear.effect.measure=="R2"){var <- var[var %ni% c("ES", "ES_G", "ES_E", "ES_GE")]}
   var<-var[!(var %in% c(x, panel.by))]
   var<-var[var %in% colnames(ss.new)]
   graphs<-unique.data.frame(ss.new[,var])
@@ -252,6 +263,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #' @param y_limit An object specifying the minimum and maximum of the y-axis (eg c(0,4)) default is NULL, which allows the limits to be picked automatically
 #' @param y_log  Logical, specifying whether the y axis should be logarithmic. Default is F
 #' @param return_gg Logical, specifying whether to return the ggplot object instead of printing out the plot
+#' @param linear.effect.measure Should the graphs indicate ES values, or R2 values? (default ES)
 #' @param select.Alpha Only produce graphs for the specified Alpha level(s).
 #' @param select.power Only produce graphs for the specified Power(s).
 #' @param select.ES Only produce graphs for the specified effect sizes(s).
@@ -286,6 +298,7 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 {
 
   library(ggplot2)
+  "%ni%" <- Negate("%in%")
 
   #Create Dataset with separate rows for each Alpha level
   indices<-grep("OR_at_Alpha_",colnames(data))
@@ -308,8 +321,9 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 
 
   var<-c("MAF", 'power','ES','R2','N_total', 'Case.Rate', 'SD_Y','Alpha', 'True.Model')
-  if(linear.effect.measure=='ES'){var <- var[!(var=='R2')]}
-  if(linear.effect.measure=='R2'){var <- var[!(var=='ES')]}
+  if(linear.effect.measure %ni% c("ES", "R2")) stop("'linear.effect.measure should be either 'ES' or 'R2'")
+  if(linear.effect.measure=="ES"){var <- var[!(var=='R2')]}
+  if(linear.effect.measure=="R2"){var <- var[!(var=='ES')]}
   var<-var[!(var %in% c(x, panel.by))]
   var<-var[var %in% colnames(ss.new)]
   graphs<-unique.data.frame(ss.new[,var])
