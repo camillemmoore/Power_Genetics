@@ -15,7 +15,6 @@
 #' @param R2_GE Vector of genetic/environment interaction R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
-#' @param compareQuanto For comparison with Quanto results - uses Quanto's formula to calculate results
 #'
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
@@ -27,10 +26,9 @@
 #' @export
 #'
 power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, sd_e=NULL, 
-		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All', compareQuanto = 1)
+		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All')
 {
 
-	if(is.logical(compareQuanto)) compareQuanto = 1 * compareQuanto
 	library(MASS)
 
 	############################################################################################################
@@ -141,7 +139,7 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 		cbind(beta0_mat, True.Model = "Dominant", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + beta0_mat$P_BB)),
 		cbind(beta0_mat, True.Model = "Additive", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + 2*beta0_mat$P_BB)),
 		cbind(beta0_mat, True.Model = "Recessive", beta0 = -beta0_mat$ES_G*beta0_mat$P_BB))
-
+	# beta0_mat <- beta0_mat[,c("True.Model", "beta0")]
 
 	# beta0 <- data.frame(True.Model=c(rep("Dominant", length(beta0_dom)),
 	# 								rep("Additive", length(beta0_add)),
@@ -275,9 +273,9 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 				}, seq(1:nrow(e.save.tab)))
 			# Calculate SD of Y given X for each scenario, given the test model with no effect size for the reduced model
 			sd_y_x_0int <- mapply(function(x){
-				linear.outcome.lin.envir.interaction.sds(MAF = e.save.tab[x,'MAF'], beta0 = e.save.tab[x,"beta0"], 
-					sd_y = e.save.tab[x, "sd_y"], sd_e = e.save.tab[x,'sd_e'], ES_G = e.save.tab[x,'ES_G_bar'], 
-					ES_E = e.save.tab[x,'ES_E_bar'], ES_GE = 0, mod = mod, True.Model = e.save.tab[x, "True.Model"])
+				linear.outcome.lin.envir.interaction.sds_reduced(MAF = e.save.tab[x,'MAF'], beta0 = e.save.tab[x,"beta0"], 
+					sd_y = e.save.tab[x, "sd_y"], sd_e = e.save.tab[x,'sd_e'], ES_G = e.save.tab[x,'ES_G'], 
+					ES_E = e.save.tab[x,'ES_E'], ES_GE = e.save.tab[x,"ES_GE"], mod = mod, True.Model = e.save.tab[x, "True.Model"])
 				}, seq(1:nrow(e.save.tab)))
 
 
@@ -295,6 +293,9 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 									True.Model = e.save.tab[x, "True.Model"],
 									Test.Model=mod)}, seq(1:nrow(e.save.tab)))
 			
+			ll.alt_new <- mapply(function(x) expected.linear.ll.lin.env(sd_y_x[x]), seq(1:nrow(e.save.tab)))
+			ll.reduced_new <- mapply(function(x) expected.linear.ll.lin.env(sd_y_x_0int[x]), seq(1:nrow(e.save.tab)))
+
 			# reduced is the same calculation, except with ES_GE equal to 0
 			ll.reduced <- mapply(function(x){calc.like.linear.lin.envir.interaction(
 				linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G_bar"], beta0 = e.save.tab[x,"beta0"],
@@ -310,14 +311,14 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 									True.Model = e.save.tab[x, "True.Model"],
 									Test.Model=mod)}, seq(1:nrow(e.save.tab)))
 
-
+			if(!all.equal(ll.reduced, ll.reduced_new) | !all.equal(ll.alt, ll.alt_new)) stop("check log likelihood matches")
 			ll.stat = 2*(ll.alt-ll.reduced)
 
 			#Calculate the power for the given sample size for a range of Alpha levels
 			if(mod=='2df'){
 				pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
 			}else{
-				pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*compareQuanto, ll.stat)
+				pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)
 			}
 			if(length(Alpha)>1){pow <- t(pow)
 			rownames(pow) <- seq(1:nrow(pow))}
@@ -327,7 +328,6 @@ power_linear_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, 
 					MAF = e.save.tab[, "MAF"], N = n, sd_e = e.save.tab[, "sd_e"], ES_G = e.save.tab[, "ES_G"], 
 					ES_E = e.save.tab[, "ES_E"], ES_GE = e.save.tab[, "ES_GE"], R2_G=e.save.tab[, "R2_G"], 
 					R2_E=e.save.tab[, "R2_E"], R2_GE=e.save.tab[, "R2_GE"], SD=e.save.tab[, "sd_y"], pow),row.names = NULL)
-
 		}
 	}
 	colnames(power.tab)<-c("Test.Model", "True.Model", "MAF", "N_total", "sd_e", "ES_G", "ES_E", "ES_GE", 

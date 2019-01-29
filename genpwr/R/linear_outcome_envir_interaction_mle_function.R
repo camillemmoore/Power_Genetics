@@ -9,7 +9,7 @@
 #'
 #' @export
 #'
-X_mat_returner <- function(mod)
+X_mat_returner <- function(mod, reduced = F)
 {
 
 	X_mat_dom <- rbind(
@@ -42,9 +42,8 @@ X_mat_returner <- function(mod)
 		c(1, 0, 1, 0, 0, 0),
 		c(1, 0, 0, 1, 0, 0),
 		c(1, 1, 0, 1, 1, 0),
-		c(1, 0, 1, 1, 0, 1)
-		
-		)
+		c(1, 0, 1, 1, 0, 1))
+	if(reduced) X_mat_2df <- X_mat_2df[,1:(ncol(X_mat_2df) - 1)]
 
 	X_mat_null <- rbind(
 		c(1, 0, 0, 0),
@@ -55,6 +54,8 @@ X_mat_returner <- function(mod)
 		c(1, 0, 0, 0))
 
 	X_mat_list <- list("Dominant" = X_mat_dom, "Recessive" = X_mat_rec, "Additive" = X_mat_add, "2df" = X_mat_2df, "null" = X_mat_null)
+
+	if(reduced) X_mat_list <- lapply(X_mat_list, function(amat) amat <- amat[,1:(ncol(amat) - 1)])
 
 	return(X_mat_list[[mod]])
 }
@@ -97,13 +98,13 @@ p_vec_returner <- function(MAF, P_e)
 #'
 #' @export
 #'
-linear.mles.log.envir.interaction <- function(MAF, P_e, ES_G, ES_E, ES_GE, Test.Model, True.Model)
+linear.mles.log.envir.interaction <- function(MAF, P_e, ES_G, ES_E, ES_GE, Test.Model, True.Model, reduced = F)
 {
 
 	# create elements we will use to calculate MLE
 	p_vec <- p_vec_returner(MAF, P_e)
 	W_mat <- diag(p_vec)
-	X_matF <- X_mat_returner(Test.Model) # the MLE is calculated using the test model
+	X_matF <- X_mat_returner(Test.Model, reduced = reduced) # the MLE is calculated using the test model
 
 	# the effect sizes are calculated from the true model
 	ES_vec <- (X_mat_returner(True.Model) %*% c(0, ES_G, ES_E, ES_GE))[,1]
@@ -129,16 +130,16 @@ linear.mles.log.envir.interaction <- function(MAF, P_e, ES_G, ES_E, ES_GE, Test.
 #'
 #' @export
 #'
-linear.outcome.log.envir.interaction.sds <- function(MAF, P_e, ES_G, ES_E, ES_GE, mod, True.Model, sd_y)
+linear.outcome.log.envir.interaction.sds <- function(MAF, P_e, ES_G, ES_E, ES_GE, mod, True.Model, sd_y, reduced = F)
 {
 
 	p_vec <- p_vec_returner(MAF, P_e)
 
 	ES_test <- linear.mles.log.envir.interaction(MAF = MAF, P_e = P_e, ES_G = ES_G, 
-					ES_E = ES_E, ES_GE = ES_GE, Test.Model = mod, True.Model = True.Model)
+					ES_E = ES_E, ES_GE = ES_GE, Test.Model = mod, True.Model = True.Model, reduced = reduced)
 
 
-	ES_vec <- (X_mat_returner(mod) %*% ES_test)[,1]
+	ES_vec <- (X_mat_returner(mod, reduced = reduced) %*% ES_test)[,1]
 	ES_vec_truemodel  <- (X_mat_returner(True.Model) %*% c(0, ES_G, ES_E, ES_GE))[,1]
 
 	y_bar <- p_vec_returner(MAF, P_e) * ES_vec_truemodel
@@ -169,11 +170,11 @@ linear.outcome.log.envir.interaction.sds <- function(MAF, P_e, ES_G, ES_E, ES_GE
 #'
 #' @export
 #'
-calc.like.linear.log.envir.interaction <- function(beta_hat, MAF, P_e, ES_G, ES_E, ES_GE, sd_y_x_truth, sd_y_x_model, Test.Model, True.Model)
+calc.like.linear.log.envir.interaction <- function(beta_hat, MAF, P_e, ES_G, ES_E, ES_GE, sd_y_x_truth, sd_y_x_model, Test.Model, True.Model, reduced  = F)
 {
 	p_vec <- p_vec_returner(MAF, P_e)
 
-	betavec <- (X_mat_returner(Test.Model) %*% beta_hat)[,1]
+	betavec <- (X_mat_returner(Test.Model, reduced = reduced) %*% beta_hat)[,1]
 	ES_vec <- (X_mat_returner(True.Model) %*% c(0, ES_G, ES_E, ES_GE))[,1]
 
 
