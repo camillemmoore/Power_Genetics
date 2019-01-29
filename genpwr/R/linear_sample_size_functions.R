@@ -133,15 +133,9 @@ ss.calc.linear<-
     }
 
     # For each scenario calculate the true differences in means AB-AA and BB-AA
-    e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
-                              ifelse(e.save.tab$True.Model=='Recessive', 0,
-                                     ifelse(e.save.tab$True.Model=='Additive', 0.5*e.save.tab$ES,
-                                            e.save.tab$ES)))
+    e.save.tab$es_ab = ifelse(e.save.tab$True.Model=='Recessive', 0, e.save.tab$ES)
 
-    e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Dominant', e.save.tab$ES,
-                              ifelse(e.save.tab$True.Model=='Recessive', e.save.tab$ES,
-                                     ifelse(e.save.tab$True.Model=='Additive', e.save.tab$ES,
-                                            2*e.save.tab$ES)))
+    e.save.tab$es_bb = ifelse(e.save.tab$True.Model=='Additive', 2*e.save.tab$ES,e.save.tab$ES)
 
     e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
 
@@ -195,10 +189,14 @@ ss.calc.linear<-
                              lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat}, ll.stat))
           }
           ss<-t(ss)
-        }else{ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, stat, Alpha[q], df=1),
+        }else{ss<-NULL
+        for (q in 1:length(Alpha)){
+          ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, stat, Alpha[q], df=1),
                                                            lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat}, ll.stat))
           #ss = mapply(function(stat)(qnorm(1-Alpha/2)+qnorm(p))^2/stat, ll.stat)
-          if(length(Alpha)>1){ss<-t(ss)}
+        }
+          ss<-t(ss)  
+        #if(length(Alpha)>1){ss<-t(ss)}
         }
 
 

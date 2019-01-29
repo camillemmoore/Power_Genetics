@@ -172,8 +172,8 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
 				temp.0 <- cbind(temp.0, pow)
-				colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
-				temp <- cbind(temp.0, temp)
+				#colnames(temp.0) <- paste0("Power_at_Alpha_", alpha0)
+				temp <- cbind(temp, temp.0)
 
 				# ll.stat = 2*(ll.alt-ll.reduced)
 				# if(length(Alpha)>1){pow <- t(pow)
@@ -259,7 +259,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 		stop("MAF must be greater than 0 and less than 1.")
 	}
 
-	if(sum(power<=0) | power >= 1){
+	if(sum(power<=0)>0 | sum(power >= 1)>0){
 		stop("power must be greater than 0 and less than 1.")#N
 	}
 
@@ -348,7 +348,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 	############################################################################################################
 	#Loop over sample size
 	############################################################################################################
-	for (apow in power){
+	for (pow in power){
 
 		################################################################################################
 		#Loop over all of the testing models and calculate power for each ES, SD, and MAF scenario
@@ -361,7 +361,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 				ss <- mapply(function(x){ll.ge.logistic.lin.envir(
 					sd_e = e.save.tab[x,"sd_e"],
 					MAF = e.save.tab[x,"MAF"],
-					power =apow,
+					power =pow,
 					beta0 = e.save.tab[x,"beta0"],
 					OR_G = e.save.tab[x,"OR_G"],
 					OR_E = e.save.tab[x,"OR_E"],
@@ -370,9 +370,9 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 					True.Model = e.save.tab[x,"True.Model"],
 					Test.Model = mod)}, seq(1:nrow(e.save.tab)))
 
-				temp.0 <- cbind(temp.0, pow)
-				colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)
-				temp <- cbind(temp.0, temp)
+				temp.0 <- cbind(temp.0, ss)
+				#colnames(temp.0) <- paste0("N_at_Alpha_", alpha0)
+				temp <- cbind(temp, temp.0)
 
 				# ll.stat = 2*(ll.alt-ll.reduced)
 				# if(length(Alpha)>1){pow <- t(pow)
@@ -388,7 +388,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 		}
 	}
 	colnames(ss.tab)<-c("Test.Model", "True.Model", "MAF", "N_total", "SD_E", "OR_G", "OR_E", "OR_GE", 
-				"Case.Rate", paste0("Power_at_Alpha_", Alpha))
+				"Case.Rate", paste0("N_total_at_Alpha_", Alpha))
 
 	return(ss.tab)
 }
