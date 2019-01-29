@@ -80,6 +80,10 @@ power_envir.calc <-
 	if(sum(MAF>=1)>0 | sum(MAF<=0)>0){
 		stop("MAF must be greater than 0 and less than 1.")
 	}
+	
+	if(sum(P_e>=1)>0 | sum(P_e<=0)>0){
+		stop("P_e must be greater than 0 and less than 1.")
+	}
 
 	if(sum(N<=0)>0){
 		stop("N must be greater than 0.")
