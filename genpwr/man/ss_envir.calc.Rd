@@ -9,6 +9,8 @@ ss_envir.calc(power = 0.8, Case.Rate = NULL, k = NULL, MAF = NULL,
   Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
+\item{power}{Vector of the desired power(s)}
+
 \item{Case.Rate}{proportion of cases in the sample (cases/(cases + controls)).}
 
 \item{k}{Vector of the number of controls per case. Either k or Case.Rate must be specified.}
@@ -26,8 +28,6 @@ ss_envir.calc(power = 0.8, Case.Rate = NULL, k = NULL, MAF = NULL,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{N}{Vector of the desired sample size(s)}
 
 \item{OR_G}{Vector of genetic/environmental interaction odds ratios to detect}
 }
