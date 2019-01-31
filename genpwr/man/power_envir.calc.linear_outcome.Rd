@@ -26,6 +26,8 @@ power_envir.calc.linear_outcome(N = NULL, MAF = NULL, ES_G = NULL,
 
 \item{R2_E}{Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
 
+\item{R2_GE}{Vector of genetic/environment interaction R-squared valuesEither ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+
 \item{sd_y}{Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.}
 
 \item{Alpha}{the desired type 1 error rate(s)}
