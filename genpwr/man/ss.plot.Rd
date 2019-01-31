@@ -40,6 +40,8 @@ ss.plot(data = NULL, x = "MAF", panel.by = "True.Model",
 \item{select.True.Model}{Only produce graphs for the specified true genetic model(s): "Additive", "Dominant", "Recessive".}
 
 \item{select.Test.Model}{Only produce graphs for the specified testing model(s): "Additive", "Dominant", "Recessive", "2df".}
+
+\item{linear.effect.measure}{Should the graphs indicate ES values, or R2 values? (default ES)}
 }
 \value{
 A series of plots with sample size on the Y axis.

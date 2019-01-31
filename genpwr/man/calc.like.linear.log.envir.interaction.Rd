@@ -5,7 +5,7 @@
 \title{Function to calculate the standard deviation of y given x for linear models with logistic environment interaction}
 \usage{
 calc.like.linear.log.envir.interaction(beta_hat, MAF, P_e, ES_G, ES_E,
-  ES_GE, sd_y_x_truth, sd_y_x_model, Test.Model, True.Model)
+  ES_GE, sd_y_x_truth, sd_y_x_model, Test.Model, True.Model, reduced = F)
 }
 \arguments{
 \item{beta_hat}{Effect sizes from MLE}

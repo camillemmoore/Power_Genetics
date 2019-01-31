@@ -3,13 +3,12 @@
 %   R/linear_power_function_linear_environment_interaction.R
 \name{power_linear_envir.calc.linear_outcome}
 \alias{power_linear_envir.calc.linear_outcome}
-\title{Function to Calculate Power for Linear Models with logistic environment interaction}
+\title{Function to Calculate Power for Linear Models with linear environment interaction}
 \usage{
 power_linear_envir.calc.linear_outcome(N = NULL, MAF = NULL,
   ES_G = NULL, ES_E = NULL, ES_GE = NULL, sd_e = NULL,
   R2_G = NULL, R2_E = NULL, R2_GE = NULL, sd_y = NULL,
-  Alpha = 0.05, True.Model = "All", Test.Model = "All",
-  compareQuanto = 1)
+  Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}
@@ -37,8 +36,6 @@ power_linear_envir.calc.linear_outcome(N = NULL, MAF = NULL,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)

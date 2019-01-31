@@ -24,6 +24,8 @@ power.plot(data = NULL, x = "MAF", panel.by = "True.Model",
 
 \item{return_gg}{Logical, specifying whether to return the ggplot object instead of printing out the plot}
 
+\item{linear.effect.measure}{Should the graphs indicate ES values, or R2 values? (default ES)}
+
 \item{select.Alpha}{Only produce graphs for the specified Alpha level(s).}
 
 \item{select.OR}{Only produce graphs for the specified odds ratio(s).}

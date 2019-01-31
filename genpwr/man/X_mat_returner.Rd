@@ -4,7 +4,7 @@
 \alias{X_mat_returner}
 \title{Function to output X matrices used in calculation of MLE's for linear outcome with logistic environment interaction}
 \usage{
-X_mat_returner(mod)
+X_mat_returner(mod, reduced = F)
 }
 \arguments{
 \item{mod}{type of model}

@@ -29,8 +29,8 @@ A data frame including the power for all combinations of the specified parameter
 Calculates the detectable effect size/regression coefficient, at a given sample size, N, and power, with type 1 error rate, Alpha
 }
 \examples{
-pw <- power.calc.linear(N=c(1000,2000),
-    MAF=seq(0.05, 0.1, 0.01), ES=c(3,4),sd_y = c(1,2),Alpha=c(0.05),
+es <- es.calc.linear(N=c(1000,2000),power=0.8,
+    MAF=seq(0.05, 0.1, 0.01),sd_y = c(1,2),Alpha=c(0.05),
     True.Model='All', Test.Model='All')
 
 }

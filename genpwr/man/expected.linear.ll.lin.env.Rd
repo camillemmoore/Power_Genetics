@@ -5,19 +5,10 @@
 \alias{expected.linear.ll.lin.env}
 \title{Function to Calculate Expected Log Likelihood for a Single Genotype with linear environment interaction}
 \usage{
-expected.linear.ll.lin.env(mean_truth, mean_model, sd_y_x_truth,
-  sd_y_x_model, sd_e)
+expected.linear.ll.lin.env(sd_y_x_model)
 }
 \arguments{
-\item{mean_truth}{Mean of the outcome given X(predictors/genotype) under the true model.}
-
-\item{mean_model}{Mean of the outcome given X(predictors/genotype) under the test model.}
-
-\item{sd_y_x_truth}{The standard deviation of Y given X (predictors/genotype) given genotype under the true model.}
-
 \item{sd_y_x_model}{The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.}
-
-\item{sd_e}{Standard deviation of linear environmental factor}
 }
 \value{
 The log likelihood.
