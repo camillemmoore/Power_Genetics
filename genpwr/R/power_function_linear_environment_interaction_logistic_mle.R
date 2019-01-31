@@ -92,7 +92,12 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 						beta[1] + mnte[2]*beta[2] + xe*(beta[3]+mnte[2]*beta[4]))
 					)
 			}
-			res <- integrate(ll_fun00, -30*sd_e, 30*sd_e)$value
+			res <- tryCatch(integrate(ll_fun00, -30*sd_e, 30*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			zzz <- 1
+			while(res == "error"){
+				zzz <- 0.5 + zzz
+				res <- tryCatch(integrate(ll_fun00, -30/zzz*sd_e, 30/zzz*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			}
 			return(res)
 		}
 		ll_g_e_fun <- function(beta){
@@ -112,7 +117,12 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 						beta[1] + mnte[2]*beta[2] + xe*beta[3]) 
 					)
 			}
-			res <- integrate(ll_fun00, -30*sd_e, 30*sd_e)$value
+			res <- tryCatch(integrate(ll_fun00, -30*sd_e, 30*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			zzz <- 1
+			while(res == "error"){
+				zzz <- 0.5 + zzz
+				res <- tryCatch(integrate(ll_fun00, -30/zzz*sd_e, 30/zzz*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			}
 			return(res)
 		}
 	}
@@ -143,7 +153,12 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 						beta[1] + beta[3] + xe*(beta[4]+beta[6]))
 					)
 			}
-			res <- integrate(ll_fun00, -30*sd_e, 30*sd_e)$value
+			res <- tryCatch(integrate(ll_fun00, -30*sd_e, 30*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			zzz <- 1
+			while(res == "error"){
+				zzz <- 0.5 + zzz
+				res <- tryCatch(integrate(ll_fun00, -30/zzz*sd_e, 30/zzz*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			}
 			return(res)
 		}
 		ll_g_e_fun <- function(beta){
@@ -163,7 +178,12 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 						beta[1] + beta[3] + xe*(beta[4])) 
 					)
 			}
-			res <- integrate(ll_fun00, -30*sd_e, 30*sd_e)$value
+			res <- tryCatch(integrate(ll_fun00, -30*sd_e, 30*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			zzz <- 1
+			while(res == "error"){
+				zzz <- 0.5 + zzz
+				res <- tryCatch(integrate(ll_fun00, -30/zzz*sd_e, 30/zzz*sd_e)$value, error = function(e) "error", warning = function(w) "warning")
+			}
 			return(res)
 		}
 

@@ -40,6 +40,7 @@
 #' @export
 #'
 ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_log = F, return_gg = F,
+                  linear.effect.measure = 'ES',
                   select.Alpha = NULL,
                   select.OR = NULL,
                   select.ES = NULL,

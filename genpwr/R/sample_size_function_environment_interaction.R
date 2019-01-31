@@ -2,7 +2,7 @@
 #'
 #' Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 #'
-#' @param N Vector of the desired sample size(s)
+#' @param power Vector of the desired power(s)
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
 #' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
 #' @param MAF Vector of minor allele frequencies
