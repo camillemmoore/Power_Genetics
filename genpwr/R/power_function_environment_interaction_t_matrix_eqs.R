@@ -9,9 +9,12 @@ dom.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	dom.fun <- function(x){
 		f <- numeric(3)
 
-		f[1] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]/((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1])) - OR_E
-		f[2] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]/((1 - Case.Rate - sum(x)) * ((1 - P_AA) * (1 - P_e) - x[2])) - OR_G
-		f[3] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]/((1 - Case.Rate - sum(x)) * ((1 - P_AA) * P_e - x[3])) - OR_E*OR_G*OR_GE
+		# f[1] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]/((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1])) - OR_E
+		# f[2] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]/((1 - Case.Rate - sum(x)) * ((1 - P_AA) * (1 - P_e) - x[2])) - OR_G
+		# f[3] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]/((1 - Case.Rate - sum(x)) * ((1 - P_AA) * P_e - x[3])) - OR_E*OR_G*OR_GE
+		f[1] <- ((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1]))/((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]) - OR_E
+		f[2] <- ((1 - Case.Rate - sum(x)) * ((1 - P_AA) * (1 - P_e) - x[2]))/((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]) - OR_G
+		f[3] <- ((1 - Case.Rate - sum(x)) * ((1 - P_AA) * P_e - x[3]))/((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]) - OR_E*OR_G*OR_GE
 		f
 	}
 	tol = 0.6
@@ -66,9 +69,9 @@ rec.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	rec.fun <- function(x){
 		f <- numeric(3)
 
-		f[1] <- ((1 - P_BB) * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]/((1 - Case.Rate - sum(x)) * ((1 - P_BB) * P_e - x[1])) - OR_E
-		f[2] <- ((1 - P_BB) * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]/((1 - Case.Rate - sum(x)) * (P_BB * (1 - P_e) - x[2])) - OR_G
-		f[3] <- ((1 - P_BB) * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]/((1 - Case.Rate - sum(x)) * (P_BB * P_e - x[3])) - OR_E*OR_G*OR_GE
+		f[1] <- ((1 - Case.Rate - sum(x)) * ((1 - P_BB) * P_e - x[1]))/(((1 - P_BB) * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]) - OR_E
+		f[2] <- ((1 - Case.Rate - sum(x)) * (P_BB * (1 - P_e) - x[2]))/(((1 - P_BB) * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]) - OR_G
+		f[3] <- ((1 - Case.Rate - sum(x)) * (P_BB * P_e - x[3]))/(((1 - P_BB) * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]) - OR_E*OR_G*OR_GE
 		f
 	}
 	tol = 0.6
@@ -122,17 +125,25 @@ add.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	add.fun <- function(x){
 		f <- numeric(5)
 
-		f[1] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]/((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1])) - OR_E
-		f[2] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]/((1 - Case.Rate - sum(x)) * (P_AB * (1 - P_e) - x[2])) - OR_G
 		# f[2] <- (P_AA * P_e - x[1]) * x[2] / (x[1] * (P_AB * (1 - P_e) - x[2])) - OR_G / OR_E
-		f[3] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]/((1 - Case.Rate - sum(x)) * (P_AB * P_e - x[3])) - OR_G*OR_E*OR_GE
 		# f[3] <- ((P_AB * (1 - P_e) - x[2])) * x[3] / (x[2] * (P_AB * P_e - x[3])) - OR_E * OR_GE
-		f[4] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[4]/((1 - Case.Rate - sum(x)) * (P_BB * (1 - P_e) - x[4])) - OR_G^2
 		# f[4] <- (P_AB * P_e - x[3]) * x[4] / (x[3] * (P_BB * (1 - P_e) - x[4])) - OR_G / (OR_E * OR_GE)
-		f[5] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[5]/((1 - Case.Rate - sum(x)) * (P_BB * P_e - x[5])) - OR_G^2*OR_E*OR_GE^2
 		# f[5] <- (P_AB * P_e - x[3]) * x[5]/(x[3] * (P_BB * P_e - x[5])) - OR_G*OR_GE
 		# f[5] <- (P_BB * (1 - P_e) - x[4]) * x[5]/(x[4] * (P_BB * P_e - x[5])) - OR_E * OR_GE^2
+		
+		# f[1] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]/((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1])) - OR_E
+		# f[2] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]/((1 - Case.Rate - sum(x)) * (P_AB * (1 - P_e) - x[2])) - OR_G
+		# f[3] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]/((1 - Case.Rate - sum(x)) * (P_AB * P_e - x[3])) - OR_G*OR_E*OR_GE
+		# f[4] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[4]/((1 - Case.Rate - sum(x)) * (P_BB * (1 - P_e) - x[4])) - OR_G^2		
+		# f[5] <- (P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[5]/((1 - Case.Rate - sum(x)) * (P_BB * P_e - x[5])) - OR_G^2*OR_E*OR_GE^2
+		f[1] <- ((1 - Case.Rate - sum(x)) * (P_AA * P_e - x[1])) / ((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[1]) - OR_E
+		f[2] <- ((1 - Case.Rate - sum(x)) * (P_AB * (1 - P_e) - x[2])) / ((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[2]) - OR_G
+		f[3] <- ((1 - Case.Rate - sum(x)) * (P_AB * P_e - x[3])) / ((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[3]) - OR_G*OR_E*OR_GE
+		f[4] <- ((1 - Case.Rate - sum(x)) * (P_BB * (1 - P_e) - x[4])) / ((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[4]) - OR_G^2		
+		f[5] <- ((1 - Case.Rate - sum(x)) * (P_BB * P_e - x[5])) / ((P_AA * (1 - P_e) - 1 + Case.Rate + sum(x)) * x[5]) - OR_G^2*OR_E*OR_GE^2
 
+		
+		
 		f
 	}
 	tol = 0.6
