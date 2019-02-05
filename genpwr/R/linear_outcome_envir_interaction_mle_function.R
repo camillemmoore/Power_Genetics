@@ -3,6 +3,8 @@
 #'
 #' Returns X matrices used in calculation of MLE's for linear outcome with logistic environment interaction
 #'
+#' @import MASS
+#'
 #' @param mod type of model
 #'
 #' @return A matrix to be used in MLE calculation for linear outcome with logistic environment interaction
