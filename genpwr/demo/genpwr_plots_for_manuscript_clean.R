@@ -1,11 +1,3 @@
-
-
-print("if you see this it worked")
-
-
-if(F){
-
-
 ############################################
 # genpwr examples for manuscript
 ############################################
@@ -181,5 +173,3 @@ p2<-plot_obj_1.5_2 + ggtitle(expression('OR'[g]*" = 1.5")) + ylim(c(0,1))
 p3<-plot_obj_5_2 + ggtitle(expression('OR'[g]*" = 5")) + ylim(c(0,1))
 grid.arrange(p1, p2, p3, nrow = 3)
 
-
-}
