@@ -12,7 +12,7 @@ The following true underlying genetic models can be assumed:
 - Dominant
 - Recessive
 
-Gene x environment interactions with a binary environmental factor (ex. smoking yes/no) can be included in the models. This functionality is being extended to include continuouse environment measurements.   
+Gene x environment interactions with a binary (ex. smoking yes/no) or continuous environmental factor can be included in the models.   
 
 ## Install genpwr
 
