@@ -6,23 +6,6 @@
 #Plots for Sample Size
 #########################################################################################################
 
-#' Function to convert to numeric with scientific notation contaning the "." character
-#'
-#' convert to numeric with scientific notation contaning the "." character
-#'
-#'
-#' @param char string to be converted to numeric
-#'
-#' @return a number
-#'
-#' @export
-#'
-as.numeric2<-function(char){
-  if(grepl("e.", char)) char <- gsub("e.", "e-", char)
-  return(as.numeric(char))
-}
-
-
 #' Function to Plot Sample Size Results
 #'
 #' Plot the sample size results by MAF, OR, Alpha or Power
@@ -77,8 +60,8 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
  
   #Create Dataset with separate rows for each Alpha level  
   indices<-grep(nstr,colnames(data))
-  Alphas<-as.numeric2(unlist( strsplit(colnames(data)[indices],nstr))[2])
-  
+  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],nstr)), ncol=2, byrow=TRUE)[,2])
+
   ss.new<-NULL
   for (i in 1:length(Alphas)){ss.new<-rbind(ss.new, data.frame(data[-indices], N_total=data[,indices[i]], Alpha=Alphas[i]))}
 
@@ -186,15 +169,15 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
                      select.Test.Model = NULL)
 {
 
+  library(ggplot2)
   "%ni%" <- Negate("%in%")
 
   #Create Dataset with separate rows for each Alpha level
   powerstr <- "Power_at_Alpha_"
   if(any(grepl("Power_GE_at_Alpha_", colnames(data)))) powerstr <- "Power_GE_at_Alpha_"
   indices<-grep(powerstr,colnames(data))
-  Alphas<-as.numeric2(unlist( strsplit(colnames(data)[indices],powerstr))[2])
-    
- 
+  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],powerstr)), ncol=2, byrow=TRUE)[,2])
+
   ss.new<-NULL
   for (i in 1:length(Alphas)){ss.new<-rbind(ss.new, data.frame(data[-indices], Power=data[,indices[i]], Alpha=Alphas[i]))}
 
@@ -320,8 +303,7 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 
   #Create Dataset with separate rows for each Alpha level
   indices<-grep("OR_at_Alpha_",colnames(data))
-  Alphas<-as.numeric2(unlist( strsplit(colnames(data)[indices],"OR_at_Alpha_"))[2])
-    
+  Alphas<-as.numeric(matrix(unlist( strsplit(colnames(data)[indices],"OR_at_Alpha_")), ncol=2, byrow=TRUE)[,2])
 
   ss.new<-NULL
   for (i in 1:length(Alphas)){ss.new<-rbind(ss.new, data.frame(data[-indices], OR=data[,indices[i]], Alpha=Alphas[i]))}

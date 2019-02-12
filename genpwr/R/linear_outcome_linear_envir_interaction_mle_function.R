@@ -2,8 +2,6 @@
 #'
 #' Returns probability vector used in calculation of MLE's for linear outcome with linear environment interaction
 #'
-#' @import MASS
-#'
 #' @param mod type of model
 #'
 #' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction

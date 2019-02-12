@@ -1,18 +1,6 @@
-#' Function to Calculate t matrix for logistic outcome with binary environment interaction in dominant model
-#'
-#' Calculates the t matrix for logistic outcome with binary environment interaction in dominant model
-#'
-#' @param MAF Vector of minor allele frequencies
-#' @param P_e Vector of proportions of the population with exposure to the environmental effect
-#' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
-#' @param OR_G Vector of genetic odds ratios to detect
-#' @param OR_E Vector of environmental odds ratios to detect
-#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
-#'
-#' @return t matrix for all combinations of environment/outcome
-#'
-#' @export
-#'
+
+
+
 dom.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	P_AA <- (1 - MAF)^2
 	P_AB <- 2*MAF*(1 - MAF)
@@ -72,21 +60,7 @@ dom.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	return(t)
 }
 
-#' Function to Calculate t matrix for logistic outcome with binary environment interaction in recessive model
-#'
-#' Calculates the t matrix for logistic outcome with binary environment interaction in recessive model
-#'
-#' @param MAF Vector of minor allele frequencies
-#' @param P_e Vector of proportions of the population with exposure to the environmental effect
-#' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
-#' @param OR_G Vector of genetic odds ratios to detect
-#' @param OR_E Vector of environmental odds ratios to detect
-#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
-#'
-#' @return t matrix for all combinations of environment/outcome
-#'
-#' @export
-#'
+
 rec.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	P_AA <- (1 - MAF)^2
 	P_AB <- 2*MAF*(1 - MAF)
@@ -143,21 +117,6 @@ rec.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	return(t)
 }
 
-#' Function to Calculate t matrix for logistic outcome with binary environment interaction in additive model
-#'
-#' Calculates the t matrix for logistic outcome with binary environment interaction in additive model
-#'
-#' @param MAF Vector of minor allele frequencies
-#' @param P_e Vector of proportions of the population with exposure to the environmental effect
-#' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
-#' @param OR_G Vector of genetic odds ratios to detect
-#' @param OR_E Vector of environmental odds ratios to detect
-#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
-#'
-#' @return t matrix for all combinations of environment/outcome
-#'
-#' @export
-#'
 add.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 	P_AA <- (1 - MAF)^2
 	P_AB <- 2*MAF*(1 - MAF)

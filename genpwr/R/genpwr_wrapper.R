@@ -34,7 +34,7 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' pw <- genpwr.calc(calc = "power", model = "logistic", ge.interaction = "continuous",
+#' pw <- power_linear_envir.calc.logistic_outcome genpwr.calc(calc = "power", model = "logistic", 
 #' 	N=c(30, 100), OR_G=c(1.1,2), OR_E=c(1.2, 1.4), OR_GE=c(1.5, 2), 
 #' 	sd_e = c(1, 1.1), MAF=c(0.1, 0.2), Case.Rate = c(0.2, 0.3),Alpha=c(0.02, 0.05),
 #' 	True.Model="All", Test.Model="All")
@@ -63,15 +63,15 @@ genpwr.calc <- function(calc, model, ge.interaction = NULL,
 	wnulls <- function(x) print(sprintf("The following parameters were given a value but not used: %s", paste0(x, collapse = ", ")))
 	if(model %ni% c("logistic", "linear")) stop("'model' must be either 'logistic' or 'linear'")
 	if(!is.null(ge.interaction)){
-		if(ge.interaction %ni% c("binary", "continuous"))
-			stop("'ge.interaction' must be either 'binary' or 'continuous' if not NULL")
+		if(ge.interaction %ni% c("logistic", "linear"))
+			stop("'ge.interaction' must be either 'logistic' or 'linear' if not NULL")
 	}
 	# if(!is.logical(environment.logistic)) stop("'environment.logistic' must be TRUE or FALSE")
 	#foo <-  c("N", "Power", "MAF", "P_e", "sd_e", "sd_y", "Case.Rate", "k", "OR", "OR_G", "OR_E", "OR_GE", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_G", "R2_E", "R2_GE")
 	if(calc == "pow"){
 		if(model == "logistic"){
 			if(!is.null(ge.interaction)){
-				if(ge.interaction == "binary"){
+				if(ge.interaction == "logistic"){
 					tnulls <- c("Power", "sd_e", "sd_y", "OR", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_G", "R2_E", "R2_GE")
 					if(any(sapply(tnulls, function(tn) !is.null(get(tn))))) wnulls(tnulls[sapply(tnulls, function(tn) !is.null(get(tn)))])
 					power_envir.calc(N=N, Case.Rate=Case.Rate, k=k, MAF=MAF, OR_G=OR_G, OR_E=OR_E, OR_GE=OR_GE, P_e=P_e,
@@ -90,7 +90,7 @@ genpwr.calc <- function(calc, model, ge.interaction = NULL,
 			}
 		}else if(model == "linear"){
 			if(!is.null(ge.interaction)){
-				if(ge.interaction == "binary"){
+				if(ge.interaction == "logistic"){
 					tnulls <- c("Power", "sd_e", "Case.Rate", "k", "OR", "OR_G", "OR_E", "OR_GE", "ES", "R2")
 					if(any(sapply(tnulls, function(tn) !is.null(get(tn))))) wnulls(tnulls[sapply(tnulls, function(tn) !is.null(get(tn)))])
 					power_envir.calc.linear_outcome(N=N, MAF=MAF, ES_G=ES_G, ES_E=ES_E, ES_GE=ES_GE, P_e=P_e, 
@@ -111,7 +111,7 @@ genpwr.calc <- function(calc, model, ge.interaction = NULL,
 	}else if(calc == "ss"){
 		if(model == "logistic"){
 			if(!is.null(ge.interaction)){
-				if(ge.interaction == "binary"){
+				if(ge.interaction == "logistic"){
 					tnulls <- c("N", "sd_e", "sd_y", "OR", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_G", "R2_E", "R2_GE")
 					if(any(sapply(tnulls, function(tn) !is.null(get(tn))))) wnulls(tnulls[sapply(tnulls, function(tn) !is.null(get(tn)))])
 					ss_envir.calc(power=Power, Case.Rate=Case.Rate, k=k, MAF=MAF, OR_G=OR_G, OR_E=OR_E, OR_GE=OR_GE, P_e=P_e,
@@ -130,7 +130,7 @@ genpwr.calc <- function(calc, model, ge.interaction = NULL,
 			}
 		}else if(model == "linear"){
 			if(!is.null(ge.interaction)){
-				if(ge.interaction == "binary"){
+				if(ge.interaction == "logistic"){
 					tnulls <- c("N", "Power", "sd_e", "Case.Rate", "k", "OR", "OR_G", "OR_E", "OR_GE", "ES", "R2")
 					if(any(sapply(tnulls, function(tn) !is.null(get(tn))))) wnulls(tnulls[sapply(tnulls, function(tn) !is.null(get(tn)))])
 					ss_envir.calc.linear_outcome(pow=Power, MAF=MAF, ES_G=ES_G, ES_E=ES_E, ES_GE=ES_GE, P_e=P_e, 
