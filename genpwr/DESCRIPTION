@@ -8,11 +8,8 @@ Description: genpwr performs power and sample size calcualtions
     calculated for the following logisitic regression models: 
     Additive Genetic Effect, Dominant Genetic Effect, Recessive 
     Genetic Effect, Unspecified Genetic Effect (2 degree of 
-    freedom test - most flexible).  The following true underlying 
-    genetic models can be assumed: Additive, Dominant, Recessive. 
-    Currently, covariates and gene x environment interactions 
-    cannot be included in the models. This package will be 
-    extended to continuous outcomes.  
+    freedom test - most flexible).
+    Currently, covariates cannot be included in the models. 
 Depends: R (>= 3.3.2), ggplot2, nleqslv
 License: NA
 Encoding: UTF-8

@@ -57,7 +57,7 @@ plot_obj_20000 + xlim(c(0,0.1))+ ylim(c(0.7,1))+ ggtitle("N=20,000, Zoom 2")
 dev.off()
 
 # Calculate detectable odds ratios
-or <- odds_ratio_function(N=c(5000, 20000), Case.Rate = 0.5, power=0.8, Alpha=0.00000005, MAF=c( 0.1, 0.3) )
+or <- genpwr.calc(calc = "es", model = "logistic", N=c(5000, 20000), Case.Rate = 0.5, power=0.8, Alpha=0.00000005, MAF=c( 0.1, 0.3) )
 
 
 ##############################################################################
