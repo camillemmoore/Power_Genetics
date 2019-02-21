@@ -33,3 +33,16 @@ Finally, install the package.
 ```
 install_github("camillemmoore/Power_Genetics", subdir="genpwr")
 ```
+
+## Vignettes and demos
+To see examples of how to use the genpwr package, see our vignette:
+
+```
+browseVignettes('genpwr')
+```
+
+There is also a demo to reproduce the study designs in our upcoming paper:
+
+```
+demo(genpwr_demo)
+```

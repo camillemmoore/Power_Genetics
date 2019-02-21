@@ -36,29 +36,10 @@ plot_obj_5000 + ggtitle("N = 5,000")
 plot_obj_20000 + ggtitle("N = 20,000")
 
 
-pdf('genpwr_plots_OR_1.25_alpha_genome.pdf', height = 3, width=9)
-
-# plot_obj_2000 + ggtitle("N=2,000")
-# plot_obj_3000 + ggtitle("N=3,000")
-# plot_obj_4000 + ggtitle("N=4,000")
-plot_obj_5000 + ggtitle("N=5,000")
-
-# plot_obj_10000 + ggtitle("N=10,000")
-# plot_obj_10000 + xlim(c(0,0.15))+ ggtitle("N=10,000, Zoom 1")
-# plot_obj_10000 + xlim(c(0,0.15)) + ylim(c(0.7,1))+ ggtitle("N=10,000, Zoom 2")
-
-# plot_obj_15000+ ggtitle("N=15,000")
-# plot_obj_15000 + xlim(c(0,0.1))+ ggtitle("N=15,000, Zoom 1")
-# plot_obj_15000 + xlim(c(0,0.1))+ ylim(c(0.7,1))+ ggtitle("N=15,000, Zoom 2")
-
-plot_obj_20000+ ggtitle("N=20,000")
-plot_obj_20000 + xlim(c(0,0.1))+ ggtitle("N=20,000, Zoom 1")
-plot_obj_20000 + xlim(c(0,0.1))+ ylim(c(0.7,1))+ ggtitle("N=20,000, Zoom 2")
-dev.off()
-
 # Calculate detectable odds ratios
-or <- genpwr.calc(calc = "es", model = "logistic", N=c(5000, 20000), Case.Rate = 0.5, power=0.8, Alpha=0.00000005, MAF=c( 0.1, 0.3) )
+or <- genpwr.calc(calc = "es", model = "logistic", N=c(5000, 20000), Case.Rate = 0.5, Power=0.8, Alpha=0.00000005, MAF=c( 0.1, 0.3) )
 
+or
 
 ##############################################################################
 # Power for G x E Interaction in IPF
