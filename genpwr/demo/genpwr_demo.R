@@ -37,7 +37,7 @@ plot_obj_20000 + ggtitle("N = 20,000")
 
 
 # Calculate detectable odds ratios
-or <- genpwr.calc(calc = "es", model = "logistic", N=c(5000, 20000), Case.Rate = 0.5, power=0.8, Alpha=0.00000005, MAF=c( 0.1, 0.3) )
+or <- genpwr.calc(calc = "es", model = "logistic", N=c(5000, 20000), Case.Rate = 0.5, Power=0.8, Alpha=0.00000005, MAF=c( 0.1, 0.3) )
 
 or
 
