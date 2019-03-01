@@ -590,12 +590,12 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #'
 #' @examples
 #' or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), 
-#'   power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = T, True.Model = 'All', Test.Model = 'All')
+#'   power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = TRUE, True.Model = 'All', Test.Model = 'All')
 #'
 #' @export
 #'
 odds_ratio_function <-
-  function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, power=NULL, risk_allele = T,
+  function(N=NULL, Case.Rate=NULL, k=NULL, MAF=NULL, power=NULL, risk_allele = TRUE,
                      Alpha=0.05, True.Model='All', Test.Model='All')
 {
 
