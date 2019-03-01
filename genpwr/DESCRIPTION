@@ -10,7 +10,7 @@ Description: genpwr performs power and sample size calcualtions
     Genetic Effect, Unspecified Genetic Effect (2 degree of 
     freedom test - most flexible).
     Currently, covariates cannot be included in the models. 
-Depends: R (>= 3.3.2), ggplot2, nleqslv
+Depends: R (>= 3.3.2), ggplot2, nleqslv, MASS
 License: NA
 Encoding: UTF-8
 LazyData: true
