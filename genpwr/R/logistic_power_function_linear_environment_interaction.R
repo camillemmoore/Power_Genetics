@@ -225,7 +225,7 @@ ss_linear_envir.calc.logistic_outcome <- function(power=NULL, MAF=NULL, OR_G=NUL
 		Case.Rate=NULL, k=NULL, Alpha=0.05, True.Model='All', Test.Model='All')
 {
 
-	library(MASS)
+	#library(MASS)
 
 	############################################################################################################
 	#Error Messages for insufficient sample size information, MAF, and case vs. control ratio

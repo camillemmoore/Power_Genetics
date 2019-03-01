@@ -69,7 +69,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
                   select.Test.Model = NULL)
 {
 
-  library(ggplot2)
+  #library(ggplot2)
   "%ni%" <- Negate("%in%")
   
   nstr <- "N_total_at_Alpha_"
@@ -315,7 +315,7 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
                     select.Test.Model = NULL)
 {
 
-  library(ggplot2)
+  #library(ggplot2)
   "%ni%" <- Negate("%in%")
 
   #Create Dataset with separate rows for each Alpha level

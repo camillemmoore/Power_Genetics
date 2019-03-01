@@ -28,7 +28,7 @@
 power_envir.calc.linear_outcome <- function(N=NULL, MAF=NULL, ES_G=NULL, ES_E=NULL, ES_GE=NULL, P_e=NULL, 
 		R2_G=NULL, R2_E=NULL, R2_GE=NULL, sd_y=NULL,Alpha=0.05, True.Model='All', Test.Model='All')
 {
-	library(MASS)
+	#library(MASS)
 
 	############################################################################################################
 	#Error Messages for insufficient sample size information, MAF, and case vs. control ratio
