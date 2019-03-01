@@ -184,6 +184,9 @@ rec.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
       }
     })
 
+    # in case b is a list
+    b <- unlist(b)
+
     e = P_AB - b
     a = cr - b - c
     d = P_AA - a
