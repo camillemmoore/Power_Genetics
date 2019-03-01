@@ -51,7 +51,7 @@ A series of plots with power on the Y axis.
 Plot the power results by MAF, Power, Alpha or N
 }
 \examples{
-or <- effect_size_function(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
+or <- odds_ratio_function(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
     MAF=seq(0.05, 0.1, 0.01), power=c(0.5,0.8),Alpha=c(0.05),
     True.Model='All', Test.Model='All')
 or.plot(data=pw, x='MAF')

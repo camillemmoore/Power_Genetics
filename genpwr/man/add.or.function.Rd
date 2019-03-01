@@ -25,5 +25,5 @@ add.or.function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
 : The odds ratios and their corresponding genetic model(s)
 }
 \description{
-Operates within effect_size_function to calculate odds ratios for a Test.Model of "Additive"
+Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "Additive"
 }
