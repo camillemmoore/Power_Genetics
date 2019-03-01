@@ -5,7 +5,7 @@
 \title{Odds Ratio Function}
 \usage{
 odds_ratio_function(N = NULL, Case.Rate = NULL, k = NULL,
-  MAF = NULL, power = NULL, risk_allele = T, Alpha = 0.05,
+  MAF = NULL, power = NULL, risk_allele = TRUE, Alpha = 0.05,
   True.Model = "All", Test.Model = "All")
 }
 \arguments{
@@ -32,6 +32,6 @@ Calculates the odds ratio for a given power, at a given sample size, N, with typ
 }
 \examples{
 or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), 
-  power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = T, True.Model = 'All', Test.Model = 'All')
+  power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = TRUE, True.Model = 'All', Test.Model = 'All')
 
 }
