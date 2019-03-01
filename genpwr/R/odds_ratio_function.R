@@ -4,7 +4,7 @@
 ####################################################################################
 #' Dominant Model Function
 #'
-#' Operates within effect_size_function to calculate odds ratios for a Test.Model of "Dominant"
+#' Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "Dominant"
 #'
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
@@ -101,7 +101,7 @@ dom.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 ####################################################################################
 #' Recessive Model Function
 #'
-#' Operates within effect_size_function to calculate odds ratios for a Test.Model of "Recessive"
+#' Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "Recessive"
 #'
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
@@ -298,7 +298,7 @@ find.prob.rec<-function(x,P_AA,P_AB,P_BB,cr, like)
 
 #' Additive Model Function
 #'
-#' Operates within effect_size_function to calculate odds ratios for a Test.Model of "Additive"
+#' Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "Additive"
 #'
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
@@ -424,7 +424,7 @@ add.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 ####################################################################################
 #' 2df Model Function
 #'
-#' Operates within effect_size_function to calculate odds ratios for a Test.Model of "2df"
+#' Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "2df"
 #'
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
@@ -589,7 +589,7 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
 #'
 #' @examples
-#' or <- effect_size_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), 
+#' or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), 
 #'   power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = T, True.Model = 'All', Test.Model = 'All')
 #'
 #' @export

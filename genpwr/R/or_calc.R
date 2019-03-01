@@ -6,7 +6,7 @@
 
 #' Odds ratio calculation
 #'
-#' Calculates odds ratio for given parameters. Used by the function effect_size_function.
+#' Calculates odds ratio for given parameters. Used by the function odds_ratio_function.
 #'
 #' @param a The probability of a case given homogeneity for the major allele
 #' @param b The probability of a case given heterozygosity 
