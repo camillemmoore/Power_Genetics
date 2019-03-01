@@ -47,7 +47,7 @@ genpwr.calc <- function(calc, model, ge.interaction = NULL,
 	MAF = NULL, Alpha = 0.05,
 	P_e = NULL, sd_e = NULL,
 	sd_y = NULL, Case.Rate = NULL, k = NULL,
-	OR = NULL, OR_G = NULL, OR_E = NULL, OR_GE = NULL, risk_allele = T,
+	OR = NULL, OR_G = NULL, OR_E = NULL, OR_GE = NULL, risk_allele = TRUE,
 	ES = NULL, ES_G = NULL, ES_E = NULL, ES_GE = NULL,
 	R2 = NULL, R2_G = NULL, R2_E = NULL, R2_GE = NULL,
 	True.Model = "All", Test.Model = "All")
