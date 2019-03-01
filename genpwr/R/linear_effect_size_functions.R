@@ -197,7 +197,7 @@ es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
 							tryCatch(ES <- uniroot(af, interval = c(lower,anx - 0.5))$root, warning=function(warn){warning<<-1},
 									error=function(err){error<<-1})
 							if(warning + error > 0) ES <- NA
-							R2 <- round(ES^2 * var_x$var_x[var_x$True.Model == mod_true] / sd_y^2, digits = 5)
+							R2 <- round(ES^2 * var_x$var_x[var_x$True.Model == mod_true & var_x$MAF == m] / sd_y^2, digits = 5)
 							ES <- round(ES, digits = 5)
 
 							res <- data.frame(rbind(c(mod_test, mod_true, m, N, ES, R2, pow, sd_y, alpha0)), stringsAsFactors = F)
