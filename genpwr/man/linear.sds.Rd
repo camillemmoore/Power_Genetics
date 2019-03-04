@@ -10,11 +10,13 @@ linear.sds(m, es_ab, es_bb, sd_y, model)
 \arguments{
 \item{m}{minor allele frequency}
 
+\item{es_ab}{effect size for mean AB - mean AA}
+
+\item{es_bb}{effect size for mean BB - mean AA}
+
 \item{sd_y}{the standard deviation of y in the overall population.}
 
 \item{model}{The assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive', '2df'}
-
-\item{es}{vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA)}
 }
 \value{
 A vector of linear regression model coefficients.
