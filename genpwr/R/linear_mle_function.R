@@ -4,7 +4,8 @@
 #' Finds the maximum likelihood estiamtes for a given MAF under the specified genetic model and effect size.
 #'
 #' @param m minor allele frequency
-#' @param es vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA)
+#' @param es_ab effect size for mean AB - mean AA 
+#' @param es_bb effect size for mean BB - mean AA 
 #' @param model The assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive', '2df'
 #'
 #' @return A vector of linear regression model coefficients.

@@ -95,7 +95,7 @@ p_vec_returner <- function(MAF, P_e)
 #' @param ES_G Genetic Effect size
 #' @param ES_E Environment Effect size
 #' @param ES_GE Environment x Genetic interaction Effect size
-#' @param Test.model Test model
+#' @param Test.Model Test model
 #' @param True.Model True model
 #' @param reduced logical, indicates whether the X matrix will be used for a reduced model
 #'
@@ -167,9 +167,9 @@ linear.outcome.log.envir.interaction.sds <- function(MAF, P_e, ES_G, ES_E, ES_GE
 #' @param ES_E Environment Effect size
 #' @param ES_GE Environment x Genetic interaction Effect size
 #' @param sd_y_x_truth Standard deviation of y for the true model
-#' @param sd_y_x_test Standard deviation of y for the test model
+#' @param sd_y_x_model Standard deviation of y for the test model
 #' @param sd_y Standard deviation of y
-#' @param Test.model Test model
+#' @param Test.Model Test model
 #' @param True.Model True model
 #' @param reduced logical, indicates whether the X matrix will be used for a reduced model
 #'
