@@ -19,7 +19,7 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' ss_linear_envir.calc.linear_outcome(N=c(1000,2000), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
+#' ss_linear_envir.calc.linear_outcome(pow = c(0.4, 0.8), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
 #' 	sd_e = c(1,1.2), MAF=seq(0.28, 0.3, 0.01), sd_y = c(5, 8),Alpha=c(0.05),
 #' 	True.Model='All', Test.Model='All')
 #'
@@ -320,12 +320,16 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 
 			#Calculate the power for the given sample size for a range of Alpha levels
 			if(mod=='2df'){
-				pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
+				pow = t(sapply(Alpha, function(Alpha0) mapply(function(stat) 1-pchisq(qchisq(1-Alpha0, df=2, ncp=0), 
+					df=2, ncp = n*stat), ll.stat)))
 			}else{
-				pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)
+				pow = t(sapply(Alpha, function(Alpha0) mapply(function(stat) 
+					pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)))
 			}
-			if(length(Alpha)>1){pow <- t(pow)
-			rownames(pow) <- seq(1:nrow(pow))}
+			# if(length(Alpha)>1){
+			pow <- t(pow)
+			rownames(pow) <- seq(1:nrow(pow))
+			# }
 
 			#Save the power calculations for each testing model in a final table for the sample size and case rate
 			power.tab<-rbind(power.tab,data.frame(Test.Model=mod, True.Model = as.character(e.save.tab[, "True.Model"]),
