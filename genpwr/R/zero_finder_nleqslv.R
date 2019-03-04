@@ -14,11 +14,11 @@
 #' afun <- function(x) {
 #' 	y <- numeric(2)
 #' 	y[1] <- x[1]^2 + x[2]^2 - 1
-#' 	y[2] <- exp(x[1]-1) + x[2]^3 - 1
+#' 	y[2] <- exp(x[1]-1) + x[2]^3 - 1.1
 #' 	y
 #' }
 #'
-#' zero_finder_nleqslv(afun)
+#' zero_finder_nleqslv(afun, veclength = 2)
 #'
 #' @export
 #'

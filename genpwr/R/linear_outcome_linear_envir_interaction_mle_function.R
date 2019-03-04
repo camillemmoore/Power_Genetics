@@ -262,10 +262,10 @@ linear.outcome.lin.envir.interaction.sds_reduced <- function(MAF, sd_e, beta0, E
 #' @param ES_G Genetic Effect size
 #' @param ES_E Environment Effect size
 #' @param ES_GE Environment x Genetic interaction Effect size
+#' @param beta0 baseline value for the outcome
 #' @param sd_y_x_truth Standard deviation of y for the true model
-#' @param sd_y_x_test Standard deviation of y for the test model
-#' @param sd_y Standard deviation of y
-#' @param Test.model Test model
+#' @param sd_y_x_model Standard deviation of y for the test model
+#' @param Test.Model Test model
 #' @param True.Model True model
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction
