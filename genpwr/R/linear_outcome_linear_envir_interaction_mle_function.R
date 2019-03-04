@@ -4,7 +4,7 @@
 #'
 #' @import MASS
 #'
-#' @param mod type of model
+#' @param MAF Minor Allele Frequency
 #'
 #' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
 #'
@@ -21,6 +21,17 @@ p_vec_returner_lin_env <- function(MAF)
 	p_vec <- c(p_AA0, p_AB0, p_BB0, p_AA1, p_AB1, p_BB1)
 	return(p_vec)
 }
+
+#' Function to output X matrices used in calculation of MLE's for linear outcome with linear environment interaction
+#'
+#' @import MASS
+#'
+#' @param mod type of model
+#'
+#' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
+#'
+#' @export
+#'
 
 X_mat_returner_lle <- function(mod)
 {

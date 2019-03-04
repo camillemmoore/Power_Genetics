@@ -7,7 +7,7 @@
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
 #' @param OR_G Vector of genetic odds ratios to detect
 #' @param OR_E Vector of environmental odds ratios to detect
-#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
+#' @param OR_GE Vector of genetic/environmental interaction odds ratios to detect
 #'
 #' @return t matrix for all combinations of environment/outcome
 #'

@@ -63,7 +63,8 @@ linear.mles<-
 #' Function to calculate the standard deviation of y given x for linear models
 #'
 #' @param m minor allele frequency
-#' @param es vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA)
+#' @param es_ab effect size for mean AB - mean AA 
+#' @param es_bb effect size for mean BB - mean AA
 #' @param sd_y the standard deviation of y in the overall population.
 #' @param model The assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive', '2df'
 #'

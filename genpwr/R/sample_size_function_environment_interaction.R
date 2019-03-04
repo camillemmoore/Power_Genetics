@@ -8,7 +8,7 @@
 #' @param MAF Vector of minor allele frequencies
 #' @param OR_G Vector of genetic odds ratios to detect
 #' @param OR_E Vector of environmental odds ratios to detect
-#' @param OR_G Vector of genetic/environmental interaction odds ratios to detect
+#' @param OR_GE Vector of genetic/environmental interaction odds ratios to detect
 #' @param P_e Vector of proportions of the population with exposure to the environmental effect
 #' @param Alpha the desired type 1 error rate(s)
 #' @param True.Model A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'
