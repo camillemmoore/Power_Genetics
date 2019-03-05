@@ -323,8 +323,7 @@ df2.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 #'
 #' @param beta Vector of linear regression coefficients.
 #' @param m Minor allele frequency.
-#' @param es_ab effect size for mean AB - mean AA 
-#' @param es_bb effect size for mean BB - mean AA 
+#' @param es Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).
 #' @param sd_y_x_model The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.
 #' @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
 #' @param model The genetic model in the linear regression: "Dominant", "Additive", "Recessive", "2df" or "null"

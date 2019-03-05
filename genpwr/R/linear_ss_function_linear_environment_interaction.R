@@ -2,7 +2,7 @@
 #'
 #' Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 #'
-#' @param pow Vector of the desired power(s)
+#' @param N Vector of the desired sample size(s)
 #' @param Alpha the desired type 1 error rate(s)
 #' @param MAF Vector of minor allele frequencies
 #' @param sd_y Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.
@@ -19,7 +19,7 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' ss_linear_envir.calc.linear_outcome(pow = c(0.4, 0.8), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
+#' ss_linear_envir.calc.linear_outcome(N=c(1000,2000), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
 #' 	sd_e = c(1,1.2), MAF=seq(0.28, 0.3, 0.01), sd_y = c(5, 8),Alpha=c(0.05),
 #' 	True.Model='All', Test.Model='All')
 #'
@@ -93,8 +93,8 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 		stop("MAF must be greater than 0 and less than 1.")
 	}
 
-	if(sum(pow<=0 | pow>=1)>0){
-		stop("pow must be greater than 0 and less than 1.")
+	if(sum(N<=0)>0){
+		stop("N must be greater than 0.")
 	}
 
 	if(sum(Alpha>=1)>0 | sum(Alpha<=0)>0){
@@ -259,12 +259,12 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 	############################################################################################################
 	# Calculate Power for each scenario in e.save.tab under the specified testing model
 	############################################################################################################
-	ss.tab <- NULL
+	power.tab <- NULL
 
 	############################################################################################################
 	#Loop over sample size
 	############################################################################################################
-	for (power in pow){
+	for (n in N){
 		################################################################################################
 		#Loop over all of the testing models and calculate power for each ES, SD, and MAF scenario
 		################################################################################################
@@ -320,30 +320,22 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 
 			#Calculate the power for the given sample size for a range of Alpha levels
 			if(mod=='2df'){
-				# pow = t(sapply(Alpha, function(Alpha0) mapply(function(stat) 1-pchisq(qchisq(1-Alpha0, df=2, ncp=0), 
-				# 	df=2, ncp = n*stat), ll.stat)))
-				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, stat, Alpha0, df=2),
-							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat, ll.stat)))
+				pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
 			}else{
-				# pow = t(sapply(Alpha, function(Alpha0) mapply(function(stat) 
-				# 	pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)))
-				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, stat, Alpha0, df=2),
-							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat, ll.stat)))
+				pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)
 			}
-			# if(length(Alpha)>1){
-			ss <- t(ss)
-			rownames(ss) <- seq(1:nrow(ss))
-			# }
+			if(length(Alpha)>1){pow <- t(pow)
+			rownames(pow) <- seq(1:nrow(pow))}
 
 			#Save the power calculations for each testing model in a final table for the sample size and case rate
-			ss.tab<-rbind(ss.tab,data.frame(Test.Model=mod, True.Model = as.character(e.save.tab[, "True.Model"]),
-					MAF = e.save.tab[, "MAF"], power = power, sd_e = e.save.tab[, "sd_e"], ES_G = e.save.tab[, "ES_G"], 
+			power.tab<-rbind(power.tab,data.frame(Test.Model=mod, True.Model = as.character(e.save.tab[, "True.Model"]),
+					MAF = e.save.tab[, "MAF"], N = n, sd_e = e.save.tab[, "sd_e"], ES_G = e.save.tab[, "ES_G"], 
 					ES_E = e.save.tab[, "ES_E"], ES_GE = e.save.tab[, "ES_GE"], R2_G=e.save.tab[, "R2_G"], 
-					R2_E=e.save.tab[, "R2_E"], R2_GE=e.save.tab[, "R2_GE"], SD=e.save.tab[, "sd_y"], ss),row.names = NULL)
+					R2_E=e.save.tab[, "R2_E"], R2_GE=e.save.tab[, "R2_GE"], SD=e.save.tab[, "sd_y"], pow),row.names = NULL)
 		}
 	}
-	colnames(ss.tab)<-c("Test.Model", "True.Model", "MAF", "power", "sd_e", "ES_G", "ES_E", "ES_GE", 
-				"R2_G", "R2_E", "R2_GE", "SD_Y", paste("N_at_Alpha_", Alpha, sep=''))
+	colnames(power.tab)<-c("Test.Model", "True.Model", "MAF", "N_total", "sd_e", "ES_G", "ES_E", "ES_GE", 
+				"R2_G", "R2_E", "R2_GE", "SD_Y", paste("Power_at_Alpha_", Alpha, sep=''))
 
-	return(ss.tab)
+	return(power.tab)
 }

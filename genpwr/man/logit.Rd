@@ -8,10 +8,6 @@ logit(x, min = 0, max = 1)
 }
 \arguments{
 \item{x}{a number between 0 and 1.}
-
-\item{min}{minimum}
-
-\item{max}{maximum}
 }
 \value{
 The logit of x.

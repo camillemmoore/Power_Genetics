@@ -3,8 +3,6 @@
 #' Calculates the logit of a specified value. 
 #'
 #' @param x a number between 0 and 1.  
-#' @param min minimum
-#' @param max maximum
 #' 
 #' @return The logit of x. 
 #'

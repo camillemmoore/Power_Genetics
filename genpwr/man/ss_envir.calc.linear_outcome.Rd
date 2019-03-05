@@ -26,8 +26,6 @@ ss_envir.calc.linear_outcome(pow = NULL, MAF = NULL, ES_G = NULL,
 
 \item{R2_E}{Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
 
-\item{R2_GE}{Vector of genetic/environment interaction R-squared values Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
-
 \item{sd_y}{Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.}
 
 \item{Alpha}{the desired type 1 error rate(s)}
@@ -43,7 +41,7 @@ A data frame including the power for all combinations of the specified parameter
 Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 }
 \examples{
-ss_envir.calc.linear_outcome(pow=c(0.4,0.8), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
+ss_envir.calc.linear_outcome(N=c(100,200), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
 	ES_GE = c(0.5, 2), Alpha = 0.05, MAF = c(0.1, 0.2), P_e = c(0.2, 0.3), 
 	sd_y = 10, True.Model = "All", Test.Model = "All")
 

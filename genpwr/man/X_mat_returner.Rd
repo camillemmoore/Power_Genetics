@@ -8,8 +8,6 @@ X_mat_returner(mod, reduced = F)
 }
 \arguments{
 \item{mod}{type of model}
-
-\item{reduced}{logical, indicates whether the X matrix will be used for a reduced model}
 }
 \value{
 A matrix to be used in MLE calculation for linear outcome with logistic environment interaction

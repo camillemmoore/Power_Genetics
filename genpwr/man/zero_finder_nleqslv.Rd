@@ -25,10 +25,10 @@ Finds zeros of multinomial functions using the nleqslv package
 afun <- function(x) {
 	y <- numeric(2)
 	y[1] <- x[1]^2 + x[2]^2 - 1
-	y[2] <- exp(x[1]-1) + x[2]^3 - 1.1
+	y[2] <- exp(x[1]-1) + x[2]^3 - 1
 	y
 }
 
-zero_finder_nleqslv(afun, veclength = 2)
+zero_finder_nleqslv(afun)
 
 }

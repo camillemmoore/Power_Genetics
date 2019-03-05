@@ -23,8 +23,6 @@ linear.outcome.log.envir.interaction.sds(MAF, P_e, ES_G, ES_E, ES_GE, mod,
 \item{True.Model}{True model}
 
 \item{sd_y}{Standard deviation of y}
-
-\item{reduced}{logical, indicates whether the X matrix will be used for a reduced model}
 }
 \value{
 The standard deviation of y given x for linear models with logistic environment interaction

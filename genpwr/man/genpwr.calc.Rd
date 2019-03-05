@@ -8,7 +8,7 @@ genpwr.calc(calc, model, ge.interaction = NULL, N = NULL,
   Power = NULL, MAF = NULL, Alpha = 0.05, P_e = NULL,
   sd_e = NULL, sd_y = NULL, Case.Rate = NULL, k = NULL,
   OR = NULL, OR_G = NULL, OR_E = NULL, OR_GE = NULL,
-  risk_allele = TRUE, ES = NULL, ES_G = NULL, ES_E = NULL,
+  risk_allele = T, ES = NULL, ES_G = NULL, ES_E = NULL,
   ES_GE = NULL, R2 = NULL, R2_G = NULL, R2_E = NULL,
   R2_GE = NULL, True.Model = "All", Test.Model = "All")
 }
@@ -61,11 +61,13 @@ genpwr.calc(calc, model, ge.interaction = NULL, N = NULL,
 
 \item{R2_E}{Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
 
-\item{R2_GE}{Vector of genetic/environment interaction R-squared values Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
+\item{R2_GE}{Vector of genetic/environment interaction R-squared valuesEither ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
 
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
+
+\item{model}{Vector of the desired sample size(s)}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)

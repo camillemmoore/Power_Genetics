@@ -11,15 +11,13 @@ calc.like.linear(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, model)
 
 \item{m}{Minor allele frequency.}
 
-\item{es_ab}{effect size for mean AB - mean AA}
-
-\item{es_bb}{effect size for mean BB - mean AA}
-
 \item{sd_y_x_model}{The standard deviation of Y (the outcome) given X (predictors/genotype) under the test model.}
 
 \item{sd_y_x_truth}{The standard deviation of Y given X (predictors/genotype) given genotype under the true model.}
 
 \item{model}{The genetic model in the linear regression: "Dominant", "Additive", "Recessive", "2df" or "null"}
+
+\item{es}{Vector of effect sizes with two elements, (mean AB - mean AA) and (mean BB - mean AA).}
 }
 \value{
 The log likelihood.

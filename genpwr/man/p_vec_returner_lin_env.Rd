@@ -8,7 +8,7 @@
 p_vec_returner_lin_env(MAF)
 }
 \arguments{
-\item{MAF}{Minor Allele Frequency}
+\item{mod}{type of model}
 }
 \value{
 A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
