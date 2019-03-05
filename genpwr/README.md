@@ -1,7 +1,7 @@
 The genpwr Package
 =========================
 
-The informativeDropout package for R (>3.5.1) performs power and sample size calculations     
+The genpwr package for R (>3.5.1) performs power and sample size calculations     
     for case/control genetic association studies and allows for   
     model mis-specification.
 
