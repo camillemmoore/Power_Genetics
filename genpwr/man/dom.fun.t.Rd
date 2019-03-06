@@ -16,9 +16,9 @@ dom.fun.t(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate)
 
 \item{OR_G}{Vector of genetic odds ratios to detect}
 
-\item{Case.Rate}{proportion of cases in the sample (cases/(cases + controls)).}
+\item{OR_GE}{Vector of genetic/environmental interaction odds ratios to detect}
 
-\item{OR_G}{Vector of genetic/environmental interaction odds ratios to detect}
+\item{Case.Rate}{proportion of cases in the sample (cases/(cases + controls)).}
 }
 \value{
 t matrix for all combinations of environment/outcome

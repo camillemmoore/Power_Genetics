@@ -7,9 +7,9 @@
 p_vec_returner(MAF, P_e)
 }
 \arguments{
-\item{P_e}{Population prevalence of logistic environmental factor}
+\item{MAF}{Minor allele frequency}
 
-\item{mod}{type of model}
+\item{P_e}{Population prevalence of logistic environmental factor}
 }
 \value{
 A probability vector to be used in MLE calculation for linear outcome with logistic environment interaction

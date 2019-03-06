@@ -4,7 +4,7 @@
 #'
 #' @import MASS
 #'
-#' @param mod type of model
+#' @param MAF Minor Allele Frequency
 #'
 #' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
 #'
@@ -21,6 +21,17 @@ p_vec_returner_lin_env <- function(MAF)
 	p_vec <- c(p_AA0, p_AB0, p_BB0, p_AA1, p_AB1, p_BB1)
 	return(p_vec)
 }
+
+#' Function to output X matrices used in calculation of MLE's for linear outcome with linear environment interaction
+#'
+#' @import MASS
+#'
+#' @param mod type of model
+#'
+#' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
+#'
+#' @export
+#'
 
 X_mat_returner_lle <- function(mod)
 {
@@ -251,10 +262,10 @@ linear.outcome.lin.envir.interaction.sds_reduced <- function(MAF, sd_e, beta0, E
 #' @param ES_G Genetic Effect size
 #' @param ES_E Environment Effect size
 #' @param ES_GE Environment x Genetic interaction Effect size
+#' @param beta0 baseline value for the outcome
 #' @param sd_y_x_truth Standard deviation of y for the true model
-#' @param sd_y_x_test Standard deviation of y for the test model
-#' @param sd_y Standard deviation of y
-#' @param Test.model Test model
+#' @param sd_y_x_model Standard deviation of y for the test model
+#' @param Test.Model Test model
 #' @param True.Model True model
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction

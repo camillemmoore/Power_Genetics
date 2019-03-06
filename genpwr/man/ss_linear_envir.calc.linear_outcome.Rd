@@ -11,6 +11,8 @@ ss_linear_envir.calc.linear_outcome(pow = NULL, MAF = NULL,
   Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
+\item{pow}{Vector of the desired power(s)}
+
 \item{MAF}{Vector of minor allele frequencies}
 
 \item{ES_G}{Vector of genetic effect sizes (difference in means) to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.}
@@ -34,8 +36,6 @@ ss_linear_envir.calc.linear_outcome(pow = NULL, MAF = NULL,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{N}{Vector of the desired sample size(s)}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
@@ -44,7 +44,7 @@ A data frame including the power for all combinations of the specified parameter
 Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 }
 \examples{
-ss_linear_envir.calc.linear_outcome(N=c(1000,2000), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
+ss_linear_envir.calc.linear_outcome(pow = c(0.4, 0.8), ES_G=c(0.5,2), ES_E=c(1.6, 2), ES_GE=c(1.4,2.2), 
 	sd_e = c(1,1.2), MAF=seq(0.28, 0.3, 0.01), sd_y = c(5, 8),Alpha=c(0.05),
 	True.Model='All', Test.Model='All')
 

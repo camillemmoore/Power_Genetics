@@ -5,7 +5,6 @@
 #' @param calc What kind of calculation to perform? sample size ("ss"), power ("power"), or effect size ("es")
 #' @param model Distribution of the outcome variable? ("logistic" or "linear")
 #' @param ge.interaction If no environment interaction, should be NULL, otherwise should be "logistic" or "linear"
-#' @param model Vector of the desired sample size(s)
 #' @param N Vector of the desired sample size(s)
 #' @param Power Vector of the desired power(s)
 #' @param Alpha the desired type 1 error rate(s)
@@ -23,7 +22,7 @@
 #' @param R2 Vector of R-squared values to detect. Either ES or R2 must be specified.
 #' @param R2_G Vector of genetic R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
 #' @param R2_E Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
-#' @param R2_GE Vector of genetic/environment interaction R-squared valuesEither ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
+#' @param R2_GE Vector of genetic/environment interaction R-squared values Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
 #' @param Case.Rate Standard deviation of the outcome in the population (ignoring genotype). Either Case.Rate_x or Case.Rate must be specified.
 #' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
 #' @param P_e Vector of proportions of the population with exposure to the environmental effect

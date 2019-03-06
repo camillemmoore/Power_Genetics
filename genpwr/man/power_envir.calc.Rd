@@ -21,6 +21,8 @@ power_envir.calc(N = NULL, Case.Rate = NULL, k = NULL, MAF = NULL,
 
 \item{OR_E}{Vector of environmental odds ratios to detect}
 
+\item{OR_GE}{Vector of genetic/environmental interaction odds ratios to detect}
+
 \item{P_e}{Vector of proportions of the population with exposure to the environmental effect}
 
 \item{Alpha}{the desired type 1 error rate(s)}
@@ -28,10 +30,6 @@ power_envir.calc(N = NULL, Case.Rate = NULL, k = NULL, MAF = NULL,
 \item{True.Model}{A vector specifying the true underlying genetic model(s): 'Dominant', 'Additive1', 'Additive2', 'Recessive' or 'All'}
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
-
-\item{OR_G}{Vector of genetic/environmental interaction odds ratios to detect}
-
-\item{compareQuanto}{For comparison with Quanto results - uses Quanto's formula to calculate results}
 }
 \value{
 A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
