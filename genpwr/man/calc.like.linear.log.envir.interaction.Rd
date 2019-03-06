@@ -29,8 +29,6 @@ calc.like.linear.log.envir.interaction(beta_hat, MAF, P_e, ES_G, ES_E,
 \item{True.Model}{True model}
 
 \item{reduced}{logical, indicates whether the X matrix will be used for a reduced model}
-
-\item{sd_y}{Standard deviation of y}
 }
 \value{
 The standard deviation of y given x for linear models with logistic environment interaction
