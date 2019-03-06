@@ -14,5 +14,8 @@ logit<-
   function (x, min = 0, max = 1) 
 {
   p <- (x - min)/(max - min)
-  log(p/(1 - p))
+  if(p/(1-p) < 0){
+  	return(NA)
+  }else{return(log(p/(1 - p)))}
+  
 }
