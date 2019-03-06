@@ -19,7 +19,7 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' power_envir.calc.linear_outcome(N=c(100,200), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
+#' pw <- power_envir.calc.linear_outcome(N=c(100,200), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
 #' 	ES_GE = c(0.5, 2), Alpha = 0.05, MAF = c(0.1, 0.2), P_e = c(0.2, 0.3), 
 #' 	sd_y = 10, True.Model = "All", Test.Model = "All")
 #'
