@@ -296,7 +296,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #'
 #' @examples
 #' or <- odds_ratio_function(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
-#'     MAF=seq(0.05, 0.1, 0.01), power=c(0.5,0.8),Alpha=c(0.05),
+#'     MAF=seq(0.3, 0.35, 0.01), power=c(0.5,0.8),Alpha=c(0.05),
 #'     True.Model='All', Test.Model='All')
 #' or.plot(data=or, x='MAF')
 #'
