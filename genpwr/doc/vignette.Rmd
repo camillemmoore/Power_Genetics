@@ -20,11 +20,9 @@ The genpwr package performs power and sample size calculations for genetic assoc
 
 The genpwr package allows the user to perform calculations for:
 
-* Binary (case/control) or continuous outcome variables
+* Binary (case/control) or continuous outcome variables.
 
-* Tests of gene and gene x environment interactions
-
-* Currently environmental factors must be binary, however we are currently working on extensions to continuous environmental measurements. 
+* Tests of gene and gene x environment interactions including both continuous and categorical environmental measurements. 
 
 genpwr is capable of calculating:
 
@@ -54,7 +52,7 @@ In addition to specifying of the three above variables (power, sample size, effe
 
 Assuming an environmental exposure interaction term is to be tested:
 
-* Population prevalence of environmental exposure
+* Population prevalence of environmental exposure for categorical environment variables or the standard deviation of the environmental exposure for continuous environment variables.
 
 * Environmental exposure odds ratio (or effect size in the case of linear regression models)
 
@@ -91,7 +89,7 @@ library(genpwr)
 
 We calculate power to detect an odds ratio of 3 in a case control study with 400 subjects, including 80 cases and 320 controls (case rate of 20%) over a range of minor allele frequencies from 0.18 to 0.25.  We calculate power for all possible combinations of true and test models, assuming an alpha of 0.05.     
 
-For a power calculation with a logistic outcome and no gene/environment interaction, we use the following inputs:
+For a power calculation with a binary outcome and no gene/environment interaction, we use the following inputs:
 
 ```{r}
 pw <- genpwr.calc(calc = "power", model = "logistic", ge.interaction = NULL,
@@ -113,7 +111,7 @@ We then use the plotting function to plot these results
 power.plot(pw)
 ```
 
-A model with a linear outcome can also be calculated:
+A model with a continuous outcome can also be calculated:
 ```{r}
 pw <- genpwr.calc(calc = "power", model = "linear",
    N=40, sd_y=4, k=NULL,
@@ -168,7 +166,7 @@ power.plot(pec)
 
 Other options are available. 
 
-- linear model
+- linear model for continuous outcomes
 
 ```{r}
 pec <- genpwr.calc(calc = "power", model = "linear",
@@ -178,7 +176,7 @@ pec <- genpwr.calc(calc = "power", model = "linear",
                  Alpha=0.05, True.Model='All', Test.Model='All')
 ```
 
-- linear environment
+- continuous environment measurement
 
 ```{r}
 pec <- genpwr.calc(calc = "power", model = "logistic", 
