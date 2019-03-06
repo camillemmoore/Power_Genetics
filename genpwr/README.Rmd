@@ -10,18 +10,32 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-# genpwr
 
-The genpwr package for R (>3.3.2) performs power and sample size calculations     
-    for case/control genetic association studies and allows for   
-    model mis-specification.
+
+### genpwr
+
+The genpwr package for R (>3.5.1) performs power and sample size calculations for genetic association studies and allows for mis-specification of the genetic model.  Calculations can be performed for binary (case/control) and continuous outcomes.  Power and sample size calculations are possible for genetic effects as well as gene by environment interactions.
+
+### Example
+
+To calculate power to detect an odds ratio of 2 for a 1:1 case control study with 2,000 subjects, assuming an alpha of 0.05, at minor allele frequencies of 0.1, 0.2, and 0.3:
+
+```{r}
+library(genpwr)
+
+genpwr.calc(calc = "power", model = "logistic", N = 2000, OR = 2,
+            Alpha = 0.05, MAF = c(0.1,0.2,0.3), Case.Rate = 0.5)
+```
+
+"The return object contains information about power for additive, dominant, recessive, and 2df / genotypic tests of association, assuming various true underlying genetic effects (additive, dominant, recessive). "
+
 
 ### Installation instructions
 
 The results in the above manuscript were produced using R version 3.5.1. To reproduce the results,
 perform the following steps:
 
-* Install R version 3.3.2 or higher by following the instructions at http://www.r-project.org
+* Install R version 3.5.1 or higher by following the instructions at http://www.r-project.org
 * From the R environment, install and load the "devtools" package
 ```R
 install.packages("devtools")
