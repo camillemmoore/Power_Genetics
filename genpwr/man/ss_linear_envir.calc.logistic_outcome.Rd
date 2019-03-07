@@ -42,8 +42,13 @@ Calculates the power to detect an difference in means/effect size/regression coe
 \examples{
 ss <- ss_linear_envir.calc.logistic_outcome(power=c(0.4, 0.8), 
 	OR_G=c(1.1,2), OR_E=c(1.2, 1.4), OR_GE=c(1.5, 2), 
+<<<<<<< HEAD
 	sd_e = c(1, 1.1), MAF=c(0.1, 0.2), Case.Rate = 0.3,
 	Alpha=0.05,
+=======
+	sd_e = c(1, 1.1), MAF=c(0.1, 0.2), Case.Rate = c(0.2, 0.3),
+	Alpha=c(0.02, 0.05),
+>>>>>>> 1436f49df44faacb987baef7f6f82d9d927f1a25
 	True.Model="All", Test.Model="All")
 
 
