@@ -30,6 +30,8 @@ Odds ratio
 Calculates odds ratio for given parameters. Used by the function odds_ratio_function.
 }
 \examples{
-or_calc(a = 0.3649185, b = 0.12797197, c = 0.007109554, d= 0.4450815, e= 0.05202803, f = 0.002890446, mod = "Dominant", risk_allele = TRUE)
+or_calc(a = 0.3649185, b = 0.12797197, c = 0.007109554, 
+ d= 0.4450815, e= 0.05202803, f = 0.002890446, 
+ mod = "Dominant", risk_allele = TRUE)
 
 }
