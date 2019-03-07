@@ -31,7 +31,8 @@ odds_ratio_function(N = NULL, Case.Rate = NULL, k = NULL,
 Calculates the odds ratio for a given power, at a given sample size, N, with type 1 error rate, Alpha
 }
 \examples{
-or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), 
-  power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = TRUE, True.Model = 'All', Test.Model = 'All')
+or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), 
+ k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), power=c(0.5, 0.8), 
+ Alpha = c(0.05), risk_allele = TRUE, True.Model = 'All', Test.Model = 'All')
 
 }
