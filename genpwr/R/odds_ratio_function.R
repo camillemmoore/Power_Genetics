@@ -9,7 +9,7 @@
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #' @param risk_allele Logical: If OR > 1, the allele is classified as a "risk allele"
 #' @param True.Model A vector object specifying the true underlying genetic model(s): 'Dominant', 'Additive', or 'Recessive'
@@ -106,7 +106,7 @@ dom.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #' @param risk_allele Logical: If OR > 1, the allele is classified as a "risk allele"
 #' @param True.Model A vector object specifying the true underlying genetic model(s): 'Dominant', 'Additive', or 'Recessive'
@@ -214,7 +214,7 @@ rec.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param b The "b" in the binomial function ax^2 + bx + c that arises in solution for the additive OR functions
 #' @param cr proportion of cases in the sample (cases/(cases + controls)). 
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #'
 #' @return: The "a" in the binomial function ax^2 + bx + c that arises in solution for the additive OR functions
@@ -241,7 +241,7 @@ solve_a<-function(b, cr, P_AA, P_AB, P_BB)
 #'
 #' @param x Probability of disease given AB or BB
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #' @param cr proportion of cases in the sample (cases/(cases + controls)). 
 #' @param like Expected log likelihood
@@ -272,7 +272,7 @@ find.prob.dom<-function(x,P_AA,P_AB,P_BB,cr, like)
 #'
 #' @param x Probability of disease given AB or BB
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #' @param cr proportion of cases in the sample (cases/(cases + controls)). 
 #' @param like Expected log likelihood
@@ -306,7 +306,7 @@ find.prob.rec<-function(x,P_AA,P_AB,P_BB,cr, like)
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #' @param risk_allele Logical: If OR > 1, the allele is classified as a "risk allele"
 #' @param True.Model A vector object specifying the true underlying genetic model(s): 'Dominant', 'Additive', or 'Recessive'
@@ -432,7 +432,7 @@ add.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param like Expected log likelihood
 #' @param Case.Rate proportion of cases in the sample (cases/(cases + controls)). 
 #' @param P_AA Probability the allele is homozygous for the major allele
-#' @param P_AB Probability the allele is heteroygous
+#' @param P_AB Probability the allele is heterozygous
 #' @param P_BB Probability the allele is homozygous for the minor allele
 #' @param risk_allele Logical: If OR > 1, the allele is classified as a "risk allele"
 #' @param True.Model A vector object specifying the true underlying genetic model(s): 'Dominant', 'Additive', or 'Recessive'

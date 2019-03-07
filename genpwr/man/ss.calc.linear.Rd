@@ -2,7 +2,7 @@
 % Please edit documentation in R/linear_sample_size_functions.R
 \name{ss.calc.linear}
 \alias{ss.calc.linear}
-\title{Function to Calculate Sample Size in Linear Modelas}
+\title{Function to Calculate Sample Size in Linear Models}
 \usage{
 ss.calc.linear(power = 0.8, MAF = NULL, ES = NULL, R2 = NULL,
   sd_y = NULL, Alpha = 0.05, True.Model = "All",

@@ -11,7 +11,7 @@ calc.like(beta, t, model)
 
 \item{t}{A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.}
 
-\item{model}{The genetic model in the logisitic regression: "Dominant", "Additive", "Recessive", "2df" or "null"}
+\item{model}{The genetic model in the logistic regression: "Dominant", "Additive", "Recessive", "2df" or "null"}
 }
 \value{
 The log likelihood.

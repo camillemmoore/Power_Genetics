@@ -1,6 +1,6 @@
 #' Function to Calculate Sample Size
 #'
-#' Calculates the necessary sample size to acheive the specified level of power to detect an odds ratio, OR, with type 1 error rate, Alpha
+#' Calculates the necessary sample size to achieve the specified level of power to detect an odds ratio, OR, with type 1 error rate, Alpha
 #'
 #' @param power Vector of the desired power(s)
 #' @param Case.Rate Vector of the proportion(s) of cases in the sample (cases/(cases + controls)).  Either k or Case.Rate must be specified.

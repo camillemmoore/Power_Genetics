@@ -11,7 +11,7 @@ find.prob.dom(x, P_AA, P_AB, P_BB, cr, like)
 
 \item{P_AA}{Probability the allele is homozygous for the major allele}
 
-\item{P_AB}{Probability the allele is heteroygous}
+\item{P_AB}{Probability the allele is heterozygous}
 
 \item{P_BB}{Probability the allele is homozygous for the minor allele}
 

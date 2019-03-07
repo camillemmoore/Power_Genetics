@@ -1,7 +1,7 @@
 # MLE Functions for Normal/Continuous Outcomes
 #' Function to calculate MLE's for linear models
 #'
-#' Finds the maximum likelihood estiamtes for a given MAF under the specified genetic model and effect size.
+#' Finds the maximum likelihood estimates for a given MAF under the specified genetic model and effect size.
 #'
 #' @param m minor allele frequency
 #' @param es_ab effect size for mean AB - mean AA 

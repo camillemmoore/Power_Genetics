@@ -6,9 +6,9 @@
 #Plots for Sample Size
 #########################################################################################################
 
-#' Function to convert to numeric with scientific notation contaning the "." character
+#' Function to convert to numeric with scientific notation containing the "." character
 #'
-#' convert to numeric with scientific notation contaning the "." character
+#' convert to numeric with scientific notation containing the "." character
 #'
 #'
 #' @param char string to be converted to numeric

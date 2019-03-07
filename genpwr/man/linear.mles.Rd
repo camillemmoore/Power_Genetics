@@ -19,5 +19,5 @@ linear.mles(m, es_ab, es_bb, model)
 A vector of linear regression model coefficients.
 }
 \description{
-Finds the maximum likelihood estiamtes for a given MAF under the specified genetic model and effect size.
+Finds the maximum likelihood estimates for a given MAF under the specified genetic model and effect size.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting_function.R
 \name{as.numeric2}
 \alias{as.numeric2}
-\title{Function to convert to numeric with scientific notation contaning the "." character}
+\title{Function to convert to numeric with scientific notation containing the "." character}
 \usage{
 as.numeric2(char)
 }
@@ -13,5 +13,5 @@ as.numeric2(char)
 a number
 }
 \description{
-convert to numeric with scientific notation contaning the "." character
+convert to numeric with scientific notation containing the "." character
 }

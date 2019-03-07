@@ -50,7 +50,7 @@ library(genpwr)
 
 Install the genpwr package as described above.
 
-Run the genwr demo program
+Run the genpwr demo program
 
 ```R
 demo(genpwr_demo)

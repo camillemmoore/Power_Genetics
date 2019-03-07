@@ -13,7 +13,7 @@ or.function.2df(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
 
 \item{P_AA}{Probability the allele is homozygous for the major allele}
 
-\item{P_AB}{Probability the allele is heteroygous}
+\item{P_AB}{Probability the allele is heterozygous}
 
 \item{P_BB}{Probability the allele is homozygous for the minor allele}
 

@@ -15,5 +15,5 @@ logistic.mles(t, model)
 A vector of logistic regression model coefficients.
 }
 \description{
-Finds the maximum likelihood estiamtes for a given 2x3 table under the specified genetic model.
+Finds the maximum likelihood estimates for a given 2x3 table under the specified genetic model.
 }

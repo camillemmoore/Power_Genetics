@@ -1,6 +1,6 @@
 #' Function to calculate MLE's for logistic models
 #'
-#' Finds the maximum likelihood estiamtes for a given 2x3 table under the specified genetic model. 
+#' Finds the maximum likelihood estimates for a given 2x3 table under the specified genetic model. 
 #'
 #' @param t A 2x3 table of the joint probabilities of disease and genotype.  Rows are case vs. control and columns are genotypes. 
 #' @param model The assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive'

@@ -1,6 +1,6 @@
 ###########################################################################
 #Functions to calculate the likelihood for each testing model
-#For Logisitic Models: Input MLE's and a 2x3 table
+#For Logistic Models: Input MLE's and a 2x3 table
 #For Linear Models: Input MLE's, vector of effect sizes, minor allele frequency, and SD of Y given X
 ###########################################################################
 
@@ -157,7 +157,7 @@ null.ll<-function(t){
 #'
 #' @param beta Vector of logistic regression coefficients.
 #' @param t A 2x3 table of joint probabilities of disease and genotype.  Rows = case vs. control, columns=genotype.
-#' @param model The genetic model in the logisitic regression: "Dominant", "Additive", "Recessive", "2df" or "null"
+#' @param model The genetic model in the logistic regression: "Dominant", "Additive", "Recessive", "2df" or "null"
 #'
 #' @return The log likelihood.
 #'

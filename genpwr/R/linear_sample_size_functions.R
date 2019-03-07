@@ -1,4 +1,4 @@
-#' Function to Calculate Sample Size in Linear Modelas
+#' Function to Calculate Sample Size in Linear Models
 #'
 #' Calculates the necessary sample size to acheive the specified level of power to detect an effect size, ES or R2 value, with type 1 error rate, Alpha
 #'
