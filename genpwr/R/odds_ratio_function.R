@@ -592,8 +592,9 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
 #'
 #' @examples
-#' or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), 
-#'   power=c(0.5, 0.8), Alpha = c(0.05), risk_allele = TRUE, True.Model = 'All', Test.Model = 'All')
+#' or <- odds_ratio_function(N=c(100,1000), Case.Rate=seq(from=0.2,to=0.3,by=0.1), 
+#'  k=NULL, MAF= seq(from=0.2, to = 0.3, by = 0.025), power=c(0.5, 0.8), 
+#'  Alpha = c(0.05), risk_allele = TRUE, True.Model = 'All', Test.Model = 'All')
 #'
 #' @export
 #'

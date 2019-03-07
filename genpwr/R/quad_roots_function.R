@@ -9,7 +9,9 @@
 #' @return The positive root of the quadratic equation ax^2 + bx + c 
 #'
 #' @examples 
-#' pw<-power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL, MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05), True.Model='All', Test.Model='All')
+#' pw<-power.calc(N=c(1000,2000), Case.Rate=c(0.5), 
+#' 	k=NULL, MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),
+#' 	Alpha=c(0.05), True.Model='All', Test.Model='All')
 #'
 #' @export
 #'
