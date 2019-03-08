@@ -98,7 +98,7 @@ genpwr.calc(calc = "power", model = "logistic", N = 2000, OR = 2,
 
 To install genpwr, perform the following steps:
 
--   Install R version 3.5.1 or higher by following the instructions at <http://www.r-project.org>
+-   Install R version 3.5.1 or higher by following the instructions at <https://www.R-project.org>
 -   From the R environment, install and load the "genpwr" package:
 
 ``` r
