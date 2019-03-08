@@ -43,8 +43,8 @@ A data frame including the power for all combinations of the specified parameter
 Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 }
 \examples{
-pw <- power_envir.calc.linear_outcome(N=c(100,200), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
-	ES_GE = c(0.5, 2), Alpha = 0.05, MAF = c(0.1, 0.2), P_e = c(0.2, 0.3), 
+pw <- power_envir.calc.linear_outcome(N=100, ES_G = 1.2, ES_E = 1.3, 
+	ES_GE = 2, Alpha = 0.05, MAF = 0.2, P_e = 0.2, 
 	sd_y = 10, True.Model = "All", Test.Model = "All")
 
 }

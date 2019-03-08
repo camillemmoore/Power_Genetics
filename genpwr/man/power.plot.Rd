@@ -51,8 +51,8 @@ A series of plots with power on the Y axis.
 Plot the power results by MAF, OR, Alpha or N
 }
 \examples{
-pw <- power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
-    MAF=seq(0.15, 0.2, 0.01), OR=c(1.5,2),Alpha=c(0.05),
+pw <- power.calc(N=1000, Case.Rate=c(0.5), k=NULL,
+    MAF=seq(0.15, 0.2, 0.01), OR=1.5,Alpha=c(0.05),
     True.Model='All', Test.Model='All')
 
 }

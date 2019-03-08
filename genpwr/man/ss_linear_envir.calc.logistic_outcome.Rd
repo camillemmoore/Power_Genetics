@@ -40,11 +40,10 @@ A data frame including the power for all combinations of the specified parameter
 Calculates the power to detect an difference in means/effect size/regression coefficient, at a given sample size, N, with type 1 error rate, Alpha
 }
 \examples{
-ss <- ss_linear_envir.calc.logistic_outcome(power=c(0.4, 0.8), 
-	OR_G=c(1.1,2), OR_E=c(1.2, 1.4), OR_GE=c(1.5, 2), 
-	sd_e = c(1, 1.1), MAF=c(0.1, 0.2), Case.Rate = 0.3,
-	Alpha=0.05,
-	True.Model="All", Test.Model="All")
+ss <- ss_linear_envir.calc.logistic_outcome(power=0.8, 
+	OR_G=1.1, OR_E=1.2, OR_GE=1.5, 
+	sd_e = 1, MAF=0.2, Case.Rate = 0.2,
+	Alpha=0.05, True.Model="All", Test.Model="All")
 
 
 }

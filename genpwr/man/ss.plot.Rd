@@ -52,7 +52,7 @@ Plot the sample size results by MAF, OR, Alpha or Power
 }
 \examples{
 ss <- ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL,
-    MAF=seq(0.01, 0.05, 0.01), OR=c(3,4),Alpha=c(0.05),
+    MAF=seq(0.01, 0.05, 0.01), OR=c(4),Alpha=c(0.05),
     True.Model='All', Test.Model='All')
 ss.plot(data=ss, x='MAF',panel.by='OR')
 

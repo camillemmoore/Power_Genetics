@@ -32,8 +32,8 @@ A data frame including the total number of subjects required for all combination
 Calculates the necessary sample size to acheive the specified level of power to detect an effect size, ES or R2 value, with type 1 error rate, Alpha
 }
 \examples{
-ss <- ss.calc.linear(power=0.8,MAF=seq(0.05, 0.1, 0.01),
-    ES=c(3,4), R2=NULL, sd_y = c(1,2),Alpha=c(0.05),
+ss <- ss.calc.linear(power=0.8,MAF=0.1,
+    ES=3, R2=NULL, sd_y = 1,Alpha=0.05,
     True.Model='All', Test.Model='All')
 
 }
