@@ -72,3 +72,6 @@ export(zero_finder_nleqslv)
 import(MASS)
 import(ggplot2)
 import(nleqslv)
+importFrom("stats", "integrate", "na.omit", "optim", "pchisq", "pnorm",
+                            "qchisq", "qnorm", "rnorm", "runif", "uniroot")
+importFrom("utils", "capture.output")
