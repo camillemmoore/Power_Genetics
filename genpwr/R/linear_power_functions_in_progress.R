@@ -14,8 +14,8 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' pw <- power.calc.linear(N=c(1000,2000),
-#'     MAF=seq(0.05, 0.1, 0.01), ES=c(3,4),sd_y = c(1,2),Alpha=c(0.05),
+#' pw <- power.calc.linear(N=1000,
+#'     MAF=0.1, ES=3,sd_y = 1,Alpha=0.05,
 #'     True.Model='All', Test.Model='All')
 #'
 #' @export

@@ -50,7 +50,7 @@ as.numeric2<-function(char){
 #'
 #' @examples
 #' ss <- ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL,
-#'     MAF=seq(0.01, 0.05, 0.01), OR=c(3,4),Alpha=c(0.05),
+#'     MAF=seq(0.01, 0.05, 0.01), OR=c(4),Alpha=c(0.05),
 #'     True.Model='All', Test.Model='All')
 #' ss.plot(data=ss, x='MAF',panel.by='OR')
 #'
@@ -166,8 +166,8 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 #' @return A series of plots with power on the Y axis.
 #'
 #' @examples
-#' pw <- power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
-#'     MAF=seq(0.15, 0.2, 0.01), OR=c(1.5,2),Alpha=c(0.05),
+#' pw <- power.calc(N=1000, Case.Rate=c(0.5), k=NULL,
+#'     MAF=seq(0.15, 0.2, 0.01), OR=1.5,Alpha=c(0.05),
 #'     True.Model='All', Test.Model='All')
 #'
 #' @export
@@ -294,8 +294,8 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #' @return A series of plots with power on the Y axis.
 #'
 #' @examples
-#' or <- odds_ratio_function(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
-#'     MAF=seq(0.3, 0.35, 0.01), power=c(0.5,0.8),Alpha=c(0.05),
+#' or <- odds_ratio_function(N=1000, Case.Rate=0.5, k=NULL,
+#'     MAF=seq(0.3, 0.35, 0.01), power=0.8,Alpha=c0.05,
 #'     True.Model='All', Test.Model='All')
 #' or.plot(data=or, x='MAF')
 #'

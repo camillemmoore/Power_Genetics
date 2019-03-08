@@ -14,8 +14,8 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, OR, Power, etc)
 #'
 #' @examples
-#' pw <- power.calc(N=c(1000,2000), Case.Rate=c(0.5), k=NULL,
-#'     MAF=seq(0.15, 0.2, 0.01), OR=c(1.5,2),Alpha=c(0.05),
+#' pw <- power.calc(N=2000, Case.Rate=0.5, k=NULL,
+#'     MAF=0.2, OR=1.5,Alpha=0.05,
 #'     True.Model='All', Test.Model='All')
 #'
 #' @export

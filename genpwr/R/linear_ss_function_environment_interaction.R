@@ -19,8 +19,8 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' ss_envir.calc.linear_outcome(pow=c(0.4,0.8), ES_G = c(1.2, 1.5), ES_E = c(1.3, 2.1), 
-#' 	ES_GE = c(0.5, 2), Alpha = 0.05, MAF = c(0.1, 0.2), P_e = c(0.2, 0.3), 
+#' ss_envir.calc.linear_outcome(pow=0.8, ES_G = 1.2, ES_E = 1.3, 
+#' 	ES_GE = 2, Alpha = 0.05, MAF = 0.1, P_e = 0.2, 
 #' 	sd_y = 10, True.Model = "All", Test.Model = "All")
 #'
 #' @export

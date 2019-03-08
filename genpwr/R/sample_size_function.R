@@ -14,8 +14,8 @@
 #' @return A data frame including the total number of subjects required for all combinations of the specified parameters (Case.Rate, OR, Power, etc)
 #'
 #'@examples
-#'ss <- ss.calc(power=0.8, Case.Rate=c(0.5), k=NULL,
-#'    MAF=seq(0.05, 0.1, 0.01), OR=c(3,4),Alpha=c(0.05),
+#'ss <- ss.calc(power=0.8, Case.Rate=0.5, k=NULL,
+#'    MAF=0.1, OR=3,Alpha=0.05,
 #'    True.Model='All', Test.Model='All')
 #'
 #' @export
