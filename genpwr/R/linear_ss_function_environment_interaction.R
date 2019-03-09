@@ -313,13 +313,13 @@ ss_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, ES_E=NUL
 				# ss <- (qnorm(1-Alpha/2)+qnorm(power))^2/ll.stat
 				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) (qnorm(1-Alpha0/2)+qnorm(power))^2/stat, ll.stat)))
 			}
-			if(F){
-				if(mod=='2df'){
-					pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
-				}else{
-					pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)
-				}
-			}
+			# if(F){
+			# 	if(mod=='2df'){
+			# 		pow = mapply(function(stat) 1-pchisq(qchisq(1-Alpha, df=2, ncp=0), df=2, ncp = n*stat), ll.stat)
+			# 	}else{
+			# 		pow = mapply(function(stat) pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)
+			# 	}
+			# }
 			# if(length(Alpha)>1){
 				ss <- t(ss)
 				rownames(ss) <- seq(1:nrow(ss))

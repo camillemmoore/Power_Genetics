@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' ss_linear_envir.calc.linear_outcome(pow = 0.8, 
-#' 	ES_G=0.5, ES_E=1.6, ES_GE=1.4), 
+#' 	ES_G=0.5, ES_E=1.6, ES_GE=1.4, 
 #' 	sd_e = 1, MAF=0.28, 
 #' 	sd_y = 5,Alpha=0.05,
 #' 	True.Model='All', Test.Model='All')
@@ -202,7 +202,7 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 		colnames(e.save.tab) <- c("True.Model", "MAF", "sd_e", "sd_y", "R2_G", "R2_E", "R2_GE")
 		e.save.tab <- merge(e.save.tab, var_x)
 		e.save.tab <- merge(e.save.tab, mu_g)
-		e.save.tab <- merge(e.save.tab, beta0)
+		e.save.tab <- merge(e.save.tab, beta0_mat)
 
 		e.save.tab$ES_G_bar <- sqrt(e.save.tab$R2_G * e.save.tab$sd_y^2 / (e.save.tab$var_x))
 		e.save.tab$ES_E_bar <- sqrt(e.save.tab$R2_E * e.save.tab$sd_y^2 / (e.save.tab$sd_e^2))
