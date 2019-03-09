@@ -75,8 +75,8 @@ Calculates the power to detect an difference in means/effect size/regression coe
 }
 \examples{
 pw <- genpwr.calc(calc = "power", model = "logistic", ge.interaction = "continuous",
-	N=c(30, 100), OR_G=c(1.1,2), OR_E=c(1.2, 1.4), OR_GE=c(1.5, 2), 
-	sd_e = c(1, 1.1), MAF=c(0.1, 0.2), Case.Rate = c(0.2, 0.3),Alpha=c(0.02, 0.05),
+	N=100, OR_G=2, OR_E=1.4, OR_GE=c(1.5, 2), 
+	sd_e = 1.1, MAF=0.1, Case.Rate = 0.3, Alpha=c(0.02, 0.05),
 	True.Model="All", Test.Model="All")
 
 

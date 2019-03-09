@@ -45,7 +45,7 @@ Calculates the power to detect an difference in means/effect size/regression coe
 }
 \examples{
 ss_linear_envir.calc.linear_outcome(pow = 0.8, 
-	ES_G=0.5, ES_E=1.6, ES_GE=1.4), 
+	ES_G=0.5, ES_E=1.6, ES_GE=1.4, 
 	sd_e = 1, MAF=0.28, 
 	sd_y = 5,Alpha=0.05,
 	True.Model='All', Test.Model='All')

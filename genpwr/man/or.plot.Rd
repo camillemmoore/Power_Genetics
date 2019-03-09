@@ -52,7 +52,7 @@ Plot the power results by MAF, Power, Alpha or N
 }
 \examples{
 or <- odds_ratio_function(N=1000, Case.Rate=0.5, k=NULL,
-    MAF=seq(0.3, 0.35, 0.01), power=0.8,Alpha=c0.05,
+    MAF=seq(0.3, 0.35, 0.01), power=0.8,Alpha=0.05,
     True.Model='All', Test.Model='All')
 or.plot(data=or, x='MAF')
 
