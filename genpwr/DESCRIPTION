@@ -12,7 +12,7 @@ Description: Performing power and sample size calculations
     Currently, covariates cannot be included in the models. 
 Depends: R (>= 3.5.0)
 License: GPL-3
-Imports: ggplot2, nleqslv, MASS
+Imports: ggplot2, nleqslv, MASS, stats, utils
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
