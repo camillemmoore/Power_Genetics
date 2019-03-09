@@ -93,6 +93,8 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
   if(is.null(select.True.Model)==F){ss.new<-ss.new[ss.new$True.Model %in% select.True.Model,]}
   if(is.null(select.Test.Model)==F){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
+  # to get past NOTEs thrown by devtools check:
+  N_total <- Test.Model < -NULL
 
   # var<-c("MAF", 'OR','ES','Power', 'Case.Rate', 'SD','Alpha', 'True.Model')
   var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "sd_e", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_E", "R2_G", "R2_GE",
@@ -117,6 +119,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
 
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
+
 
     plot_obj <- ggplot(data=temp2, aes(x=temp2[,x], y=N_total, group = Test.Model, colour = Test.Model)) +
             geom_line() +
@@ -209,6 +212,8 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
   if(!is.null(select.True.Model)){ss.new<-ss.new[ss.new$True.Model %in% select.True.Model,]}
   if(!is.null(select.Test.Model)){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
+  # to get past NOTEs thrown by devtools check:
+  Power <- Test.Model < -NULL
 
   var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "sd_e", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_E", "R2_G", "R2_GE",
       "N_total", "Case.Rate", "SD_Y","Alpha", "True.Model")
@@ -295,7 +300,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #'
 #' @examples
 #' or <- odds_ratio_function(N=1000, Case.Rate=0.5, k=NULL,
-#'     MAF=seq(0.3, 0.35, 0.01), power=0.8,Alpha=c0.05,
+#'     MAF=seq(0.3, 0.35, 0.01), power=0.8,Alpha=0.05,
 #'     True.Model='All', Test.Model='All')
 #' or.plot(data=or, x='MAF')
 #'
@@ -337,6 +342,8 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
   if(is.null(select.True.Model)==F){ss.new<-ss.new[ss.new$True.Model %in% select.True.Model,]}
   if(is.null(select.Test.Model)==F){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
+  # to avoid devtools check error
+  OR <- Test.Model <- NULL
 
   var<-c("MAF", 'power','ES','R2','N_total', 'Case.Rate', 'SD_Y','Alpha', 'True.Model')
   if(linear.effect.measure %ni% c("ES", "R2")) stop("'linear.effect.measure should be either 'ES' or 'R2'")
