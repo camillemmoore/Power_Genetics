@@ -121,7 +121,8 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
 
 
-    plot_obj <- ggplot(aes(x=temp2[,x], y=N_total, group = Test.Model, colour = Test.Model)) +
+    plot_obj <- ggplot(data = temp2, aes(x=temp2[,x], y=temp2$N_total, group = temp2$Test.Model, colour = Test.Model)) +
+
             geom_line() +
             geom_point( size=4, shape=21, fill="white") + xlab(x)+ggtitle(subtitle)+
             facet_wrap( ~temp2[,panel.by])
@@ -252,7 +253,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
 
-    plot_obj <- ggplot(aes(x=temp2[,x], y=Power, group = Test.Model, colour = Test.Model)) +
+    plot_obj <- ggplot(data = temp2, aes(x=temp2[,x], y=temp2$Power, group = temp2$Test.Model, colour = Test.Model)) +
       geom_line() +
       geom_point( size=4, shape=21, fill="white") + xlab(x)+ggtitle(subtitle)+
       facet_wrap( ~temp2[,panel.by])
@@ -367,7 +368,7 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
 
-    plot_obj <- ggplot(aes(x=temp2[,x], y=OR, group = Test.Model, colour = Test.Model)) +
+    plot_obj <- ggplot(data = temp2, aes(x=temp2[,x], y=temp2$OR, group = temp2$Test.Model, colour = Test.Model)) +
             geom_line() +
             geom_point( size=4, shape=21, fill="white") + xlab(x)+ggtitle(subtitle)+
             facet_wrap( ~temp2[,panel.by])
