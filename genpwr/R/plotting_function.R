@@ -94,7 +94,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
   if(is.null(select.Test.Model)==F){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
   # to get past NOTEs thrown by devtools check:
-  N_total <- Test.Model < -NULL
+  N_total <- Test.Model <- NULL
 
   # var<-c("MAF", 'OR','ES','Power', 'Case.Rate', 'SD','Alpha', 'True.Model')
   var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "sd_e", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_E", "R2_G", "R2_GE",
@@ -121,7 +121,7 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
 
 
-    plot_obj <- ggplot(data=temp2, aes(x=temp2[,x], y=N_total, group = Test.Model, colour = Test.Model)) +
+    plot_obj <- ggplot(aes(x=temp2[,x], y=N_total, group = Test.Model, colour = Test.Model)) +
             geom_line() +
             geom_point( size=4, shape=21, fill="white") + xlab(x)+ggtitle(subtitle)+
             facet_wrap( ~temp2[,panel.by])
@@ -213,7 +213,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
   if(!is.null(select.Test.Model)){ss.new<-ss.new[ss.new$Test.Model %in% select.Test.Model,]}
 
   # to get past NOTEs thrown by devtools check:
-  Power <- Test.Model < -NULL
+  Power <- Test.Model <- NULL
 
   var<-c("MAF", "OR", "OR_G", "OR_E", "OR_GE", "P_e", "sd_e", "ES", "ES_G", "ES_E", "ES_GE", "R2", "R2_E", "R2_G", "R2_GE",
       "N_total", "Case.Rate", "SD_Y","Alpha", "True.Model")
@@ -252,7 +252,7 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
 
-    plot_obj <- ggplot(data=temp2, aes(x=temp2[,x], y=Power, group = Test.Model, colour = Test.Model)) +
+    plot_obj <- ggplot(aes(x=temp2[,x], y=Power, group = Test.Model, colour = Test.Model)) +
       geom_line() +
       geom_point( size=4, shape=21, fill="white") + xlab(x)+ggtitle(subtitle)+
       facet_wrap( ~temp2[,panel.by])
@@ -367,7 +367,7 @@ or.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
     temp2<-temp1[order(temp1$True.Model),]
     temp2[,panel.by]<-paste(panel.by,"=", temp2[,panel.by])
 
-    plot_obj <- ggplot(data=temp2, aes(x=temp2[,x], y=OR, group = Test.Model, colour = Test.Model)) +
+    plot_obj <- ggplot(aes(x=temp2[,x], y=OR, group = Test.Model, colour = Test.Model)) +
             geom_line() +
             geom_point( size=4, shape=21, fill="white") + xlab(x)+ggtitle(subtitle)+
             facet_wrap( ~temp2[,panel.by])
