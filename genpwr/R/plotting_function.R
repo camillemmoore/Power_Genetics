@@ -28,6 +28,8 @@ as.numeric2<-function(char){
 #' Plot the sample size results by MAF, OR, Alpha or Power
 #'
 #' @import ggplot2
+#' @import stats
+#' @import utils
 #'
 #' @param data The data frame result from \code{\link{ss.calc}}
 #' @param x The desired variable on the y axis: "MAF", "OR", "ES","Alpha", or "Power"
