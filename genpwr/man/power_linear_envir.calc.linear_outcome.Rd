@@ -47,7 +47,7 @@ Calculates the power to detect an difference in means/effect size/regression coe
 pw <- power_linear_envir.calc.linear_outcome(N=1000, 
 	ES_G=0.5, ES_E=1.6, ES_GE=1.4, 
 	sd_e = 1, MAF=0.28, 
-	sd_y = 5, 8,Alpha=0.05,
+	sd_y = 5,Alpha=0.05,
 	True.Model='All', Test.Model='All')
 
 }
