@@ -303,8 +303,8 @@ power.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y
 #'
 #' @examples
 #' or <- odds_ratio_function(N=1000, Case.Rate=0.5, k=NULL,
-#'     MAF=seq(0.3, 0.35, 0.01), power=0.8,Alpha=0.05,
-#'     True.Model='All', Test.Model='All')
+#'     MAF=seq(0.3, 0.32, 0.01), power=0.8,Alpha=0.05,
+#'     True.Model=c("Dominant", "Recessive"), Test.Model=c("Dominant", "Recessive"))
 #' or.plot(data=or, x='MAF')
 #'
 #' @export
