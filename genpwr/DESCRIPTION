@@ -4,7 +4,7 @@ Version: 1.0.0
 Authors@R: person("Camille", "Moore", email = 	"moorec@njhealth.org", role = c("aut", "cre"))
 Description: Performing power and sample size calculations     
     for case/control genetic association studies and allowing for   
-    model mis-specification.  Power and/or sample size can be 
+    model misspecification.  Power and/or sample size can be 
     calculated for the following logistic regression models: 
     Additive Genetic Effect, Dominant Genetic Effect, Recessive 
     Genetic Effect, Unspecified Genetic Effect (2 degree of 
