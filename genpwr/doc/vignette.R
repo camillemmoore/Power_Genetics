@@ -2,15 +2,15 @@
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 knitr::opts_chunk$set(fig.width=8, fig.height=5) 
 options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(dplyr)
-library(ggplot2)
+#library(dplyr)
+#library(ggplot2)
 set.seed(1014)
 
 ## ---- eval=F-------------------------------------------------------------
 #  install.packages("devtools")
 
-## ------------------------------------------------------------------------
-library(devtools)
+## ---- eval = F-----------------------------------------------------------
+#  library(devtools)
 
 ## ---- eval = F-----------------------------------------------------------
 #  install_github("camillemmoore/Power_Genetics", subdir="genpwr")
@@ -51,7 +51,7 @@ ss.plot(ss)
 ## ------------------------------------------------------------------------
 or <- genpwr.calc(calc = "es", model = "logistic", ge.interaction = NULL,
    N=1000, Case.Rate=0.4, k=NULL,
-   MAF=seq(0.30, 0.45, 0.02), Power=0.4, Alpha=0.05,
+   MAF=seq(0.30, 0.4, 0.02), Power=0.4, Alpha=0.05,
    True.Model="All", Test.Model="All")
 
 ## ------------------------------------------------------------------------
@@ -77,7 +77,7 @@ pec <- genpwr.calc(calc = "power", model = "linear",
 ## ------------------------------------------------------------------------
 pec <- genpwr.calc(calc = "power", model = "logistic", 
                  ge.interaction = "continuous",
-                 N=500, Case.Rate=0.3, MAF=seq(0.25,0.4,0.02), OR_G=3, 
+                 N=500, Case.Rate=0.3, MAF=seq(0.25,0.31,0.02), OR_G=3, 
                  OR_E=3.5, OR_GE=4, sd_e = 4, 
                  Alpha=0.05, True.Model='All', Test.Model='All')
 
