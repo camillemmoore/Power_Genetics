@@ -13,14 +13,15 @@
 #' @return A data frame including the power for all combinations of the specified parameters (Case.Rate, ES, Power, etc)
 #'
 #' @examples
-#' es <- es.calc.linear(N=c(1000,2000),power=0.8,
-#'     MAF=seq(0.05, 0.1, 0.01),sd_y = c(1,2),Alpha=c(0.05),
+#' es <- es.calc.linear(N=1000,power=0.8,
+#'     MAF=0.1, sd_y = 1, Alpha=0.05,
 #'     True.Model='All', Test.Model='All')
 #'
 #' @export
 #'
 es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
-							Alpha=0.05, True.Model='All', Test.Model='All'){
+							Alpha=0.05, True.Model='All', Test.Model='All')
+{
 	############################################################################################################
 	#Error Messages for insufficient sample size information, MAF, and case vs. control ratio
 	############################################################################################################
@@ -135,12 +136,12 @@ es.calc.linear<-function(power=NULL, N=NULL, MAF=NULL, sd_y=NULL,
 				############################################################################################################
 				#For 1DF Test.Models the detectable LRT test statistic is:
 				#stat = ((qnorm(1-Alpha/2)+qnorm(power))^2)/N
-			  stat = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=1),
-			                     lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
-			  
+				stat = uniroot(function(x) ncp.search(x, pow, alpha0, df=1),
+								lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
+
 				#For the 2DF Test the detectable LRT test statistic is:
-				stat_2df = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=2),
-											 lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
+				stat_2df = uniroot(function(x) ncp.search(x, pow, alpha0, df=2),
+								lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
 
 				##########################################################################
 				#For each MAF

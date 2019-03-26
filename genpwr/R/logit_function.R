@@ -8,6 +8,9 @@
 #' 
 #' @return The logit of x. 
 #'
+#' @examples
+#' logit(0.5)
+#'
 #' @export
 #'
 logit<-

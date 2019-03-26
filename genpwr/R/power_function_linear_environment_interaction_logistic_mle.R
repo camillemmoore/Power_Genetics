@@ -1,7 +1,3 @@
-
-
-
-
 #' Function to generate integrand for mle for cases
 #'
 #' Returns the standard deviation of y given x for linear models with linear environment interaction
@@ -10,6 +6,10 @@
 #' @param x2 "test" part of model
 #'
 #' @return a function to be used as the integrand for the mle
+#'
+#' @examples
+#' integrand_funct_case(-1.462531 + 1*0.1823216,
+#' 	-1.462531 + 1*0.1823216) 
 #'
 #' @export
 #'
@@ -25,6 +25,10 @@ integrand_funct_case <- function(x1, x2){
 #' @param x2 "test" part of model
 #'
 #' @return a function to be used as the integrand for the mle
+#'
+#' @examples
+#' integrand_funct_control(-1.462531 + 1*0.1823216,
+#' 	-1.462531 + 1*0.1823216) 
 #'
 #' @export
 #'
@@ -51,9 +55,13 @@ integrand_funct_control <- function(x1, x2){
 #'
 #' @return a function to be used as the integrand for the mle
 #'
+#' @examples
+#' ll.ge.logistic.lin.envir(sd_e = 1, MAF = 0.2, N = 30, beta0 = -1.462531, OR_G = 1.1, 
+#' 	OR_E = 1.2, OR_GE = 1.5, Alpha = 0.05, True.Model = "Dominant", Test.Model = "Dominant")
 #' @export
 #'
-ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model){
+ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model)
+{
 
 
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
@@ -222,10 +230,10 @@ ll.ge.logistic.lin.envir <- function(sd_e, N = NULL, MAF, power = NULL, beta0, O
 	if(is.null(N)){
 		stat <- 2*(as.numeric(ll-ll_g_e))
 		if(Test.Model=='2df'){
-			ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=2),
+			ss <- uniroot(function(x) ncp.search(x, power, Alpha, df=2),
 							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}else{
-		  ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=1),
+		  ss <- uniroot(function(x) ncp.search(x, power, Alpha, df=1),
 		                      lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}
 		return(ss)

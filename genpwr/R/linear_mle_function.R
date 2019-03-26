@@ -10,6 +10,9 @@
 #'
 #' @return A vector of linear regression model coefficients.
 #'
+#' @examples
+#' linear.mles(m = 0.1, es_ab = 0, es_bb = 3, model = "Dominant")
+#'
 #' @export
 #'
 linear.mles<-
@@ -70,6 +73,9 @@ linear.mles<-
 #' @param model The assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive', '2df'
 #'
 #' @return A vector of linear regression model coefficients.
+#'
+#' @examples 
+#' linear.sds(m = 0.1, es_ab = 0, es_bb = 3, sd_y = 1, model = "Dominant")
 #'
 #' @export
 #'

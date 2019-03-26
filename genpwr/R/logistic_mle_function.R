@@ -7,10 +7,15 @@
 #' 
 #' @return A vector of logistic regression model coefficients.  
 #'
+#' @examples
+#' logistic.mles(rbind(c(0.2967437, 0.1806723, 0.02258404), 
+#'  c(0.3432563, 0.1393277, 0.01741596)), "Dominant")
+#'
 #' @export
 #'
 logistic.mles<-
-  function(t,model){
+  function(t,model)
+{
   
   Case.Rate <- sum(t[1,])/sum(t)
   N_AA_case <- t[1,1]

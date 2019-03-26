@@ -14,9 +14,15 @@
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' additive.ll(c(-0.3793525, -1.1395417), 
+#'  rbind(c(0.2339079, 0.05665039, 0.009441731), 
+#'  c(0.3285921, 0.31834961, 0.053058269)))
+#' 
 #' @export
 #'
-additive.ll<-function(beta, t){
+additive.ll<-function(beta, t)
+{
   beta0 <- beta[1]
   beta1 <-beta[2]
 
@@ -46,9 +52,15 @@ additive.ll<-function(beta, t){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' dominant.ll(c(-0.3793525, -1.1395417), 
+#'  rbind(c(0.2339079, 0.05665039, 0.009441731), 
+#'  c(0.3285921, 0.31834961, 0.053058269)))
+#' 
 #' @export
 #'
-dominant.ll<-function(beta, t){
+dominant.ll<-function(beta, t)
+{
   beta0 <- beta[1]
   beta1 <- beta[2]
 
@@ -78,9 +90,15 @@ dominant.ll<-function(beta, t){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' recessive.ll(c(-0.3793525, -1.1395417), 
+#'  rbind(c(0.2339079, 0.05665039, 0.009441731), 
+#'  c(0.3285921, 0.31834961, 0.053058269)))
+#' 
 #' @export
 #'
-recessive.ll<-function(beta, t){
+recessive.ll<-function(beta, t)
+{
   beta0 <- beta[1]
   beta1 <- beta[2]
 
@@ -110,9 +128,15 @@ recessive.ll<-function(beta, t){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' df2.ll(c(-0.3793525, -1.1395417), 
+#'  rbind(c(0.2339079, 0.05665039, 0.009441731), 
+#'  c(0.3285921, 0.31834961, 0.053058269)))
+#' 
 #' @export
 #'
-df2.ll<-function(beta, t){
+df2.ll<-function(beta, t)
+{
   beta0 <- beta[1]
   beta1 <- beta[2]
   beta2 <- beta[3]
@@ -142,9 +166,14 @@ df2.ll<-function(beta, t){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' null.ll(rbind(c(0.2339079, 0.05665039, 0.009441731), 
+#'  c(0.3285921, 0.31834961, 0.053058269)))
+#'
 #' @export
 #'
-null.ll<-function(t){
+null.ll<-function(t)
+{
   Case.Rate<-sum(t[1,])/sum(t)
   beta0 = logit(Case.Rate)
   ll<- Case.Rate*log(exp(beta0)/(1+exp(beta0))) + (1-Case.Rate)*log(1/(1+exp(beta0)))
@@ -161,9 +190,15 @@ null.ll<-function(t){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' t <- rbind(c(0.2967437, 0.1806723, 0.02258404), 
+#'  c(0.3432563, 0.1393277, 0.01741596))
+#' calc.like(logistic.mles(t, "Dominant"), t, model="Dominant")
+#'
 #' @export
 #'
-calc.like<-function(beta, t, model){
+calc.like<-function(beta, t, model)
+{
   if(model=='Dominant'){ll <- dominant.ll(beta,t)}
   if(model=='Additive'){ll <- additive.ll(beta,t)}
   if(model=='Recessive'){ll <- recessive.ll(beta,t)}
@@ -187,14 +222,19 @@ calc.like<-function(beta, t, model){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' expected.linear.ll(mean_truth = 0, mean_model = 0.03,
+#'  sd_y_x_model = 1, sd_y_x_truth = 0.9544108)
+#'
 #' @export
 #'
-expected.linear.ll <- function(mean_truth, mean_model, sd_y_x_truth, sd_y_x_model){
+expected.linear.ll <- function(mean_truth, mean_model, sd_y_x_truth, sd_y_x_model)
+{
   -0.5*log(2*pi*sd_y_x_model*sd_y_x_model)-
   (sd_y_x_truth*sd_y_x_truth + mean_truth^2)/(2*sd_y_x_model*sd_y_x_model)+
   mean_model*mean_truth/(sd_y_x_model*sd_y_x_model)-
   mean_model^2/(2*sd_y_x_model*sd_y_x_model)
-  }
+}
 
 #' Function to Calculate Expected Null Log Likelihood for a Linear Regression Model
 #'
@@ -208,9 +248,14 @@ expected.linear.ll <- function(mean_truth, mean_model, sd_y_x_truth, sd_y_x_mode
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' null.ll.linear(beta = 0.03, m = 0.1, es = c(0,3), 
+#'  sd_y_x_model = 1, sd_y_x_truth = 0.9544108)
+#'
 #' @export
 #'
-null.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
+null.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth)
+{
   ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta, sd_y_x_truth, sd_y_x_model)+
       2*m*(1-m)*expected.linear.ll(mean_truth=es[1], mean_model=beta, sd_y_x_truth, sd_y_x_model)+
     (m^2)*expected.linear.ll(mean_truth=es[2], mean_model=beta, sd_y_x_truth, sd_y_x_model)
@@ -231,9 +276,14 @@ null.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' additive.ll.linear(beta = c(-0.03, 0.3), m = 0.1, es = c(0,3), 
+#'  sd_y_x_model = 0.9918669, sd_y_x_truth = 0.9544108)
+#'
 #' @export
 #'
-additive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
+additive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth)
+{
   beta0 = beta[1]
   beta1 = beta[2]
 
@@ -256,9 +306,14 @@ additive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 #'
 #' @return The log likelihood.
 #'
+#' @examples
+#' dominant.ll.linear(beta = c(0.0000000, 0.1578947), m = 0.1, es = c(0,3), 
+#'  sd_y_x_model = 0.9980797, sd_y_x_truth = 0.9544108)
+#'
 #' @export
 #'
-dominant.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
+dominant.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth)
+{
   beta0 = beta[1]
   beta1 = beta[2]
 
@@ -281,9 +336,14 @@ dominant.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 #'
 #' @return The log likelihood.
 #'
+#' @examples
+#' recessive.ll.linear(beta = c(0, 3), m = 0.1, es = c(0,3), 
+#'  sd_y_x_model = 0.9544108, sd_y_x_truth = 0.9544108)
+#'
 #' @export
 #'
-recessive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
+recessive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth)
+{
   beta0 = beta[1]
   beta1 = beta[2]
   ll<- ((1-m)^2)*expected.linear.ll(mean_truth=0, mean_model=beta0, sd_y_x_truth, sd_y_x_model)+
@@ -305,9 +365,14 @@ recessive.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 #'
 #' @return The log likelihood.
 #'
+#' @examples
+#' df2.ll.linear(beta = c(0, 0, 3), m = 0.1, es = c(0,3), 
+#'  sd_y_x_model = 0.9544108, sd_y_x_truth = 0.9544108)
+#'
 #' @export
 #'
-df2.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
+df2.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth)
+{
   beta0 = beta[1]
   beta1 = beta[2]
   beta2 = beta[3]
@@ -331,9 +396,14 @@ df2.ll.linear<-function(beta, m, es, sd_y_x_model, sd_y_x_truth){
 #'
 #' @return The log likelihood.
 #'
+#' @examples 
+#' calc.like.linear(beta = c(0.0000000, 0.1578947), m = 0.1, es_ab = 0, es_bb = 3, 
+#'  sd_y_x_model = 0.9980797, sd_y_x_truth = 0.9544108, model = "Dominant")
+#'
 #' @export
 #'
-calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, model){
+calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, model)
+{
   es <- c(es_ab, es_bb)
   if(model=='Dominant'){ll <- dominant.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
   if(model=='Additive'){ll <- additive.ll.linear(beta, m, es, sd_y_x_model, sd_y_x_truth)}
@@ -351,9 +421,13 @@ calc.like.linear<-function(beta, m, es_ab, es_bb, sd_y_x_model, sd_y_x_truth, mo
 #'
 #' @return Log likelihood function for specified model type
 #'
+#' @examples
+#' ll.linear.selector("Dominant")
+#'
 #' @export
 #'
-ll.linear.selector <- function(model){
+ll.linear.selector <- function(model)
+{
   if(model=='Dominant'){res <- dominant.ll.linear}
   if(model=='Additive'){res <- additive.ll.linear}
   if(model=='Recessive'){res <- recessive.ll.linear}

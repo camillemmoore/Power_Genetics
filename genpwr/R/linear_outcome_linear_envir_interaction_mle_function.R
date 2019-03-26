@@ -8,6 +8,9 @@
 #'
 #' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
 #'
+#' @examples
+#' p_vec_returner_lin_env(0.1)
+#'
 #' @export
 #'
 p_vec_returner_lin_env <- function(MAF)
@@ -30,9 +33,11 @@ p_vec_returner_lin_env <- function(MAF)
 #'
 #' @return A probability vector to be used in MLE calculation for linear outcome with linear environment interaction
 #'
+#' @examples
+#' X_mat_returner_lle("Dominant")
+#'
 #' @export
 #'
-
 X_mat_returner_lle <- function(mod)
 {
 
@@ -96,6 +101,10 @@ X_mat_returner_lle <- function(mod)
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction
 #'
+#' @examples
+#' linear.mles.lin.envir.interaction(MAF = 0.28, ES_G = 0.5, beta0 = -0.28,
+#' 	ES_E = 1.6, ES_GE = 1.4, Test.Model = "Dominant", True.Model = "Additive")
+#'
 #' @export
 #'
 linear.mles.lin.envir.interaction <- function(MAF, beta0, ES_G, ES_E, ES_GE, Test.Model, True.Model)
@@ -127,6 +136,10 @@ linear.mles.lin.envir.interaction <- function(MAF, beta0, ES_G, ES_E, ES_GE, Tes
 #' @param Test.Model Test Model
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction
+#'
+#' @examples
+#' linear.mles.lin.envir.interaction_reduced(MAF = 0.28, ES_G = 0.5, beta0 = -0.28,
+#' 	ES_E = 1.6, ES_GE = 1.4, Test.Model = "Dominant", True.Model = "Additive")
 #'
 #' @export
 #'
@@ -163,6 +176,11 @@ linear.mles.lin.envir.interaction_reduced <- function(MAF, beta0, ES_G, ES_E, ES
 #' @param sd_y Standard deviation of y
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction
+#'
+#' @examples
+#' linear.outcome.lin.envir.interaction.sds(MAF = 0.28, beta0 = -0.28, 
+#' 	sd_y = 5, sd_e = 1, ES_G = 0.5, ES_E = 1.6, ES_GE = 1.4, 
+#' 	mod = "Dominant", True.Model = "Additive")
 #'
 #' @export
 #'
@@ -218,6 +236,11 @@ linear.outcome.lin.envir.interaction.sds <- function(MAF, sd_e, beta0, ES_G, ES_
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction
 #'
+#' @examples 
+#' linear.outcome.lin.envir.interaction.sds_reduced(MAF = 0.28, beta0 = -0.28, 
+#' 	sd_y = 5, sd_e = 1, ES_G = 0.5, ES_E = 1.6, 
+#' 	ES_GE = 1.4, mod = "Dominant", True.Model = "Additive")
+#'
 #' @export
 #'
 linear.outcome.lin.envir.interaction.sds_reduced <- function(MAF, sd_e, beta0, ES_G, ES_E, ES_GE, mod, True.Model, sd_y)
@@ -270,6 +293,13 @@ linear.outcome.lin.envir.interaction.sds_reduced <- function(MAF, sd_e, beta0, E
 #'
 #' @return The standard deviation of y given x for linear models with linear environment interaction
 #'
+#' @examples
+#' beta_hat = linear.mles.lin.envir.interaction(MAF = 0.28, ES_G = 0.5, beta0 = -0.28,
+#' 	ES_E = 1.6, ES_GE = 1.4, Test.Model = "Dominant", True.Model = "Additive")
+#' calc.like.linear.lin.envir.interaction(beta_hat, MAF = 0.28, beta0 = -0.28, sd_e = 1, 
+#' 	ES_G = 0.5, ES_E = 1.6, ES_GE = 1.4, sd_y_x_truth = 4.29249, 
+#' 	sd_y_x_model = 4.309354, True.Model = "Additive", Test.Model="Dominant")
+#'
 #' @export
 #'
 calc.like.linear.lin.envir.interaction <- function(beta_hat, MAF, sd_e, ES_G, ES_E, ES_GE, beta0,
@@ -301,22 +331,26 @@ calc.like.linear.lin.envir.interaction <- function(beta_hat, MAF, sd_e, ES_G, ES
 #'
 #' @return The log likelihood.
 #'
+#' @examples
+#' expected.linear.ll.lin.env(4.309354)
+#'
 #' @export
 #'
 expected.linear.ll.lin.env <- function(sd_y_x_model)
 {
   -0.5*log(2*pi*sd_y_x_model^2) - 0.5
 }
-expected.linear.ll.lin.env_old <- function(mean_truth, mean_model, sd_y_x_truth, sd_y_x_model, sd_e)
-{
-	-0.5*log(2*pi*sd_y_x_model^2) -
-		1/(2*sd_y_x_model^2) * (sd_y_x_truth^2 + (mean_truth[1] - mean_model[1])^2+
-		sd_e^2 * (mean_truth[2] - mean_model[2])^2)
-}
-#### >> @param mean_truth Mean of the outcome given X(predictors/genotype) under the true model.
-#### >> @param mean_model Mean of the outcome given X(predictors/genotype) under the test model.
-#### >> @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
-#### >> @param sd_e Standard deviation of linear environmental factor
+
+# expected.linear.ll.lin.env_old <- function(mean_truth, mean_model, sd_y_x_truth, sd_y_x_model, sd_e)
+# {
+# 	-0.5*log(2*pi*sd_y_x_model^2) -
+# 		1/(2*sd_y_x_model^2) * (sd_y_x_truth^2 + (mean_truth[1] - mean_model[1])^2+
+# 		sd_e^2 * (mean_truth[2] - mean_model[2])^2)
+# }
+# #### >> @param mean_truth Mean of the outcome given X(predictors/genotype) under the true model.
+# #### >> @param mean_model Mean of the outcome given X(predictors/genotype) under the test model.
+# #### >> @param sd_y_x_truth The standard deviation of Y given X (predictors/genotype) given genotype under the true model.
+# #### >> @param sd_e Standard deviation of linear environmental factor
 
 
 

@@ -246,5 +246,4 @@ ss_envir.calc <-
 	}
 	final.ss.tab <- final.ss.tab[,c(1:4, 7, 5:6, 8:ncol(final.ss.tab))]
 	return(final.ss.tab)
-
 }

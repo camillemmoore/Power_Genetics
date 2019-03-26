@@ -1,5 +1,3 @@
-
-
 ####################################################################################
 # odds ratios for different models
 ####################################################################################
@@ -16,6 +14,7 @@
 #' @param f The probability of a control given homogeneity for the minor allele#' 
 #' @param mod The model to be used (eg "Dominant", "Recessive", etc)
 #' @param risk_allele Is this allele a risk allele? use T or F
+#'
 #' @return Odds ratio
 #'
 #' @examples
