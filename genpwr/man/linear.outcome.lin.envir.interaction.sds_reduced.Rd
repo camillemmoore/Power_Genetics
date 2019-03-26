@@ -33,3 +33,9 @@ The standard deviation of y given x for linear models with linear environment in
 \description{
 Returns the standard deviation of y given x for linear models with linear environment interaction
 }
+\examples{
+linear.outcome.lin.envir.interaction.sds_reduced(MAF = 0.28, beta0 = -0.28, 
+	sd_y = 5, sd_e = 1, ES_G = 0.5, ES_E = 1.6, 
+	ES_GE = 1.4, mod = "Dominant", True.Model = "Additive")
+
+}

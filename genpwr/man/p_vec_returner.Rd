@@ -17,3 +17,7 @@ A probability vector to be used in MLE calculation for linear outcome with logis
 \description{
 Returns probability vector used in calculation of MLE's for linear outcome with logistic environment interaction
 }
+\examples{
+p_vec_returner(MAF = 0.1, P_e = 0.2)
+
+}

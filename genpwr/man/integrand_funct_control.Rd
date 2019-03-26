@@ -18,3 +18,8 @@ a function to be used as the integrand for the mle
 \description{
 Returns the standard deviation of y given x for linear models with linear environment interaction
 }
+\examples{
+integrand_funct_control(-1.462531 + 1*0.1823216,
+	-1.462531 + 1*0.1823216) 
+
+}

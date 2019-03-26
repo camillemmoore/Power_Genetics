@@ -17,3 +17,9 @@ The log likelihood.
 \description{
 Calculates the log likelihood for a given set of logistic regression coefficients under an additive genetic model.
 }
+\examples{
+additive.ll(c(-0.3793525, -1.1395417), 
+ rbind(c(0.2339079, 0.05665039, 0.009441731), 
+ c(0.3285921, 0.31834961, 0.053058269)))
+
+}

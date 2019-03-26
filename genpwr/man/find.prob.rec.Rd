@@ -25,3 +25,7 @@ find.prob.rec(x, P_AA, P_AB, P_BB, cr, like)
 \description{
 Operates within add.or.function to find probability of disease in a recessive truth given AB or BB, additive test model
 }
+\examples{
+find.prob.rec(0.7072381, 0.5625, 0.375, 0.0625, 0.3, -0.6005743)
+
+}

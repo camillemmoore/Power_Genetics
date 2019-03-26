@@ -17,3 +17,8 @@ A vector of logistic regression model coefficients.
 \description{
 Finds the maximum likelihood estimates for a given 2x3 table under the specified genetic model.
 }
+\examples{
+logistic.mles(rbind(c(0.2967437, 0.1806723, 0.02258404), 
+ c(0.3432563, 0.1393277, 0.01741596)), "Dominant")
+
+}

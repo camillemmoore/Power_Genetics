@@ -19,3 +19,9 @@ The log likelihood.
 \description{
 Convenience function to calculate the log likelihood of a specified model.
 }
+\examples{
+t <- rbind(c(0.2967437, 0.1806723, 0.02258404), 
+ c(0.3432563, 0.1393277, 0.01741596))
+calc.like(logistic.mles(t, "Dominant"), t, model="Dominant")
+
+}

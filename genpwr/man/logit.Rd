@@ -19,3 +19,7 @@ The logit of x.
 \description{
 Calculates the logit of a specified value.
 }
+\examples{
+logit(0.5)
+
+}

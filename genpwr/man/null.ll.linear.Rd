@@ -23,3 +23,8 @@ The log likelihood.
 \description{
 Calculates the expected log likelihood for a given set of linear regression coefficients under the null.
 }
+\examples{
+null.ll.linear(beta = 0.03, m = 0.1, es = c(0,3), 
+ sd_y_x_model = 1, sd_y_x_truth = 0.9544108)
+
+}

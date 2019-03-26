@@ -26,3 +26,8 @@ t matrix for all combinations of environment/outcome
 \description{
 Calculates the t matrix for logistic outcome with binary environment interaction in recessive model
 }
+\examples{
+rec.fun.t(MAF = 0.1, P_e = 0.2, Case.Rate = 0.5,
+	OR_G = 1.5, OR_E = 2, OR_GE = 1.8)
+
+}

@@ -4,14 +4,12 @@
 \alias{ncp.search}
 \title{Function to Determine Non-Centrality Parameter of the Chi-squared distribution}
 \usage{
-ncp.search(x, power, stat, Alpha, df)
+ncp.search(x, power, Alpha, df)
 }
 \arguments{
 \item{x}{the non-centrality parameter}
 
 \item{power}{the desired power}
-
-\item{stat}{the detectable likelihood ratio test statistic}
 
 \item{Alpha}{the desired type 1 error rate}
 
@@ -22,4 +20,8 @@ numeric value of the function
 }
 \description{
 This function is set to 0 and solved for x, the non-centrality parameter to determine the sample size in \code{\link{ss.calc}}
+}
+\examples{
+ncp.search(x = 7.848861, pow = 0.8, Alpha = 0.05, df=1)
+
 }

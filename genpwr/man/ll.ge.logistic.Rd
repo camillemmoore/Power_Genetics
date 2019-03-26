@@ -24,3 +24,9 @@ A vector of logistic regression model coefficients.
 \description{
 Finds the maximum likelihood estimates for a given 2x3 table under the specified genetic model.
 }
+\examples{
+t <- rbind(c(0.2870353, 0.07833006, 0.00435167, 0.09946088, 0.029199878, 0.0016222154),
+	c(0.3609647, 0.06566994, 0.00364833, 0.06253912, 0.006800122, 0.0003777846))
+ll.ge.logistic(t, N = 200, Alpha = 0.05, mod = "Dominant")
+
+}

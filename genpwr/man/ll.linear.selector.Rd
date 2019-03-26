@@ -15,3 +15,7 @@ Log likelihood function for specified model type
 \description{
 Convenience function to return log likelihood function for specified model type
 }
+\examples{
+ll.linear.selector("Dominant")
+
+}

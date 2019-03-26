@@ -23,3 +23,8 @@ The log likelihood.
 \description{
 Calculates the log likelihood for a given set of linear regression coefficients under an additive genetic model.
 }
+\examples{
+additive.ll.linear(beta = c(-0.03, 0.3), m = 0.1, es = c(0,3), 
+ sd_y_x_model = 0.9918669, sd_y_x_truth = 0.9544108)
+
+}

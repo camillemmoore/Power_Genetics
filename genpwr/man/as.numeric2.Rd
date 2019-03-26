@@ -15,3 +15,7 @@ a number
 \description{
 convert to numeric with scientific notation containing the "." character
 }
+\examples{
+as.numeric2("2e.2")
+
+}

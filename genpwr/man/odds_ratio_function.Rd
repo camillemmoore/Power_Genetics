@@ -27,6 +27,9 @@ odds_ratio_function(N = NULL, Case.Rate = NULL, k = NULL,
 
 \item{Test.Model}{A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'}
 }
+\value{
+A data frame including the odds ratios for all combinations of the specified parameters
+}
 \description{
 Calculates the odds ratio for a given power, at a given sample size, N, with type 1 error rate, Alpha
 }

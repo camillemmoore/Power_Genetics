@@ -23,3 +23,7 @@ solve_a(b, cr, P_AA, P_AB, P_BB)
 \description{
 Operates within add.or.function to solve for 'a' when 'b' is known in an additive model
 }
+\examples{
+solve_a(0.1493558, 0.3, 0.5625, 0.375, 0.062)
+
+}

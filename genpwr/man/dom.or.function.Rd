@@ -27,3 +27,8 @@ dom.or.function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
 \description{
 Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "Dominant"
 }
+\examples{
+dom.or.function(like=-0.57162, Case.Rate=0.3, P_AA=0.5625, P_AB=0.375, 
+ P_BB=0.0625, True.Model="Dominant", risk_allele=TRUE)
+
+}

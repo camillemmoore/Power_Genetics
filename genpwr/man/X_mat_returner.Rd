@@ -17,3 +17,7 @@ A matrix to be used in MLE calculation for linear outcome with logistic environm
 \description{
 Returns X matrices used in calculation of MLE's for linear outcome with logistic environment interaction
 }
+\examples{
+X_mat_returner(mod = "Dominant")
+
+}

@@ -21,3 +21,8 @@ The log likelihood.
 \description{
 Calculates the expected log likelihood for a single genotype given the true and estimated mean and standard deviation for the outcome.
 }
+\examples{
+expected.linear.ll(mean_truth = 0, mean_model = 0.03,
+ sd_y_x_model = 1, sd_y_x_truth = 0.9544108)
+
+}

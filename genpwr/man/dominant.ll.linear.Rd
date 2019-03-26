@@ -23,3 +23,8 @@ The log likelihood.
 \description{
 Calculates the log likelihood for a given set of linear regression coefficients under a dominant genetic model.
 }
+\examples{
+dominant.ll.linear(beta = c(0.0000000, 0.1578947), m = 0.1, es = c(0,3), 
+ sd_y_x_model = 0.9980797, sd_y_x_truth = 0.9544108)
+
+}

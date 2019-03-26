@@ -16,3 +16,7 @@ A probability vector to be used in MLE calculation for linear outcome with linea
 \description{
 Function to output X matrices used in calculation of MLE's for linear outcome with linear environment interaction
 }
+\examples{
+X_mat_returner_lle("Dominant")
+
+}

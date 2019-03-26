@@ -27,3 +27,8 @@ The log likelihood.
 \description{
 Convenience function to calculate the log likelihood of a specified model.
 }
+\examples{
+calc.like.linear(beta = c(0.0000000, 0.1578947), m = 0.1, es_ab = 0, es_bb = 3, 
+ sd_y_x_model = 0.9980797, sd_y_x_truth = 0.9544108, model = "Dominant")
+
+}

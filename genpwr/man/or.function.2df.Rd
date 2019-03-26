@@ -27,3 +27,8 @@ or.function.2df(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
 \description{
 Operates within odds_ratio_function to calculate odds ratios for a Test.Model of "2df"
 }
+\examples{
+or.function.2df(like=-0.5626909, Case.Rate=0.3, P_AA=0.5625, 
+ P_AB=0.375, P_BB=0.0625, True.Model="Recessive", risk_allele=TRUE)
+
+}

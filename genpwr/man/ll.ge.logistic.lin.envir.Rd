@@ -37,3 +37,7 @@ a function to be used as the integrand for the mle
 \description{
 Returns the standard deviation of y given x for linear models with linear environment interaction
 }
+\examples{
+ll.ge.logistic.lin.envir(sd_e = 1, MAF = 0.2, N = 30, beta0 = -1.462531, OR_G = 1.1, 
+	OR_E = 1.2, OR_GE = 1.5, Alpha = 0.05, True.Model = "Dominant", Test.Model = "Dominant")
+}

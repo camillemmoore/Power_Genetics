@@ -25,3 +25,7 @@ A vector of linear regression model coefficients.
 Functions to Calculate Residual SD for Normal/Continuous Outcomes
 Function to calculate the standard deviation of y given x for linear models
 }
+\examples{
+linear.sds(m = 0.1, es_ab = 0, es_bb = 3, sd_y = 1, model = "Dominant")
+
+}

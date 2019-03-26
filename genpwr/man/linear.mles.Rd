@@ -21,3 +21,7 @@ A vector of linear regression model coefficients.
 \description{
 Finds the maximum likelihood estimates for a given MAF under the specified genetic model and effect size.
 }
+\examples{
+linear.mles(m = 0.1, es_ab = 0, es_bb = 3, model = "Dominant")
+
+}

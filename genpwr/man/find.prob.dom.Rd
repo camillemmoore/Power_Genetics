@@ -25,3 +25,7 @@ find.prob.dom(x, P_AA, P_AB, P_BB, cr, like)
 \description{
 Operates within add.or.function to find probability of disease in a dominant truth given AB or BB, additive test model
 }
+\examples{
+find.prob.dom(0.1510677, 0.5625, 0.375, 0.0625, 0.3, -0.57162)
+
+}

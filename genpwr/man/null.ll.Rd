@@ -15,3 +15,8 @@ The log likelihood.
 \description{
 Calculates the log likelihood for a given set of logistic regression coefficients under the null.
 }
+\examples{
+null.ll(rbind(c(0.2339079, 0.05665039, 0.009441731), 
+ c(0.3285921, 0.31834961, 0.053058269)))
+
+}

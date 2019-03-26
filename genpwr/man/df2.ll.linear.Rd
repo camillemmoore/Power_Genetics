@@ -23,3 +23,8 @@ The log likelihood.
 \description{
 Calculates the log likelihood for a given set of linear regression coefficients under a the 2df model.
 }
+\examples{
+df2.ll.linear(beta = c(0, 0, 3), m = 0.1, es = c(0,3), 
+ sd_y_x_model = 0.9544108, sd_y_x_truth = 0.9544108)
+
+}

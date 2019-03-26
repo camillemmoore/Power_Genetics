@@ -37,3 +37,11 @@ The standard deviation of y given x for linear models with linear environment in
 \description{
 Returns the standard deviation of y given x for linear models with linear environment interaction
 }
+\examples{
+beta_hat = linear.mles.lin.envir.interaction(MAF = 0.28, ES_G = 0.5, beta0 = -0.28,
+	ES_E = 1.6, ES_GE = 1.4, Test.Model = "Dominant", True.Model = "Additive")
+calc.like.linear.lin.envir.interaction(beta_hat, MAF = 0.28, beta0 = -0.28, sd_e = 1, 
+	ES_G = 0.5, ES_E = 1.6, ES_GE = 1.4, sd_y_x_truth = 4.29249, 
+	sd_y_x_model = 4.309354, True.Model = "Additive", Test.Model="Dominant")
+
+}

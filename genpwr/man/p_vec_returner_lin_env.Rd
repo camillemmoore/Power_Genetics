@@ -16,3 +16,7 @@ A probability vector to be used in MLE calculation for linear outcome with linea
 \description{
 Returns probability vector used in calculation of MLE's for linear outcome with linear environment interaction
 }
+\examples{
+p_vec_returner_lin_env(0.1)
+
+}

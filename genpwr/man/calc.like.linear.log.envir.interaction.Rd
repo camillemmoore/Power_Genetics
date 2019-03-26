@@ -36,3 +36,13 @@ The standard deviation of y given x for linear models with logistic environment 
 \description{
 Returns the standard deviation of y given x for linear models with logistic environment interaction
 }
+\examples{
+beta_hat = linear.mles.log.envir.interaction(MAF = 0.1, P_e = 0.2, 
+	ES_G = 1.2, ES_E = 1.3, ES_GE = 2, 
+	Test.Model = "Dominant", True.Model = "Additive")
+calc.like.linear.log.envir.interaction(beta_hat = beta_hat,
+	MAF = 0.1, P_e = 0.2, ES_G = 1.2, ES_E = 1.3,
+	ES_GE = 2, sd_y_x_truth = 9.947945, sd_y_x_model = 9.949468, 
+	True.Model = "Additive", Test.Model="Dominant")
+
+}

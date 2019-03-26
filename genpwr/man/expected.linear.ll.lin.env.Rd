@@ -17,3 +17,7 @@ The log likelihood.
 Calculates the expected log likelihood for a single genotype with linear environment interaction 
  given the true and estimated mean and standard deviation for the outcome.
 }
+\examples{
+expected.linear.ll.lin.env(4.309354)
+
+}
