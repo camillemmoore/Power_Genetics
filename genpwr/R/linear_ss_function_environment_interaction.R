@@ -307,7 +307,7 @@ ss_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, ES_E=NUL
 
 			#Calculate the sample size for the given sample size for a range of Alpha levels
 			if(mod=='2df'){
-				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, stat, Alpha0, df=2),
+				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, Alpha0, df=2),
 								lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat, ll.stat)))
 			}else{
 				# ss <- (qnorm(1-Alpha/2)+qnorm(power))^2/ll.stat

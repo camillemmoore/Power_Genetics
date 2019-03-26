@@ -11,9 +11,14 @@
 #'
 #' @return t matrix for all combinations of environment/outcome
 #'
+#' @examples
+#' dom.fun.t(MAF = 0.1, P_e = 0.2, Case.Rate = 0.5,
+#' 	OR_G = 1.5, OR_E = 2, OR_GE = 1.8)
+#'
 #' @export
 #'
-dom.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
+dom.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate)
+{
 	P_AA <- (1 - MAF)^2
 	P_AB <- 2*MAF*(1 - MAF)
 	P_BB <- MAF^2
@@ -85,9 +90,14 @@ dom.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 #'
 #' @return t matrix for all combinations of environment/outcome
 #'
+#' @examples
+#' rec.fun.t(MAF = 0.1, P_e = 0.2, Case.Rate = 0.5,
+#' 	OR_G = 1.5, OR_E = 2, OR_GE = 1.8)
+#'
 #' @export
 #'
-rec.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
+rec.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate)
+{
 	P_AA <- (1 - MAF)^2
 	P_AB <- 2*MAF*(1 - MAF)
 	P_BB <- MAF^2
@@ -156,9 +166,14 @@ rec.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
 #'
 #' @return t matrix for all combinations of environment/outcome
 #'
+#' @examples
+#' add.fun.t(MAF = 0.1, P_e = 0.2, Case.Rate = 0.5,
+#' 	OR_G = 1.5, OR_E = 2, OR_GE = 1.8)
+#'
 #' @export
 #'
-add.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate){
+add.fun.t <- function(MAF, P_e, OR_E, OR_G, OR_GE, Case.Rate)
+{
 	P_AA <- (1 - MAF)^2
 	P_AB <- 2*MAF*(1 - MAF)
 	P_BB <- MAF^2

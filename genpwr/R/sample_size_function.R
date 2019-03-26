@@ -13,8 +13,8 @@
 #'
 #' @return A data frame including the total number of subjects required for all combinations of the specified parameters (Case.Rate, OR, Power, etc)
 #'
-#'@examples
-#'ss <- ss.calc(power=0.8, Case.Rate=0.5, k=NULL,
+#' @examples
+#' ss <- ss.calc(power=0.8, Case.Rate=0.5, k=NULL,
 #'    MAF=0.1, OR=3,Alpha=0.05,
 #'    True.Model='All', Test.Model='All')
 #'
@@ -22,7 +22,8 @@
 #'
 ss.calc<-
   function(power=0.8, Case.Rate=NULL, k=NULL, MAF=NULL, OR=NULL,
-                  Alpha=0.05, True.Model='All', Test.Model='All'){
+                  Alpha=0.05, True.Model='All', Test.Model='All')
+{
 
   ############################################################################################################
   #Error Messages for insufficient information, MAF, and
@@ -299,9 +300,9 @@ ss.calc<-
         ss<-NULL
         for (q in 1:length(Alpha)){
           if(mod=='2df'){
-              ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=2),
+              ss = c(ss, uniroot(function(x) ncp.search(x, power, Alpha[q], df=2),
                                  lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
-          }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, stat, Alpha[q], df=1),
+          }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, Alpha[q], df=1),
                                    lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
           }
         }
@@ -321,5 +322,4 @@ ss.calc<-
     final.ss.tab<-rbind(final.ss.tab, ss.tab)
   }
   return(final.ss.tab)
-
-  }
+}

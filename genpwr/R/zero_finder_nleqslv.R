@@ -22,7 +22,8 @@
 #'
 #' @export
 #'
-zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL){
+zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL)
+{
 	# library(nleqslv)
 	# x.start gives example values to base x.start values on. If null, x.start values are randomly selected from runif
 	conv <- reps <- 0

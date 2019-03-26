@@ -15,9 +15,12 @@
 #'
 #' @return a number
 #'
+#' @examples as.numeric2("2e.2")
+#'
 #' @export
 #'
-as.numeric2<-function(char){
+as.numeric2<-function(char)
+{
   if(grepl("e.", char)) char <- gsub("e.", "e-", char)
   return(as.numeric(char))
 }
@@ -139,7 +142,6 @@ ss.plot<-function(data=NULL,x='MAF', panel.by='True.Model', y_limit = NULL, y_lo
       return(resplots)
     }else print(plot_obj)
   }
-
 }
 
 

@@ -260,6 +260,5 @@ power_envir.calc <-
 	final.pow.tab <- final.pow.tab[,c(1:4, 7, 5:6, 8:ncol(final.pow.tab))]
 	# final.pow.tab <- final.pow.tab[,-which(colnames(final.pow.tab) %in% c("Power_G_at_Alpha_0.05", "Power_E_at_Alpha_0.05"))]
 	return(final.pow.tab)
-
 }
 

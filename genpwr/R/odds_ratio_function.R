@@ -16,6 +16,10 @@
 #'
 #' @return: The odds ratios and their corresponding genetic model(s)
 #'
+#' @examples 
+#' dom.or.function(like=-0.57162, Case.Rate=0.3, P_AA=0.5625, P_AB=0.375, 
+#'  P_BB=0.0625, True.Model="Dominant", risk_allele=TRUE)
+#'
 #' @export
 #'
 dom.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
@@ -113,6 +117,10 @@ dom.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #'
 #' @return: The odds ratios and their corresponding genetic model(s)
 #'
+#' @examples
+#' rec.or.function(like=-0.57162, Case.Rate=0.3, P_AA=0.5625, P_AB=0.375, 
+#'  P_BB=0.0625, True.Model="Recessive", risk_allele=TRUE)
+#' 
 #' @export
 #'
 rec.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
@@ -219,6 +227,9 @@ rec.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #'
 #' @return: The "a" in the binomial function ax^2 + bx + c that arises in solution for the additive OR functions
 #'
+#' @examples
+#' solve_a(0.1493558, 0.3, 0.5625, 0.375, 0.062)
+#' 
 #' @export
 #'
 solve_a<-function(b, cr, P_AA, P_AB, P_BB)
@@ -247,6 +258,9 @@ solve_a<-function(b, cr, P_AA, P_AB, P_BB)
 #' @param like Expected log likelihood
 #'
 #' @return: The "a" in the binomial function ax^2 + bx + c that arises in solution for the additive OR functions
+#'
+#' @examples
+#' find.prob.dom(0.1510677, 0.5625, 0.375, 0.0625, 0.3, -0.57162)
 #'
 #' @export
 #'
@@ -278,6 +292,9 @@ find.prob.dom<-function(x,P_AA,P_AB,P_BB,cr, like)
 #' @param like Expected log likelihood
 #'
 #' @return: The "a" in the binomial function ax^2 + bx + c that arises in solution for the additive OR functions
+#'
+#' @examples
+#' find.prob.rec(0.7072381, 0.5625, 0.375, 0.0625, 0.3, -0.6005743)
 #'
 #' @export
 #'
@@ -313,6 +330,10 @@ find.prob.rec<-function(x,P_AA,P_AB,P_BB,cr, like)
 #'
 #' @return: The odds ratios and their corresponding genetic model(s)
 #'
+#' @examples
+#' add.or.function(like=-0.57162, Case.Rate=0.3, P_AA=0.5625, P_AB=0.375, 
+#'  P_BB=0.0625, True.Model="Additive", risk_allele=TRUE)
+#' 
 #' @export
 #'
 add.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_allele)
@@ -438,6 +459,10 @@ add.or.function <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param True.Model A vector object specifying the true underlying genetic model(s): 'Dominant', 'Additive', or 'Recessive'
 #'
 #' @return: The odds ratios and their corresponding genetic model(s)
+#'
+#' @examples 
+#' or.function.2df(like=-0.5626909, Case.Rate=0.3, P_AA=0.5625, 
+#'  P_AB=0.375, P_BB=0.0625, True.Model="Recessive", risk_allele=TRUE)
 #'
 #' @export
 #'
@@ -591,6 +616,8 @@ or.function.2df <-function(like, Case.Rate, P_AA, P_AB, P_BB, True.Model, risk_a
 #' @param True.Model A vector vector the true underlying genetic model(s): 'Dominant', 'Additive', 'Recessive' or 'All'
 #' @param Test.Model A vector specifying the assumed genetic model(s) used in testing: 'Dominant', 'Additive', 'Recessive' or 'All'
 #'
+#' @return A data frame including the odds ratios for all combinations of the specified parameters 
+#'
 #' @examples
 #' or <- odds_ratio_function(N=c(100), Case.Rate=0.3, 
 #'  k=NULL, MAF= 0.25, power=0.8, 
@@ -724,11 +751,11 @@ odds_ratio_function <-
         ############################################################################################################
 
         #stat = ((qnorm(1-alpha0/2)+qnorm(pow))^2)/N
-        stat = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=1),
+        stat = uniroot(function(x) ncp.search(x, pow, alpha0, df=1),
                            lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
         
         #For the 2DF Test the detectable LRT test statistic is:
-        stat_2df = uniroot(function(x) ncp.search(x, pow, stat, alpha0, df=2),
+        stat_2df = uniroot(function(x) ncp.search(x, pow, alpha0, df=2),
                        lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/N
 
         beta0 <- logit(Case.Rate)

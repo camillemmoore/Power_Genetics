@@ -9,14 +9,17 @@
 #'
 #' @param x the non-centrality parameter
 #' @param power the desired power
-#' @param stat the detectable likelihood ratio test statistic
 #' @param Alpha the desired type 1 error rate
 #' @param df the degrees of freedom for the likelihood ratio test
 #'
 #' @return numeric value of the function
 #'
+#' @examples
+#' ncp.search(x = 7.848861, pow = 0.8, Alpha = 0.05, df=1)
+#'
 #' @export
 #'
-ncp.search<-
-  function(x, power, stat, Alpha, df){
-  (1-power)-pchisq(qchisq(1-Alpha, df, ncp=0), df=df, ncp = x) }
+ncp.search<- function(x, power, Alpha, df)
+{
+	(1 - power) - pchisq(qchisq(1 - Alpha, df, ncp=0), df=df, ncp = x)
+}

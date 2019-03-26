@@ -114,6 +114,7 @@ power_linear_envir.calc.logistic_outcome <- function(N=NULL, MAF=NULL, OR_G=NULL
 	# names(beta0) <- c("Dominant", "Recessive", "Additive")
 	e.save.tab <- expand.grid(OR_G, OR_E, OR_GE, MAF, sd_e, Case.Rate, True.Model)
 	names(e.save.tab) <- c("OR_G", "OR_E", "OR_GE", "MAF", "sd_e", "Case.Rate", "True.Model") #Alpha
+	e.save.tab$True.Model <- as.character(e.save.tab$True.Model)
 	e.save.tab$P_AA <- (1-e.save.tab$MAF)^2
 	e.save.tab$P_AB <- 2*e.save.tab$MAF*(1-e.save.tab$MAF)
 	e.save.tab$P_BB <- e.save.tab$MAF^2

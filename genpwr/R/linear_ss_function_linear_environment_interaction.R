@@ -324,12 +324,12 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 			if(mod=='2df'){
 				# pow = t(sapply(Alpha, function(Alpha0) mapply(function(stat) 1-pchisq(qchisq(1-Alpha0, df=2, ncp=0), 
 				# 	df=2, ncp = n*stat), ll.stat)))
-				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, stat, Alpha0, df=2),
+				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, Alpha0, df=2),
 							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat, ll.stat)))
 			}else{
 				# pow = t(sapply(Alpha, function(Alpha0) mapply(function(stat) 
 				# 	pnorm(sqrt(n*stat) - qnorm(1-Alpha/2))+pnorm(-sqrt(n*stat) - qnorm(1-Alpha/2))*1, ll.stat)))
-				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, stat, Alpha0, df=2),
+				ss <- t(sapply(Alpha, function(Alpha0) mapply(function(stat) uniroot(function(x) ncp.search(x, power, Alpha0, df=2),
 							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat, ll.stat)))
 			}
 			# if(length(Alpha)>1){

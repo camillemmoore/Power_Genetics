@@ -144,7 +144,7 @@ ss_envir.calc <-
 			o.save.tab <-NULL
 			o.grid <- expand.grid(OR_G, OR_E, OR_GE)
 			names(o.grid) <- c("OR_G", "OR_E", "OR_GE")
-			for (o_ii in 1:nrow(o.grid)){
+			for(o_ii in 1:nrow(o.grid)){
 
 				##########################################################################
 				#For each MAF
@@ -246,5 +246,4 @@ ss_envir.calc <-
 	}
 	final.ss.tab <- final.ss.tab[,c(1:4, 7, 5:6, 8:ncol(final.ss.tab))]
 	return(final.ss.tab)
-
 }

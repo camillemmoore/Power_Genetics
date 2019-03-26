@@ -13,8 +13,8 @@
 #'
 #' @return A data frame including the total number of subjects required for all combinations of the specified parameters
 #'
-#'@examples
-#'ss <- ss.calc.linear(power=0.8,MAF=0.1,
+#' @examples
+#' ss <- ss.calc.linear(power=0.8,MAF=0.1,
 #'     ES=3, R2=NULL, sd_y = 1,Alpha=0.05,
 #'     True.Model='All', Test.Model='All')
 #'
@@ -22,7 +22,8 @@
 #'
 ss.calc.linear<-
   function(power=0.8, MAF=NULL, ES=NULL, R2=NULL, sd_y=NULL,
-           Alpha=0.05, True.Model='All', Test.Model='All'){
+           Alpha=0.05, True.Model='All', Test.Model='All')
+{
 
     ############################################################################################################
     #Error Messages for insufficient sample size information, MAF, and case vs. control ratio
@@ -185,13 +186,13 @@ ss.calc.linear<-
         #Calculate the SS for the given power for a range of Alpha levels
         if(mod=='2df'){ss<-NULL
         for (q in 1:length(Alpha)){
-          ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, stat, Alpha[q], df=2),
+          ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, Alpha[q], df=2),
                              lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat}, ll.stat))
           }
           ss<-t(ss)
         }else{ss<-NULL
         for (q in 1:length(Alpha)){
-          ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, stat, Alpha[q], df=1),
+          ss = rbind(ss, mapply(function(stat){uniroot(function(x) ncp.search(x, p, Alpha[q], df=1),
                                                            lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat}, ll.stat))
           #ss = mapply(function(stat)(qnorm(1-Alpha/2)+qnorm(p))^2/stat, ll.stat)
         }
@@ -211,5 +212,5 @@ ss.calc.linear<-
                            paste("N_total_at_Alpha_", Alpha, sep=''))
 
     return(ss.tab)
-  }
+}
 

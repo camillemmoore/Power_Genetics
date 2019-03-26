@@ -10,9 +10,15 @@
 #' 
 #' @return A vector of logistic regression model coefficients.  
 #'
+#' @examples
+#' t <- rbind(c(0.2870353, 0.07833006, 0.00435167, 0.09946088, 0.029199878, 0.0016222154),
+#' 	c(0.3609647, 0.06566994, 0.00364833, 0.06253912, 0.006800122, 0.0003777846))
+#' ll.ge.logistic(t, N = 200, Alpha = 0.05, mod = "Dominant")
+#'
 #' @export
 #'
-ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod){
+ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod)
+{
 	if(all(c(is.null(N), is.null(power)))) stop("must specify either N or power")
 	if(!any(c(is.null(N), is.null(power)))) stop("must specify either N or power, not both")
 
@@ -358,10 +364,10 @@ ll.ge.logistic <- function(t, N = NULL, power = NULL, Alpha, mod){
 	if(is.null(N)){
 		stat <- 2*(as.numeric(ll-ll_g_e))
 		if(mod=='2df'){
-			ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=2),
+			ss <- uniroot(function(x) ncp.search(x, power, Alpha, df=2),
 							lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}else{
-		  ss <- uniroot(function(x) ncp.search(x, power, stat, Alpha, df=1),
+			ss <- uniroot(function(x) ncp.search(x, power, Alpha, df=1),
 		                lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat
 		}
 		return(ss)
