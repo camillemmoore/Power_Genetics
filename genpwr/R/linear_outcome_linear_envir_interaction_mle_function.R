@@ -274,52 +274,55 @@ linear.outcome.lin.envir.interaction.sds_reduced <- function(MAF, sd_e, beta0, E
   return(sd_y_x)
 }
 
+if(F){
+	#' Function to calculate the standard deviation of y given x for linear models with linear environment interaction
+	#'
+	#' Returns the standard deviation of y given x for linear models with linear environment interaction
+	#'
+	#' @param beta_hat Effect sizes from MLE
+	#' @param MAF Minor allele Frequency
+	#' @param sd_e Standard deviation of linear environmental factor
+	#' @param ES_G Genetic Effect size
+	#' @param ES_E Environment Effect size
+	#' @param ES_GE Environment x Genetic interaction Effect size
+	#' @param beta0 baseline value for the outcome
+	#' @param sd_y_x_truth Standard deviation of y for the true model
+	#' @param sd_y_x_model Standard deviation of y for the test model
+	#' @param Test.Model Test model
+	#' @param True.Model True model
+	#'
+	#' @return The standard deviation of y given x for linear models with linear environment interaction
+	#'
+	#' @examples
+	#' beta_hat = linear.mles.lin.envir.interaction(MAF = 0.28, ES_G = 0.5, beta0 = -0.28,
+	#' 	ES_E = 1.6, ES_GE = 1.4, Test.Model = "Dominant", True.Model = "Additive")
+	#' calc.like.linear.lin.envir.interaction(beta_hat, MAF = 0.28, beta0 = -0.28, sd_e = 1, 
+	#' 	ES_G = 0.5, ES_E = 1.6, ES_GE = 1.4, sd_y_x_truth = 4.29249, 
+	#' 	sd_y_x_model = 4.309354, True.Model = "Additive", Test.Model="Dominant")
+	#'
+	#' @export
+	#'
 
-#' Function to calculate the standard deviation of y given x for linear models with linear environment interaction
-#'
-#' Returns the standard deviation of y given x for linear models with linear environment interaction
-#'
-#' @param beta_hat Effect sizes from MLE
-#' @param MAF Minor allele Frequency
-#' @param sd_e Standard deviation of linear environmental factor
-#' @param ES_G Genetic Effect size
-#' @param ES_E Environment Effect size
-#' @param ES_GE Environment x Genetic interaction Effect size
-#' @param beta0 baseline value for the outcome
-#' @param sd_y_x_truth Standard deviation of y for the true model
-#' @param sd_y_x_model Standard deviation of y for the test model
-#' @param Test.Model Test model
-#' @param True.Model True model
-#'
-#' @return The standard deviation of y given x for linear models with linear environment interaction
-#'
-#' @examples
-#' beta_hat = linear.mles.lin.envir.interaction(MAF = 0.28, ES_G = 0.5, beta0 = -0.28,
-#' 	ES_E = 1.6, ES_GE = 1.4, Test.Model = "Dominant", True.Model = "Additive")
-#' calc.like.linear.lin.envir.interaction(beta_hat, MAF = 0.28, beta0 = -0.28, sd_e = 1, 
-#' 	ES_G = 0.5, ES_E = 1.6, ES_GE = 1.4, sd_y_x_truth = 4.29249, 
-#' 	sd_y_x_model = 4.309354, True.Model = "Additive", Test.Model="Dominant")
-#'
-#' @export
-#'
-calc.like.linear.lin.envir.interaction <- function(beta_hat, MAF, sd_e, ES_G, ES_E, ES_GE, beta0,
-	sd_y_x_truth, sd_y_x_model, Test.Model, True.Model)
-{
-	p_vec <- p_vec_returner_lin_env(MAF)
+	# not using this function anymore
+	# calc.like.linear.lin.envir.interaction <- function(beta_hat, MAF, sd_e, ES_G, ES_E, ES_GE, beta0,
+	# 	sd_y_x_truth, sd_y_x_model, Test.Model, True.Model)
+	# {
+	# 	p_vec <- p_vec_returner_lin_env(MAF)
 
-	betavec <- (X_mat_returner(Test.Model) %*% beta_hat)[,1]
-	ES_vec <- (X_mat_returner(True.Model) %*% c(beta0, ES_G, ES_E, ES_GE))[,1]
+	# 	betavec <- (X_mat_returner(Test.Model) %*% beta_hat)[,1]
+	# 	ES_vec <- (X_mat_returner(True.Model) %*% c(beta0, ES_G, ES_E, ES_GE))[,1]
 
-	# want to have info on beta0 + betaG * G as well as betaE + betaGE * G, where G denotes the genotype coding based on the model type
+	# 	# want to have info on beta0 + betaG * G as well as betaE + betaGE * G, where G denotes the genotype coding based on the model type
 
-	betamat <- cbind(betavec[1:3], betavec[4:6] - betavec[1:3])
-	ES_mat <- cbind(ES_vec[1:3], ES_vec[4:6] - ES_vec[1:3])
+	# 	betamat <- cbind(betavec[1:3], betavec[4:6] - betavec[1:3])
+	# 	ES_mat <- cbind(ES_vec[1:3], ES_vec[4:6] - ES_vec[1:3])
 
-	ll <- sum(p_vec[1:3] * apply(cbind(ES_mat, betamat), 1, function(x) 
-		expected.linear.ll.lin.env_old(mean_truth = x[1:2], mean_model = x[3:4], sd_y_x_truth, sd_y_x_model, sd_e = sd_e)))
-		# expected.linear.ll(mean_truth = x[1:2], mean_model = x[3:4], sd_y_x_truth, sd_y_x_model)))
+	# 	ll <- sum(p_vec[1:3] * apply(cbind(ES_mat, betamat), 1, function(x) 
+	# 		expected.linear.ll.lin.env_old(mean_truth = x[1:2], mean_model = x[3:4], sd_y_x_truth, sd_y_x_model, sd_e = sd_e)))
+	# 		# expected.linear.ll(mean_truth = x[1:2], mean_model = x[3:4], sd_y_x_truth, sd_y_x_model)))
 
-	return(ll)
+	# 	return(ll)
+	# }
 }
 
 #' Function to Calculate Expected Log Likelihood for a Single Genotype with linear environment interaction
