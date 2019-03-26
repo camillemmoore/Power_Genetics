@@ -284,40 +284,42 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 					ES_E = e.save.tab[x,'ES_E'], ES_GE = e.save.tab[x,"ES_GE"], mod = mod, True.Model = e.save.tab[x, "True.Model"])
 				}, seq(1:nrow(e.save.tab)))
 
-
-			ll.alt <- mapply(function(x){calc.like.linear.lin.envir.interaction(
-				linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G"], beta0 = e.save.tab[x,"beta0"],
-					ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"], Test.Model = mod, True.Model = e.save.tab[x, "True.Model"]),
-									MAF = e.save.tab[x,"MAF"],
-									beta0 = e.save.tab[x,"beta0"],
-									sd_e = e.save.tab[x, "sd_e"],
-									ES_G = e.save.tab[x,"ES_G"],
-									ES_E = e.save.tab[x,"ES_E"],
-									ES_GE = e.save.tab[x,"ES_GE"],
-									sd_y_x_truth = e.save.tab[x, "sd_y_x_true"],
-									sd_y_x_model = sd_y_x[x],
-									True.Model = e.save.tab[x, "True.Model"],
-									Test.Model=mod)}, seq(1:nrow(e.save.tab)))
+			# this is the old method:
+			# ll.alt <- mapply(function(x){calc.like.linear.lin.envir.interaction(
+			# 	linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G"], beta0 = e.save.tab[x,"beta0"],
+			# 		ES_E = e.save.tab[x,"ES_E"], ES_GE = e.save.tab[x,"ES_GE"], Test.Model = mod, True.Model = e.save.tab[x, "True.Model"]),
+			# 						MAF = e.save.tab[x,"MAF"],
+			# 						beta0 = e.save.tab[x,"beta0"],
+			# 						sd_e = e.save.tab[x, "sd_e"],
+			# 						ES_G = e.save.tab[x,"ES_G"],
+			# 						ES_E = e.save.tab[x,"ES_E"],
+			# 						ES_GE = e.save.tab[x,"ES_GE"],
+			# 						sd_y_x_truth = e.save.tab[x, "sd_y_x_true"],
+			# 						sd_y_x_model = sd_y_x[x],
+			# 						True.Model = e.save.tab[x, "True.Model"],
+			# 						Test.Model=mod)}, seq(1:nrow(e.save.tab)))
 			
-			ll.alt_new <- mapply(function(x) expected.linear.ll.lin.env(sd_y_x[x]), seq(1:nrow(e.save.tab)))
-			ll.reduced_new <- mapply(function(x) expected.linear.ll.lin.env(sd_y_x_0int[x]), seq(1:nrow(e.save.tab)))
+			ll.alt <- mapply(function(x) expected.linear.ll.lin.env(sd_y_x[x]), seq(1:nrow(e.save.tab)))
+			ll.reduced <- mapply(function(x) expected.linear.ll.lin.env(sd_y_x_0int[x]), seq(1:nrow(e.save.tab)))
 
+			# this is the old method:
 			# reduced is the same calculation, except with ES_GE equal to 0
-			ll.reduced <- mapply(function(x){calc.like.linear.lin.envir.interaction(
-				linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G_bar"], beta0 = e.save.tab[x,"beta0"],
-					ES_E = e.save.tab[x,"ES_E_bar"], ES_GE = 0, Test.Model = mod, True.Model = e.save.tab[x, "True.Model"]),
-									MAF = e.save.tab[x,"MAF"],
-									beta0 = e.save.tab[x,"beta0"],
-									sd_e = e.save.tab[x, "sd_e"],
-									ES_G = e.save.tab[x,"ES_G_bar"],
-									ES_E = e.save.tab[x,"ES_E_bar"],
-									ES_GE = 0,
-									sd_y_x_truth = e.save.tab[x, "sd_y_x_true_0int"],
-									sd_y_x_model = sd_y_x_0int[x],
-									True.Model = e.save.tab[x, "True.Model"],
-									Test.Model=mod)}, seq(1:nrow(e.save.tab)))
+			# ll.reduced <- mapply(function(x){calc.like.linear.lin.envir.interaction(
+			# 	linear.mles.lin.envir.interaction(MAF = e.save.tab[x,"MAF"], ES_G = e.save.tab[x,"ES_G_bar"], beta0 = e.save.tab[x,"beta0"],
+			# 		ES_E = e.save.tab[x,"ES_E_bar"], ES_GE = 0, Test.Model = mod, True.Model = e.save.tab[x, "True.Model"]),
+			# 						MAF = e.save.tab[x,"MAF"],
+			# 						beta0 = e.save.tab[x,"beta0"],
+			# 						sd_e = e.save.tab[x, "sd_e"],
+			# 						ES_G = e.save.tab[x,"ES_G_bar"],
+			# 						ES_E = e.save.tab[x,"ES_E_bar"],
+			# 						ES_GE = 0,
+			# 						sd_y_x_truth = e.save.tab[x, "sd_y_x_true_0int"],
+			# 						sd_y_x_model = sd_y_x_0int[x],
+			# 						True.Model = e.save.tab[x, "True.Model"],
+			# 						Test.Model=mod)}, seq(1:nrow(e.save.tab)))
 
-			if(!all.equal(ll.reduced, ll.reduced_new) | !all.equal(ll.alt, ll.alt_new)) stop("check log likelihood matches")
+			# checking if the old method matches the new:
+			# if(!all.equal(ll.reduced, ll.reduced_new) | !all.equal(ll.alt, ll.alt_new)) stop("check log likelihood matches")
 			ll.stat = 2*(ll.alt-ll.reduced)
 
 			#Calculate the power for the given sample size for a range of Alpha levels
