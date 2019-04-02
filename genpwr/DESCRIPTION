@@ -18,7 +18,7 @@ Description: Power and sample size calculations for genetic association studies 
     for Genetic Association Studies in the Presence of Genetic Model Misspecification. 
     American Society of Human Genetics. 
     October 2018, San Diego. 
-    Poster Presentation: http://www.ashg.org/2018meeting/listing/PosterSessions.shtml
+    Poster Presentation: http://www.ashg.org/2018meeting/listing/PosterSessions.shtml.
 Depends: R (>= 3.5.0)
 License: GPL-3
 Imports: ggplot2, nleqslv, MASS, stats, utils
