@@ -4,7 +4,8 @@
 \alias{zero_finder_nleqslv}
 \title{Zero finder}
 \usage{
-zero_finder_nleqslv(afun, veclength, tol = 0.4, x.start.vals = NULL)
+zero_finder_nleqslv(afun, veclength, tol = 0.4, x.start.vals = NULL,
+  upper.lim = Inf)
 }
 \arguments{
 \item{afun}{The function to find zeros}
