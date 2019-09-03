@@ -8,6 +8,7 @@
 #' @param veclength The dimension of the system of equations
 #' @param tol The range within which to set start values for the function to use to find zeros
 #' @param x.start.vals Optional user defined start values
+#' @param upper.lim to be used if there is to be an upper limit to the solution
 #' @return Predicted zeros of the given equation
 #'
 #' @examples
