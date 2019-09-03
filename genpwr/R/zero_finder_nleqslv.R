@@ -22,32 +22,39 @@
 #'
 #' @export
 #'
-zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL)
+zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL, upper.lim = Inf)
 {
 	# library(nleqslv)
 	# x.start gives example values to base x.start values on. If null, x.start values are randomly selected from runif
-	conv <- reps <- 0
-	while(conv == 0){
-		reps <- reps + 1
-		if(is.null(x.start.vals)){
-			x.start <- c(runif(veclength)*tol)
-		}else{
-			if(reps >= 250){
+	conv <- reps <- reps2 <- 0
+	res0 <- Inf
+	while(res0 > upper.lim | res0 == Inf){
+		reps2 <- reps2 + 1
+		if(reps2 > 1e3) stop("cannot find a solution under upper.lim")
+		while(conv == 0){
+			reps <- reps + 1
+			if(is.null(x.start.vals)){
 				x.start <- c(runif(veclength)*tol)
-			}else if(reps >= 150){
-				x.start <- sapply(x.start.vals, function(x) abs(rnorm(mean = x, sd = x, n = 1)))
-			}else if(reps >= 50){
-				x.start <- sapply(x.start.vals, function(x) abs(rnorm(mean = x, sd = x/10, n = 1)))
 			}else{
-				x.start <- sapply(x.start.vals, function(x) abs(rnorm(mean = x, sd = x/100, n = 1)))
+				if(reps + reps2 >= 250){
+					x.start <- c(runif(veclength)*tol)
+				}else if(reps + reps2 >= 150){
+					x.start <- sapply(x.start.vals, function(x) abs(rnorm(mean = x, sd = x, n = 1)))
+				}else if(reps + reps2 >= 50){
+					x.start <- sapply(x.start.vals, function(x) abs(rnorm(mean = x, sd = x/10, n = 1)))
+				}else{
+					x.start <- sapply(x.start.vals, function(x) abs(rnorm(mean = x, sd = x/100, n = 1)))
+				}
 			}
+			res <- nleqslv(x.start, afun)
+			if(res$message %in% c("Function criterion near zero", "x-values within tolerance 'xtol'") & 
+				all(res$x > 0) & all(res$x < 1)) conv <- 1
+			# if(reps == 60){conv <- 1; res <- rep(-1, veclength)}
 		}
-		res <- nleqslv(x.start, afun)
-		if(res$message %in% c("Function criterion near zero", "x-values within tolerance 'xtol'") & 
-			all(res$x > 0) & all(res$x < 1)) conv <- 1
-		# if(reps == 60){conv <- 1; res <- rep(-1, veclength)}
+		res0 <- res$x
+		if(res0 > upper.lim) conv <- 0
 	}
-	res$x
+	return(res0)
 }
 
 

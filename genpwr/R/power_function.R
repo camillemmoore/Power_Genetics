@@ -228,7 +228,7 @@ power.calc<-
 
           fa.2<-function(x){o-x*(P_AA-Case.Rate+x+((o*x*P_BB)/(P_AB-x+o*x)))/((Case.Rate-x-((o*x*P_BB)/(P_AB-x+o*x)))*(P_AB-x))}
 
-          add2.root<-zero_finder_nleqslv(fa.2,veclength = 1, x.start.vals = runif(1)*soln)
+          add2.root<-zero_finder_nleqslv(fa.2,veclength = 1, x.start.vals = runif(1)*soln, upper.lim = upper.lim)
 
           #Proabilities of disease conditional on genotype
           P_AB_case_a2 <- add2.root/P_AB
