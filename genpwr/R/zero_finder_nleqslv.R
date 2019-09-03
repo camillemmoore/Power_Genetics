@@ -28,7 +28,7 @@ zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL,
 	# x.start gives example values to base x.start values on. If null, x.start values are randomly selected from runif
 	conv <- reps <- reps2 <- 0
 	res0 <- Inf
-	while(res0 > upper.lim | res0 == Inf){
+	while(any(res0 > upper.lim) | any(res0 == Inf)){
 		reps2 <- reps2 + 1
 		if(reps2 > 1e3) stop("cannot find a solution under upper.lim")
 		while(conv == 0){
@@ -52,7 +52,7 @@ zero_finder_nleqslv <- function(afun, veclength, tol = 0.4, x.start.vals = NULL,
 			# if(reps == 60){conv <- 1; res <- rep(-1, veclength)}
 		}
 		res0 <- res$x
-		if(res0 > upper.lim) conv <- 0
+		if(any(res0 > upper.lim)) conv <- 0
 	}
 	return(res0)
 }
