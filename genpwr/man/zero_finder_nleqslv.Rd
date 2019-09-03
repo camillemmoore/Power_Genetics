@@ -15,6 +15,8 @@ zero_finder_nleqslv(afun, veclength, tol = 0.4, x.start.vals = NULL,
 \item{tol}{The range within which to set start values for the function to use to find zeros}
 
 \item{x.start.vals}{Optional user defined start values}
+
+\item{upper.lim}{to be used if there is to be an upper limit to the solution}
 }
 \value{
 Predicted zeros of the given equation
