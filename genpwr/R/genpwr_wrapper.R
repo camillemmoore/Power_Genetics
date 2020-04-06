@@ -23,7 +23,7 @@
 #' @param R2_G Vector of genetic R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
 #' @param R2_E Vector of environmental R-squared values to detect. Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
 #' @param R2_GE Vector of genetic/environment interaction R-squared values Either ES_G, ES_E, and ES_EG or R2_G, R2_E, and R2_EG must be specified.
-#' @param Case.Rate Standard deviation of the outcome in the population (ignoring genotype). Either Case.Rate_x or Case.Rate must be specified.
+#' @param Case.Rate Case Rate of the outcome in the population (ignoring genotype). Either Case.Rate_x or Case.Rate must be specified.
 #' @param k Vector of the number of controls per case. Either k or Case.Rate must be specified.
 #' @param P_e Vector of proportions of the population with exposure to the environmental effect
 #' @param risk_allele Logical: If OR > 1, the allele is classified as a "risk allele"
