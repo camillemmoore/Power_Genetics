@@ -167,13 +167,15 @@ ss.calc<-
         }
 
         if('Additive' %in% True.Model){
-          a <- (sqrt(o)-1)
+          a <- (o-1)
+          # a <- (sqrt(o)-1)
           b <- (P_AB+sqrt(o)*P_BB+Case.Rate-Case.Rate*sqrt(o))
           c <- -P_AB*Case.Rate
           soln <- quad_roots(a,b,c)[2]
           upper.lim<-min(soln, P_AB)
 
-          fa.1<-function(x){sqrt(o)-x*(P_AA-Case.Rate+x+((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))/((Case.Rate-x-((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))*(P_AB-x))}
+          # fa.1<-function(x){sqrt(o)-x*(P_AA-Case.Rate+x+((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))/((Case.Rate-x-((sqrt(o)*x*P_BB)/(P_AB-x+sqrt(o)*x)))*(P_AB-x))}
+          fa.1<-function(x){o-x*(P_AA-Case.Rate+x+((o*x*P_BB)/(P_AB-x+o*x)))/((Case.Rate-x-((o*x*P_BB)/(P_AB-x+o*x)))*(P_AB-x))}
 
           trial<-fa.1(upper.lim)
           counter<-0
@@ -191,9 +193,9 @@ ss.calc<-
           #Joint probabilities of disease and genotype
           prob_AB_case_a1 <- P_AB_case_a1*P_AB
           prob_AB_control_a1 <- (1-P_AB_case_a1)*P_AB
-          prob_AA_case_a1 <-P_AA*prob_AB_case_a1/(sqrt(o)*prob_AB_control_a1+prob_AB_case_a1)
+          prob_AA_case_a1 <-P_AA*prob_AB_case_a1/(o*prob_AB_control_a1+prob_AB_case_a1)
           prob_AA_control_a1 <- P_AA-prob_AA_case_a1
-          prob_BB_case_a1 <- (prob_AA_case_a1*P_BB*o)/(prob_AA_case_a1*o + prob_AA_control_a1)
+          prob_BB_case_a1 <- (prob_AA_case_a1*P_BB*o^2)/(prob_AA_case_a1*o^2 + prob_AA_control_a1)
           prob_BB_control_a1 <- P_BB-prob_BB_case_a1
 
           add.tab1<-data.frame(model=rep('Additive',2),table=rbind(c(prob_AA_case_a1, prob_AB_case_a1, prob_BB_case_a1),
@@ -300,9 +302,9 @@ ss.calc<-
         ss<-NULL
         for (q in 1:length(Alpha)){
           if(mod=='2df'){
-              ss = c(ss, uniroot(function(x) ncp.search(x, power, Alpha[q], df=2),
+              ss = c(ss, uniroot(function(x) ncp.search(x=x, power=power, Alpha=Alpha[q], df=2),
                                  lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
-          }else{ss = c(ss, uniroot(function(x) ncp.search(x, power, Alpha[q], df=1),
+          }else{ss = c(ss, uniroot(function(x) ncp.search(x=x, power=power, Alpha=Alpha[q], df=1),
                                    lower=0, upper=1000, extendInt = 'upX', tol=0.00001)$root/stat)
           }
         }
