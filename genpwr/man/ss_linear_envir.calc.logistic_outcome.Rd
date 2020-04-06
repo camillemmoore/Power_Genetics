@@ -5,10 +5,19 @@
 \alias{ss_linear_envir.calc.logistic_outcome}
 \title{Function to Calculate Sample Size for Linear Models with logistic environment interaction}
 \usage{
-ss_linear_envir.calc.logistic_outcome(power = NULL, MAF = NULL,
-  OR_G = NULL, OR_E = NULL, OR_GE = NULL, sd_e = NULL,
-  Case.Rate = NULL, k = NULL, Alpha = 0.05, True.Model = "All",
-  Test.Model = "All")
+ss_linear_envir.calc.logistic_outcome(
+  power = NULL,
+  MAF = NULL,
+  OR_G = NULL,
+  OR_E = NULL,
+  OR_GE = NULL,
+  sd_e = NULL,
+  Case.Rate = NULL,
+  k = NULL,
+  Alpha = 0.05,
+  True.Model = "All",
+  Test.Model = "All"
+)
 }
 \arguments{
 \item{power}{Vector of the desired power(s)}

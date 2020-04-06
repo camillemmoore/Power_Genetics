@@ -6,8 +6,15 @@
 \title{Function to calculate the standard deviation of y given x for linear models with linear environment interaction 
 for the reduced model without GxE interaction}
 \usage{
-linear.mles.lin.envir.interaction_reduced(MAF, beta0, ES_G, ES_E, ES_GE,
-  Test.Model, True.Model)
+linear.mles.lin.envir.interaction_reduced(
+  MAF,
+  beta0,
+  ES_G,
+  ES_E,
+  ES_GE,
+  Test.Model,
+  True.Model
+)
 }
 \arguments{
 \item{MAF}{Minor allele Frequency}

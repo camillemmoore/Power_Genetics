@@ -5,8 +5,19 @@
 \alias{ll.ge.logistic.lin.envir}
 \title{Function to output log likelihood for logistic outcome with linear environment variables}
 \usage{
-ll.ge.logistic.lin.envir(sd_e, N = NULL, MAF, power = NULL, beta0,
-  OR_G, OR_E, OR_GE, Alpha, True.Model, Test.Model)
+ll.ge.logistic.lin.envir(
+  sd_e,
+  N = NULL,
+  MAF,
+  power = NULL,
+  beta0,
+  OR_G,
+  OR_E,
+  OR_GE,
+  Alpha,
+  True.Model,
+  Test.Model
+)
 }
 \arguments{
 \item{sd_e}{Standard deviation of the environmental variable}

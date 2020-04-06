@@ -4,8 +4,16 @@
 \alias{linear.mles.log.envir.interaction}
 \title{Function to calculate the standard deviation of y given x for linear models with logistic environment interaction}
 \usage{
-linear.mles.log.envir.interaction(MAF, P_e, ES_G, ES_E, ES_GE, Test.Model,
-  True.Model, reduced = F)
+linear.mles.log.envir.interaction(
+  MAF,
+  P_e,
+  ES_G,
+  ES_E,
+  ES_GE,
+  Test.Model,
+  True.Model,
+  reduced = F
+)
 }
 \arguments{
 \item{MAF}{Minor allele Frequency}

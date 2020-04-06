@@ -4,13 +4,35 @@
 \alias{genpwr.calc}
 \title{Function to Calculate Power for Linear Models with logistic environment interaction}
 \usage{
-genpwr.calc(calc, model, ge.interaction = NULL, N = NULL,
-  Power = NULL, MAF = NULL, Alpha = 0.05, P_e = NULL,
-  sd_e = NULL, sd_y = NULL, Case.Rate = NULL, k = NULL,
-  OR = NULL, OR_G = NULL, OR_E = NULL, OR_GE = NULL,
-  risk_allele = TRUE, ES = NULL, ES_G = NULL, ES_E = NULL,
-  ES_GE = NULL, R2 = NULL, R2_G = NULL, R2_E = NULL,
-  R2_GE = NULL, True.Model = "All", Test.Model = "All")
+genpwr.calc(
+  calc,
+  model,
+  ge.interaction = NULL,
+  N = NULL,
+  Power = NULL,
+  MAF = NULL,
+  Alpha = 0.05,
+  P_e = NULL,
+  sd_e = NULL,
+  sd_y = NULL,
+  Case.Rate = NULL,
+  k = NULL,
+  OR = NULL,
+  OR_G = NULL,
+  OR_E = NULL,
+  OR_GE = NULL,
+  risk_allele = TRUE,
+  ES = NULL,
+  ES_G = NULL,
+  ES_E = NULL,
+  ES_GE = NULL,
+  R2 = NULL,
+  R2_G = NULL,
+  R2_E = NULL,
+  R2_GE = NULL,
+  True.Model = "All",
+  Test.Model = "All"
+)
 }
 \arguments{
 \item{calc}{What kind of calculation to perform? sample size ("ss"), power ("power"), or effect size ("es")}
@@ -33,7 +55,7 @@ genpwr.calc(calc, model, ge.interaction = NULL, N = NULL,
 
 \item{sd_y}{Standard deviation of the outcome in the population (ignoring genotype). Either sd_y_x or sd_y must be specified.}
 
-\item{Case.Rate}{Standard deviation of the outcome in the population (ignoring genotype). Either Case.Rate_x or Case.Rate must be specified.}
+\item{Case.Rate}{Case Rate of the outcome in the population (ignoring genotype). Either Case.Rate_x or Case.Rate must be specified.}
 
 \item{k}{Vector of the number of controls per case. Either k or Case.Rate must be specified.}
 
