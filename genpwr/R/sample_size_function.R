@@ -169,7 +169,7 @@ ss.calc<-
         if('Additive' %in% True.Model){
           a <- (o-1)
           # a <- (sqrt(o)-1)
-          b <- (P_AB+sqrt(o)*P_BB+Case.Rate-Case.Rate*sqrt(o))
+          b <- (P_AB+o*P_BB+Case.Rate-Case.Rate*o)
           c <- -P_AB*Case.Rate
           soln <- quad_roots(a,b,c)[2]
           upper.lim<-min(soln, P_AB)
