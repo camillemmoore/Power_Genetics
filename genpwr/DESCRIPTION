@@ -1,6 +1,6 @@
 Package: genpwr
 Title: Power Calculations Under Genetic Model Misspecification
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person("Camille", "Moore", email = "moorec@njhealth.org", 
     role = c("aut", "cre")), person("Sean", "Jacobson", email = "jacobsons@njhealth.org",
     role = "aut"))
