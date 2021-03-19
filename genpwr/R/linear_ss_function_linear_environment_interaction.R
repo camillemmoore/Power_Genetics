@@ -135,16 +135,18 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 	# P_BB <- MAF^2
 	# beta0 <- c(-ES_G*(P_AB + P_BB), -ES_G*P_BB, -ES_G*(P_AB + 2*P_BB))
 	# names(beta0) <- c("Dominant", "Recessive", "Additive")
-	beta0_mat <- expand.grid(ES_G, ES_E, ES_GE, MAF)
-	names(beta0_mat) <- c("ES_G", "ES_E", "ES_GE", "MAF")
-	beta0_mat$P_AA <- (1-beta0_mat$MAF)^2
-	beta0_mat$P_AB <- 2*beta0_mat$MAF*(1-beta0_mat$MAF)
-	beta0_mat$P_BB <- beta0_mat$MAF^2
+	if(all(is.null(c(R2_G, R2_E, R2_GE)))){
+		beta0_mat <- expand.grid(ES_G, ES_E, ES_GE, MAF)
+		names(beta0_mat) <- c("ES_G", "ES_E", "ES_GE", "MAF")
+		beta0_mat$P_AA <- (1-beta0_mat$MAF)^2
+		beta0_mat$P_AB <- 2*beta0_mat$MAF*(1-beta0_mat$MAF)
+		beta0_mat$P_BB <- beta0_mat$MAF^2
 
-	beta0_mat <- rbind(
-		cbind(beta0_mat, True.Model = "Dominant", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + beta0_mat$P_BB)),
-		cbind(beta0_mat, True.Model = "Additive", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + 2*beta0_mat$P_BB)),
-		cbind(beta0_mat, True.Model = "Recessive", beta0 = -beta0_mat$ES_G*beta0_mat$P_BB))
+		beta0_mat <- rbind(
+			cbind(beta0_mat, True.Model = "Dominant", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + beta0_mat$P_BB)),
+			cbind(beta0_mat, True.Model = "Additive", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + 2*beta0_mat$P_BB)),
+			cbind(beta0_mat, True.Model = "Recessive", beta0 = -beta0_mat$ES_G*beta0_mat$P_BB))
+	}
 	# beta0_mat <- beta0_mat[,c("True.Model", "beta0")]
 
 	# beta0 <- data.frame(True.Model=c(rep("Dominant", length(beta0_dom)),
@@ -202,15 +204,29 @@ ss_linear_envir.calc.linear_outcome <- function(pow=NULL, MAF=NULL, ES_G=NULL, E
 		colnames(e.save.tab) <- c("True.Model", "MAF", "sd_e", "sd_y", "R2_G", "R2_E", "R2_GE")
 		e.save.tab <- merge(e.save.tab, var_x)
 		e.save.tab <- merge(e.save.tab, mu_g)
-		e.save.tab <- merge(e.save.tab, beta0_mat)
+		# e.save.tab <- merge(e.save.tab, beta0_mat) # removed this because beta0 calculation required ES to not be null
 
 		e.save.tab$ES_G_bar <- sqrt(e.save.tab$R2_G * e.save.tab$sd_y^2 / (e.save.tab$var_x))
 		e.save.tab$ES_E_bar <- sqrt(e.save.tab$R2_E * e.save.tab$sd_y^2 / (e.save.tab$sd_e^2))
 		e.save.tab$ES_GE <- sqrt(e.save.tab$R2_GE * e.save.tab$sd_y^2 / (e.save.tab$var_x * sd_e^2))
 
 		e.save.tab$ES_G <- e.save.tab$ES_G_bar #- e.save.tab$ES_GE * e.save.tab$P_e
-		e.save.tab$ES_E <- e.save.tab$ES_E_bar - e.save.tab$ES_GE * mu_g[mu_g$True.Model == e.save.tab$True.Model, "mu_g"]
+		e.save.tab$ES_E <- e.save.tab$ES_E_bar - e.save.tab$ES_GE * e.save.tab$mu_g #mu_g[mu_g$True.Model == e.save.tab$True.Model, "mu_g"]mu_g[mu_g$True.Model == e.save.tab$True.Model, "mu_g"]
 
+		beta0_mat <- e.save.tab[,c("ES_G", "ES_E", "ES_GE", "MAF")]
+		# names(beta0_mat) <- c("ES_G", "ES_E", "ES_GE", "MAF")
+		beta0_mat$P_AA <- (1-beta0_mat$MAF)^2
+		beta0_mat$P_AB <- 2*beta0_mat$MAF*(1-beta0_mat$MAF)
+		beta0_mat$P_BB <- beta0_mat$MAF^2
+
+		beta0_mat <- rbind(
+			cbind(beta0_mat, True.Model = "Dominant", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + beta0_mat$P_BB)),
+			cbind(beta0_mat, True.Model = "Additive", beta0 = -beta0_mat$ES_G*(beta0_mat$P_AB + 2*beta0_mat$P_BB)),
+			cbind(beta0_mat, True.Model = "Recessive", beta0 = -beta0_mat$ES_G*beta0_mat$P_BB))
+
+		e.save.tab <- merge(e.save.tab, beta0_mat)
+
+		
 		e.save.tab <- e.save.tab[,c("True.Model", "MAF", "sd_e", "sd_y", "var_x", "beta0", "ES_G", "ES_E", "ES_GE",
 			"ES_G_bar", "ES_E_bar", "R2_G", "R2_E", "R2_GE")]
 	}
