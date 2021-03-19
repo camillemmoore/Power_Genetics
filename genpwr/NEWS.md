@@ -9,3 +9,7 @@
 1.0.2
 
 ## Fixed issue with sqrt in ss.calc function
+
+1.0.3
+
+## Fixed issue which didn't allow some functions to run with R2 instead of ES
