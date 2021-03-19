@@ -4,16 +4,9 @@
 \alias{ss.calc.linear}
 \title{Function to Calculate Sample Size in Linear Models}
 \usage{
-ss.calc.linear(
-  power = 0.8,
-  MAF = NULL,
-  ES = NULL,
-  R2 = NULL,
-  sd_y = NULL,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+ss.calc.linear(power = 0.8, MAF = NULL, ES = NULL, R2 = NULL,
+  sd_y = NULL, Alpha = 0.05, True.Model = "All",
+  Test.Model = "All")
 }
 \arguments{
 \item{power}{Vector of the desired power(s)}

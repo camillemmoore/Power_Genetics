@@ -4,15 +4,8 @@
 \alias{es.calc.linear}
 \title{Function to Calculate Effect Size for Linear Models}
 \usage{
-es.calc.linear(
-  power = NULL,
-  N = NULL,
-  MAF = NULL,
-  sd_y = NULL,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+es.calc.linear(power = NULL, N = NULL, MAF = NULL, sd_y = NULL,
+  Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{power}{Vector of the desired power(s)}

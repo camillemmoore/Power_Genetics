@@ -4,16 +4,8 @@
 \alias{ss.calc}
 \title{Function to Calculate Sample Size}
 \usage{
-ss.calc(
-  power = 0.8,
-  Case.Rate = NULL,
-  k = NULL,
-  MAF = NULL,
-  OR = NULL,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+ss.calc(power = 0.8, Case.Rate = NULL, k = NULL, MAF = NULL,
+  OR = NULL, Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{power}{Vector of the desired power(s)}

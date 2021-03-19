@@ -5,17 +5,8 @@
 \alias{linear.outcome.lin.envir.interaction.sds}
 \title{Function to calculate the standard deviation of y given x for linear models with linear environment interaction}
 \usage{
-linear.outcome.lin.envir.interaction.sds(
-  MAF,
-  sd_e,
-  beta0,
-  ES_G,
-  ES_E,
-  ES_GE,
-  mod,
-  True.Model,
-  sd_y
-)
+linear.outcome.lin.envir.interaction.sds(MAF, sd_e, beta0, ES_G, ES_E,
+  ES_GE, mod, True.Model, sd_y)
 }
 \arguments{
 \item{MAF}{Minor allele Frequency}

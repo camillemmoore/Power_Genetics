@@ -4,16 +4,9 @@
 \alias{power.calc.linear}
 \title{Function to Calculate Power for Linear Models}
 \usage{
-power.calc.linear(
-  N = NULL,
-  MAF = NULL,
-  ES = NULL,
-  R2 = NULL,
-  sd_y = NULL,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+power.calc.linear(N = NULL, MAF = NULL, ES = NULL, R2 = NULL,
+  sd_y = NULL, Alpha = 0.05, True.Model = "All",
+  Test.Model = "All")
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}

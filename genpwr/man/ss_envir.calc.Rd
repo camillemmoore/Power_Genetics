@@ -4,19 +4,9 @@
 \alias{ss_envir.calc}
 \title{Function to Calculate Power for Logistic Models with Environment Interaction}
 \usage{
-ss_envir.calc(
-  power = 0.8,
-  Case.Rate = NULL,
-  k = NULL,
-  MAF = NULL,
-  OR_G = NULL,
-  OR_E = NULL,
-  OR_GE = NULL,
-  P_e = NULL,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+ss_envir.calc(power = 0.8, Case.Rate = NULL, k = NULL, MAF = NULL,
+  OR_G = NULL, OR_E = NULL, OR_GE = NULL, P_e = NULL,
+  Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{power}{Vector of the desired power(s)}

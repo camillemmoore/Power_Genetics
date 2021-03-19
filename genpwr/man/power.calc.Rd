@@ -4,16 +4,8 @@
 \alias{power.calc}
 \title{Function to Calculate Power}
 \usage{
-power.calc(
-  N = NULL,
-  Case.Rate = NULL,
-  k = NULL,
-  MAF = NULL,
-  OR = NULL,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+power.calc(N = NULL, Case.Rate = NULL, k = NULL, MAF = NULL,
+  OR = NULL, Alpha = 0.05, True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}

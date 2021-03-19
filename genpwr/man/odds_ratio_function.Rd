@@ -4,17 +4,9 @@
 \alias{odds_ratio_function}
 \title{Odds Ratio Function}
 \usage{
-odds_ratio_function(
-  N = NULL,
-  Case.Rate = NULL,
-  k = NULL,
-  MAF = NULL,
-  power = NULL,
-  risk_allele = TRUE,
-  Alpha = 0.05,
-  True.Model = "All",
-  Test.Model = "All"
-)
+odds_ratio_function(N = NULL, Case.Rate = NULL, k = NULL,
+  MAF = NULL, power = NULL, risk_allele = TRUE, Alpha = 0.05,
+  True.Model = "All", Test.Model = "All")
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}

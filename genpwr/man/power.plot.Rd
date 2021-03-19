@@ -4,24 +4,12 @@
 \alias{power.plot}
 \title{Function to Plot Power Results}
 \usage{
-power.plot(
-  data = NULL,
-  x = "MAF",
-  panel.by = "True.Model",
-  y_limit = NULL,
-  y_log = F,
-  return_gg = F,
-  linear.effect.measure = "ES",
-  select.Alpha = NULL,
-  select.OR = NULL,
-  select.ES = NULL,
-  select.N = NULL,
-  select.MAF = NULL,
-  select.Case.Rate = NULL,
-  select.SD = NULL,
-  select.True.Model = NULL,
-  select.Test.Model = NULL
-)
+power.plot(data = NULL, x = "MAF", panel.by = "True.Model",
+  y_limit = NULL, y_log = F, return_gg = F,
+  linear.effect.measure = "ES", select.Alpha = NULL,
+  select.OR = NULL, select.ES = NULL, select.N = NULL,
+  select.MAF = NULL, select.Case.Rate = NULL, select.SD = NULL,
+  select.True.Model = NULL, select.Test.Model = NULL)
 }
 \arguments{
 \item{data}{The data frame result from \code{\link{power.calc}}}
