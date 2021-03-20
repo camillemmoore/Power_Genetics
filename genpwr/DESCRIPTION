@@ -23,6 +23,6 @@ License: GPL-3
 Imports: ggplot2, nleqslv, MASS, stats, utils
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

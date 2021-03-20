@@ -12,4 +12,4 @@
 
 1.0.3
 
-## Fixed issue which didn't allow some functions to run with R2 instead of ES
+## Fixed issue which didn't allow some functions to run with R2 instead of ES 

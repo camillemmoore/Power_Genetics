@@ -4,9 +4,19 @@
 \alias{power_envir.calc}
 \title{Function to Calculate Power for Logistic Models with Environment Interaction}
 \usage{
-power_envir.calc(N = NULL, Case.Rate = NULL, k = NULL, MAF = NULL,
-  OR_G = NULL, OR_E = NULL, OR_GE = NULL, P_e = NULL,
-  Alpha = 0.05, True.Model = "All", Test.Model = "All")
+power_envir.calc(
+  N = NULL,
+  Case.Rate = NULL,
+  k = NULL,
+  MAF = NULL,
+  OR_G = NULL,
+  OR_E = NULL,
+  OR_GE = NULL,
+  P_e = NULL,
+  Alpha = 0.05,
+  True.Model = "All",
+  Test.Model = "All"
+)
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}

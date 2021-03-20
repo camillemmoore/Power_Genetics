@@ -4,10 +4,21 @@
 \alias{power_envir.calc.linear_outcome}
 \title{Function to Calculate Power for Linear Models with logistic environment interaction}
 \usage{
-power_envir.calc.linear_outcome(N = NULL, MAF = NULL, ES_G = NULL,
-  ES_E = NULL, ES_GE = NULL, P_e = NULL, R2_G = NULL,
-  R2_E = NULL, R2_GE = NULL, sd_y = NULL, Alpha = 0.05,
-  True.Model = "All", Test.Model = "All")
+power_envir.calc.linear_outcome(
+  N = NULL,
+  MAF = NULL,
+  ES_G = NULL,
+  ES_E = NULL,
+  ES_GE = NULL,
+  P_e = NULL,
+  R2_G = NULL,
+  R2_E = NULL,
+  R2_GE = NULL,
+  sd_y = NULL,
+  Alpha = 0.05,
+  True.Model = "All",
+  Test.Model = "All"
+)
 }
 \arguments{
 \item{N}{Vector of the desired sample size(s)}
