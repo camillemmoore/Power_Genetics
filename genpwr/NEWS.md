@@ -13,3 +13,7 @@
 1.0.3
 
 ## Fixed issue which didn't allow some functions to run with R2 instead of ES 
+
+1.0.4
+
+## Added reference to published paper in description
